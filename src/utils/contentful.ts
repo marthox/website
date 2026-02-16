@@ -1,7 +1,7 @@
-import type { Entry, EntrySkeletonType } from 'contentful';
+import type { Entry, EntrySkeletonType, Asset } from 'contentful';
 
-import type { NavElement } from '@/types/nav';
-import type { include_depth, ContentfulNav, ContentfulNavElement } from '@/types/contentful';
+import type { NavElement, NavBrand } from '@/types/nav';
+import type { include_depth, ContentfulNav, ContentfulNavElement, ContentfulNavBrand } from '@/types/contentful';
 
 import { createClient } from 'contentful';
 
@@ -49,8 +49,26 @@ function mapNavEntry(entry: NavEntry): NavElement {
     return { label, href: href ?? '' };
 }
 
-export async function getNavElements(): Promise<NavElement[]> { 
+function mapNavBrand(asset: Asset<'WITHOUT_UNRESOLVABLE_LINKS', string> | null): NavBrand | null {
+    const fields = asset?.fields;
+    if (!fields?.title || !fields?.description || !fields?.file?.url) {
+        return null;
+    }
+
+    const href = "/"; // Brand always links to home page
+    return {
+        label: fields.title,
+        src: fields.file.url,
+        alt: fields.description,
+        href,
+    };
+}
+
+export async function getNavElements(): Promise<[NavBrand | null, NavElement[]]> { 
     const entries = await fetchEntriesByContentType<ContentfulNav>('nav', 2);
-    const navElements = entries[0]?.fields.navElements ?? [];
-    return mapNavEntries(navElements);
+    if (entries.length < 1) return [null, []];
+    const entry = entries[0];
+    const navBrand = entry.fields.navBrand ?? null;
+    const navElements = entry.fields.navElements ?? [];
+    return [mapNavBrand(navBrand), mapNavEntries(navElements)];
 }

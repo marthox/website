@@ -7,11 +7,11 @@ import { getNavElements } from '@/utils/contentful';
 
 const { title } = Astro.props;
 
-const navElements = await getNavElements();
+const [navBrand, navElements] = await getNavElements();
 ---
 
 <BaseLayout title={title}>
-    <Header navElements={navElements} />
+    <Header brandElement={navBrand} navElements={navElements} />
     <slot />
     <Footer />
 </BaseLayout>
