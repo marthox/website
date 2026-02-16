@@ -1,0 +1,14 @@
+---
+import type { NavBrand } from '@/types/nav';
+
+interface Props {
+    element: NavBrand;
+}
+
+const { element } = Astro.props;
+const { label, href, src, alt } = element;
+---
+
+<a href={href} class="brand-link">
+    <img src={src} alt={alt} />
+</a>

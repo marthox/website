@@ -1,0 +1,27 @@
+---
+import NavElement from './NavElement.astro';
+import NavBrand from './NavBrand.astro';
+
+import type { NavElement as NavElementType, NavBrand as NavBrandType, Distribution } from '@/types/nav';
+
+import { getIndexFromDistribution, injectBrandElement, isNavBrand } from '@/utils/nav';
+
+interface Props {
+    distribution?: Distribution;
+    navElements?: NavElementType[];
+    brandElement?: NavBrandType;
+}
+
+const { distribution='center', navElements=[], brandElement} = Astro.props as Props;
+const injectionIndex = getIndexFromDistribution(distribution, navElements.length);
+
+const navElementsWithInjection = injectBrandElement(injectionIndex, brandElement, navElements);
+---
+
+<nav>
+    {navElementsWithInjection.map((item) => (
+        isNavBrand(item) 
+            ? <NavBrand element={item} />
+            : <NavElement element={item} />
+    ))}
+</nav>

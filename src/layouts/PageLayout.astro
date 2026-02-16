@@ -1,0 +1,18 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+
+import { getNavElements } from '@/utils/contentful';
+
+const { title } = Astro.props;
+
+const navElements = await getNavElements();
+console.log('Fetched nav elements:', navElements);
+---
+
+<BaseLayout title={title}>
+    <Header navElements={navElements} />
+    <slot />
+    <Footer />
+</BaseLayout>

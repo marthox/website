@@ -1,0 +1,26 @@
+---
+import type { NavElement } from '@/types/nav';
+import { isNavMenu } from '@/utils/nav';
+
+interface Props {
+    element: NavElement;
+}
+
+const { element } = Astro.props;
+---
+
+{isNavMenu(element) ? (
+    <div class="nav-menu">
+        <span>{element.label}</span>
+        <ul class="submenu">
+            {element.submenu.map((subItem) => (
+                <li>
+                    <Astro.self element={subItem} />
+                </li>
+            ))}
+        </ul>
+    </div>
+) : (
+    <a href={element.href}>{element.label}</a>
+)}
+
