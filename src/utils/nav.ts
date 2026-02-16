@@ -19,6 +19,8 @@ export function getIndexFromDistribution(distribution: Distribution, length: num
     }
 }
 
-export function injectBrandElement(injectionIndex: number, brandElement: NavBrand, navElements: NavElement[]): NavElement[] {
-    return [...navElements.slice(0, injectionIndex), brandElement, ...navElements.slice(injectionIndex)];
+export function injectBrandElement(injectionIndex: number, brandElement: NavBrand | undefined, navElements: NavElement[]): NavElement[] {
+    return brandElement 
+        ? [...navElements.slice(0, injectionIndex), brandElement, ...navElements.slice(injectionIndex)]
+        : navElements;
 }

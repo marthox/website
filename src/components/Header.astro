@@ -20,7 +20,7 @@ const navElementsWithInjection = injectBrandElement(injectionIndex, brandElement
 
 <nav>
     {navElementsWithInjection.map((item) => (
-        isNavBrand(item) 
+        isNavBrand(item)
             ? <NavBrand element={item} />
             : <NavElement element={item} />
     ))}

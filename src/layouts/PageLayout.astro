@@ -8,7 +8,6 @@ import { getNavElements } from '@/utils/contentful';
 const { title } = Astro.props;
 
 const navElements = await getNavElements();
-console.log('Fetched nav elements:', navElements);
 ---
 
 <BaseLayout title={title}>
