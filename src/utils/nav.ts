@@ -8,19 +8,22 @@ export function isNavBrand(item: NavElement): item is NavBrand {
     return 'src' in item;
 }
 
-export function getIndexFromDistribution(distribution: Distribution, length: number): number {
+export function getOrderFromDistribution(distribution: Distribution | undefined): number {
+    if (!distribution) return 0;
     switch (distribution) {
-        case 'left':
+        case "center":
             return 0;
-        case 'right':
-            return length;
-        case 'center':
-            return Math.ceil(length / 2);
+        case "left":
+            return -1;
+        case "right":
+            return 1;
+        default:
+            return 0;
     }
 }
 
 export function injectBrandElement(injectionIndex: number, brandElement: NavBrand | undefined, navElements: NavElement[]): NavElement[] {
-    return brandElement 
+    return brandElement
         ? [...navElements.slice(0, injectionIndex), brandElement, ...navElements.slice(injectionIndex)]
         : navElements;
 }

@@ -1,5 +1,5 @@
 ---
-import type { NavBrand } from '@/types/nav';
+import type { NavBrand } from "@/types/nav";
 
 interface Props {
     element: NavBrand;
@@ -12,3 +12,25 @@ const { label, href, src, alt } = element;
 <a href={href} class="brand-link">
     <img src={src} alt={alt} />
 </a>
+<style>
+    .brand-link {
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+    }
+
+    img {
+        max-width: 150px;
+        max-height: 50px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+    }
+
+    /* Desktop: slightly larger */
+    @media (min-width: 768px) {
+        img {
+            max-height: 85px;
+        }
+    }
+</style>

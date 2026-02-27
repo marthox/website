@@ -16,3 +16,5 @@ export interface NavBrand extends NavLink {
 }
 
 export type NavElement = NavLink | NavMenu | NavBrand;
+
+export type HamburgerPosition = "left" | "right";

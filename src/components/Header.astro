@@ -1,27 +1,95 @@
 ---
-import NavElement from './NavElement.astro';
-import NavBrand from './NavBrand.astro';
+import NavElement from "./NavElement.astro";
+import NavBrand from "./NavBrand.astro";
 
-import type { NavElement as NavElementType, NavBrand as NavBrandType, Distribution } from '@/types/nav';
+import type {
+    NavElement as NavElementType,
+    NavBrand as NavBrandType,
+    Distribution,
+    HamburgerPosition,
+} from "@/types/nav";
 
-import { getIndexFromDistribution, injectBrandElement, isNavBrand } from '@/utils/nav';
+import {
+    injectBrandElement,
+    isNavBrand,
+    getOrderFromDistribution,
+} from "@/utils/nav";
 
 interface Props {
     distribution?: Distribution;
     navElements?: NavElementType[];
     brandElement?: NavBrandType;
+    hamburgerPosition?: HamburgerPosition;
 }
 
-const { distribution='center', navElements=[], brandElement} = Astro.props as Props;
-const injectionIndex = getIndexFromDistribution(distribution, navElements.length);
+const {
+    distribution = "center",
+    navElements = [],
+    brandElement,
+    hamburgerPosition = "left",
+} = Astro.props as Props;
 
-const navElementsWithInjection = injectBrandElement(injectionIndex, brandElement, navElements);
+const order = getOrderFromDistribution(distribution);
+
+// Always inject on middle if brandElement is provided, otherwise just render navElements
+// we can manage the distribution using the order property in CSS, so we don't need to
+// worry about the position of the brand element.
+const brandInjectedNavElements = injectBrandElement(
+    Math.ceil(navElements.length / 2),
+    brandElement,
+    navElements,
+);
 ---
 
-<nav>
-    {navElementsWithInjection.map((item) => (
-        isNavBrand(item)
-            ? <NavBrand element={item} />
-            : <NavElement element={item} />
-    ))}
+<nav class={`nav-container`}>
+    <ul class="nav-bar ${distribution}">
+        {
+            brandInjectedNavElements.map((item) => {
+                return isNavBrand(item) ? (
+                    <li class="nav-element">
+                        <NavBrand element={item} />
+                    </li>
+                ) : (
+                    <li>
+                        <NavElement element={item} />
+                    </li>
+                );
+            })
+        }
+    </ul>
 </nav>
+
+<script>
+    const hamburger = document.querySelector(".hamburger");
+    const navLinks = document.querySelector(".nav-links");
+
+    let isOpen = false;
+
+    hamburger?.addEventListener("click", () => {
+        isOpen
+            ? navLinks?.classList.remove("open")
+            : navLinks?.classList.add("open");
+        isOpen = !isOpen;
+    });
+</script>
+
+<style define:vars={{ order }}>
+    .open {
+        display: block;
+    }
+
+    .nav-container {
+        width: 100%;
+        display: flex;
+    }
+
+    .nav-bar {
+        width: 100%;
+        display: flex;
+        padding: 0.5rem 1rem;
+    }
+
+    .nav-element {
+        order: var(--order);
+    }
+</style>
