@@ -15,13 +15,15 @@ module.exports = function (migration) {
     .createField('label')
     .name('Label')
     .type('Symbol')
-    .required(true);
+    .required(true)
+    .localized(true);
 
   navElement
     .createField('href')
     .name('Href')
     .type('Symbol')
-    .required(false);
+    .required(false)
+    .localized(true);
 
   navElement
     .createField('submenu')

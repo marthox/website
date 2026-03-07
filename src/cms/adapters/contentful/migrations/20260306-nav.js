@@ -1,8 +1,8 @@
 /**
  * Migration: nav content type
  *
- * Represents the top-level navigation bar. Holds a brand asset and
- * an ordered list of navElement entries.
+ * Represents the top-level navigation bar. Holds a brand asset,
+ * layout options, and an ordered list of navElement entries.
  *
  * Depends on: 20260306-nav-element.js
  */
@@ -17,7 +17,21 @@ module.exports = function (migration) {
     .createField('name')
     .name('Name')
     .type('Symbol')
-    .required(true);
+    .required(false);
+
+  nav
+    .createField('distribution')
+    .name('Distribution')
+    .type('Symbol')
+    .required(true)
+    .validations([{ in: ['start', 'center', 'end'] }]);
+
+  nav
+    .createField('hamburgerPosition')
+    .name('Hamburger Position')
+    .type('Symbol')
+    .required(true)
+    .validations([{ in: ['left', 'right'] }]);
 
   nav
     .createField('navBrand')

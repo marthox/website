@@ -10,7 +10,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "cf:export": "contentful-export --space-id $CONTENTFUL_SPACE_ID --management-token $CONTENTFUL_MANAGEMENT_TOKEN --export-dir contentful --content-file snapshot.json",
-    "cf:migrate": "for f in contentful/migrations/*.js; do contentful-migration --space-id $CLIENT_SPACE_ID --management-token $CLIENT_MANAGEMENT_TOKEN --yes \"$f\"; done",
+    "cf:migrate": "for f in src/cms/adapters/contentful/migrations/*.js; do contentful-migration --space-id $CLIENT_SPACE_ID --management-token $CLIENT_MANAGEMENT_TOKEN --yes \"$f\"; done",
     "cf:import": "contentful-import --space-id $CLIENT_SPACE_ID --management-token $CLIENT_MANAGEMENT_TOKEN --content-file contentful/snapshot.json"
   },
   "dependencies": {
