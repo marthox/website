@@ -5,6 +5,7 @@ export interface CTA {
     href: string;
     variant?: 'primary' | 'secondary' | 'ghost';
     openInNewTab?: boolean;
+    icon?: string;
 }
 
 export interface FormField {
@@ -58,4 +59,18 @@ export type PageElement = Section | Form;
 export interface Page {
     slug: string;
     pageElements: PageElement[];
+}
+
+export interface FooterColumn {
+    title?: string;
+    links?: CTA[];
+}
+
+export interface Footer {
+    brand?: { src: string; alt: string; href: string };
+    tagline?: string;
+    columns?: FooterColumn[];
+    socialLinks?: CTA[];
+    legalLinks?: CTA[];
+    copyright?: string;
 }

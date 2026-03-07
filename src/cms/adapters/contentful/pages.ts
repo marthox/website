@@ -28,6 +28,7 @@ function mapCTA(entry: CTAEntry): CTA {
         href: entry.fields.href,
         variant: entry.fields.variant as CTA['variant'],
         openInNewTab: entry.fields.openInNewTab,
+        icon: entry.fields.icon,
     };
 }
 

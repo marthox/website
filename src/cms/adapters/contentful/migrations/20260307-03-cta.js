@@ -36,4 +36,10 @@ module.exports = function (migration) {
     .name('Open in New Tab')
     .type('Boolean')
     .required(false);
+
+  cta
+    .createField('icon')
+    .name('Icon')
+    .type('Symbol')
+    .required(false);
 };

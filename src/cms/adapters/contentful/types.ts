@@ -30,6 +30,7 @@ export type ContentfulCTA = EntrySkeletonType<
         href: EntryFieldTypes.Text;
         variant?: EntryFieldTypes.Text;
         openInNewTab?: EntryFieldTypes.Boolean;
+        icon?: EntryFieldTypes.Text;
     },
     'cta'
 >;
@@ -98,4 +99,16 @@ export type ContentfulPage = EntrySkeletonType<
         >;
     },
     'page'
+>;
+
+export type ContentfulFooter = EntrySkeletonType<
+    {
+        brand?: EntryFieldTypes.AssetLink;
+        tagline?: EntryFieldTypes.Text;
+        columns?: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<ContentfulItem>>;
+        socialLinks?: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<ContentfulCTA>>;
+        legalLinks?: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<ContentfulCTA>>;
+        copyright?: EntryFieldTypes.Text;
+    },
+    'footer'
 >;

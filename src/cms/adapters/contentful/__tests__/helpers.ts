@@ -72,3 +72,29 @@ export function makeNavEntry(id = 'nav1', elements: unknown[] = [], overrides: R
         fields: { name: 'Main Nav', navBrand: undefined, navElements: elements, ...overrides },
     };
 }
+
+export function makeFooter(id = 'footer1', overrides: Record<string, unknown> = {}) {
+    return {
+        sys: makeSys(id, 'footer'),
+        fields: {
+            tagline: 'Building digital experiences.',
+            columns: [],
+            socialLinks: [],
+            legalLinks: [],
+            copyright: '© 2026 Acme',
+            ...overrides,
+        },
+    };
+}
+
+export function makeAsset(id = 'asset1', overrides: Record<string, unknown> = {}) {
+    return {
+        sys: { id, type: 'Asset' as const },
+        fields: {
+            title: 'Logo',
+            description: 'Site logo',
+            file: { url: '//images.ctfassets.net/logo.png', contentType: 'image/png', details: { size: 1024 } },
+            ...overrides,
+        },
+    };
+}
