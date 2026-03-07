@@ -1,6 +1,6 @@
 import type { Entry, EntrySkeletonType } from 'contentful';
 
-import type { include_depth } from '@/types/contentful';
+import type { include_depth } from './types';
 
 import { createClient } from 'contentful';
 

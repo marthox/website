@@ -9,20 +9,21 @@ export function isNavBrand(item: NavElement): item is NavBrand {
 }
 
 export function getOrderFromDistribution(distribution: Distribution | undefined): number {
-    if (!distribution) return 0;
     switch (distribution) {
         case "center":
             return 0;
-        case "left":
+        case "start":
             return -1;
-        case "right":
+        case "end":
             return 1;
         default:
             return 0;
     }
 }
 
-export function injectBrandElement(injectionIndex: number, brandElement: NavBrand | undefined, navElements: NavElement[]): NavElement[] {
+export function injectBrandElement(brandElement: NavBrand | undefined, navElements: NavElement[]): NavElement[] {
+    let injectionIndex = Math.ceil(navElements.length / 2);
+
     return brandElement
         ? [...navElements.slice(0, injectionIndex), brandElement, ...navElements.slice(injectionIndex)]
         : navElements;

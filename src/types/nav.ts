@@ -1,4 +1,8 @@
-export type Distribution = 'center' | 'left' | 'right';
+export type Distribution = 'start' | 'center' | 'end';
+
+export type Alignment = 'left' | 'center' | 'right';
+
+export type MobileAlignment = "left" | "right";
 
 export interface NavLink {
     label: string;
@@ -16,5 +20,3 @@ export interface NavBrand extends NavLink {
 }
 
 export type NavElement = NavLink | NavMenu | NavBrand;
-
-export type HamburgerPosition = "left" | "right";

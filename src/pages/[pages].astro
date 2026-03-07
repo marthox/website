@@ -1,0 +1,25 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import { cms } from '@/cms';
+import type { Page } from '@/types/page';
+
+export async function getStaticPaths() {
+    const pages = await cms.getPages();
+    return pages.map(page => ({
+        params: { pages: page.slug },
+        props: { page },
+    }));
+}
+
+type Props = { page: Page };
+
+const { page } = Astro.props;
+---
+
+<PageLayout title={page.slug}>
+    {page.pageElements.map(element => (
+        <section data-kind={element.kind} data-type={element.kind === 'section' ? element.type : element.type}>
+            <p>{element.title ?? element.kind}</p>
+        </section>
+    ))}
+</PageLayout>

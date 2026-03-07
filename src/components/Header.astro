@@ -6,7 +6,8 @@ import type {
     NavElement as NavElementType,
     NavBrand as NavBrandType,
     Distribution,
-    HamburgerPosition,
+    Alignment,
+    MobileAlignment,
 } from "@/types/nav";
 
 import {
@@ -17,36 +18,57 @@ import {
 
 interface Props {
     distribution?: Distribution;
+    alignment?: Alignment;
     navElements?: NavElementType[];
     brandElement?: NavBrandType;
-    hamburgerPosition?: HamburgerPosition;
+    mobileAlignment?: MobileAlignment;
 }
 
 const {
     distribution = "center",
+    alignment = "center",
     navElements = [],
     brandElement,
-    hamburgerPosition = "left",
+    mobileAlignment = "left",
 } = Astro.props as Props;
+
+function getNavContainerAlignmentClass(value: unknown): string {
+    switch (value) {
+        case "left":
+            return "nav-container--align-left";
+        case "right":
+            return "nav-container--align-right";
+        default:
+            return "nav-container--align-center";
+    }
+}
+
+function getNavContainerMobileAlignmentClass(value: unknown): string {
+    switch (value) {
+        case "right":
+            return "nav-container--mobile-right";
+        default:
+            return "nav-container--mobile-left";
+    }
+}
 
 const order = getOrderFromDistribution(distribution);
 
-// Always inject on middle if brandElement is provided, otherwise just render navElements
-// we can manage the distribution using the order property in CSS, so we don't need to
-// worry about the position of the brand element.
-const brandInjectedNavElements = injectBrandElement(
-    Math.ceil(navElements.length / 2),
-    brandElement,
-    navElements,
-);
+const brandInjectedNavElements = injectBrandElement(brandElement, navElements);
+
+const navContainerClasses = [
+    "nav-container",
+    getNavContainerAlignmentClass(alignment),
+    getNavContainerMobileAlignmentClass(mobileAlignment),
+].join(" ");
 ---
 
-<nav class={`nav-container`}>
-    <ul class="nav-bar ${distribution}">
+<nav class={navContainerClasses}>
+    <ul class="nav-bar">
         {
             brandInjectedNavElements.map((item) => {
                 return isNavBrand(item) ? (
-                    <li class="nav-element">
+                    <li class="nav-brand">
                         <NavBrand element={item} />
                     </li>
                 ) : (
@@ -59,37 +81,51 @@ const brandInjectedNavElements = injectBrandElement(
     </ul>
 </nav>
 
-<script>
-    const hamburger = document.querySelector(".hamburger");
-    const navLinks = document.querySelector(".nav-links");
-
-    let isOpen = false;
-
-    hamburger?.addEventListener("click", () => {
-        isOpen
-            ? navLinks?.classList.remove("open")
-            : navLinks?.classList.add("open");
-        isOpen = !isOpen;
-    });
-</script>
-
 <style define:vars={{ order }}>
-    .open {
-        display: block;
-    }
-
     .nav-container {
         width: 100%;
         display: flex;
     }
 
+    .nav-container--align-left {
+        justify-content: flex-start;
+    }
+
+    .nav-container--align-center {
+        justify-content: center;
+    }
+
+    .nav-container--align-right {
+        justify-content: flex-end;
+    }
+
+    /* Keep mobile placement independently configurable from desktop alignment. */
+    @media (max-width: 767px) {
+        .nav-container--mobile-left {
+            justify-content: flex-start;
+        }
+
+        .nav-container--mobile-right {
+            justify-content: flex-end;
+        }
+    }
+
     .nav-bar {
-        width: 100%;
+        width: min(100%, 1200px);
         display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        list-style: none;
+        margin: 0;
         padding: 0.5rem 1rem;
     }
 
-    .nav-element {
+    .nav-bar > li {
+        display: inline-flex;
+    }
+
+    .nav-brand {
         order: var(--order);
     }
 </style>
