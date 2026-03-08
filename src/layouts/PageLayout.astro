@@ -8,10 +8,11 @@ import { cms } from "@/cms";
 const { title } = Astro.props;
 
 const [navBrand, navElements] = await cms.getNavigation();
+const footer = await cms.getFooter();
 ---
 
 <BaseLayout title={title}>
     <Header brandElement={navBrand} navElements={navElements} />
     <slot />
-    <Footer />
+    <Footer footer={footer} />
 </BaseLayout>

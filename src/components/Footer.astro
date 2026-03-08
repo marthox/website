@@ -1,0 +1,213 @@
+---
+import type { Footer } from "@/types/page";
+
+interface Props {
+    footer: Footer | null;
+}
+
+const { footer } = Astro.props;
+---
+
+{footer && (
+    <footer class="site-footer">
+        <div class="site-footer__inner">
+
+            {/* Brand + tagline */}
+            {(footer.brand || footer.tagline) && (
+                <div class="site-footer__brand">
+                    {footer.brand && (
+                        <a href={footer.brand.href}>
+                            <img src={footer.brand.src} alt={footer.brand.alt} />
+                        </a>
+                    )}
+                    {footer.tagline && <p class="site-footer__tagline">{footer.tagline}</p>}
+                </div>
+            )}
+
+            {/* Link columns */}
+            {footer.columns && footer.columns.length > 0 && (
+                <div class="site-footer__columns">
+                    {footer.columns.map(col => (
+                        <div class="site-footer__column">
+                            {col.title && <h3 class="site-footer__column-title">{col.title}</h3>}
+                            {col.links && col.links.length > 0 && (
+                                <ul class="site-footer__column-links">
+                                    {col.links.map(link => (
+                                        <li>
+                                            <a
+                                                href={link.href}
+                                                target={link.openInNewTab ? '_blank' : undefined}
+                                                rel={link.openInNewTab ? 'noopener noreferrer' : undefined}
+                                            >
+                                                {link.label}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            )}
+
+            {/* Social links */}
+            {footer.socialLinks && footer.socialLinks.length > 0 && (
+                <div class="site-footer__social">
+                    {footer.socialLinks.map(link => (
+                        <a
+                            href={link.href}
+                            aria-label={link.label}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="site-footer__social-link"
+                        >
+                            {link.icon && <span class={`icon icon--${link.icon}`} aria-hidden="true" />}
+                            <span class={link.icon ? 'sr-only' : ''}>{link.label}</span>
+                        </a>
+                    ))}
+                </div>
+            )}
+
+            {/* Legal row */}
+            {(footer.copyright || (footer.legalLinks && footer.legalLinks.length > 0)) && (
+                <div class="site-footer__legal">
+                    {footer.copyright && <span class="site-footer__copyright">{footer.copyright}</span>}
+                    {footer.legalLinks && footer.legalLinks.length > 0 && (
+                        <ul class="site-footer__legal-links">
+                            {footer.legalLinks.map(link => (
+                                <li>
+                                    <a
+                                        href={link.href}
+                                        target={link.openInNewTab ? '_blank' : undefined}
+                                        rel={link.openInNewTab ? 'noopener noreferrer' : undefined}
+                                    >
+                                        {link.label}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+            )}
+
+        </div>
+    </footer>
+)}
+
+<style>
+    .site-footer {
+        border-top: 1px solid currentColor;
+        padding: 3rem 1.5rem 1.5rem;
+    }
+
+    .site-footer__inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        gap: 2rem;
+    }
+
+    .site-footer__brand img {
+        max-height: 2.5rem;
+        width: auto;
+    }
+
+    .site-footer__tagline {
+        margin-top: 0.5rem;
+        opacity: 0.7;
+    }
+
+    .site-footer__columns {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+    }
+
+    .site-footer__column {
+        min-width: 10rem;
+    }
+
+    .site-footer__column-title {
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.75rem;
+    }
+
+    .site-footer__column-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .site-footer__column-links a {
+        opacity: 0.7;
+        text-decoration: none;
+    }
+
+    .site-footer__column-links a:hover {
+        opacity: 1;
+    }
+
+    .site-footer__social {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .site-footer__social-link {
+        opacity: 0.7;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .site-footer__social-link:hover {
+        opacity: 1;
+    }
+
+    .site-footer__legal {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid currentColor;
+        opacity: 0.6;
+        font-size: 0.875rem;
+    }
+
+    .site-footer__legal-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .site-footer__legal-links a {
+        text-decoration: none;
+    }
+
+    .site-footer__legal-links a:hover {
+        text-decoration: underline;
+    }
+
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+    }
+</style>
