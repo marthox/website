@@ -10,40 +10,33 @@ import Stats from '@components/sections/Stats.astro';
 import TextSection from '@components/sections/TextSection.astro';
 import Carousel from '@components/sections/Carousel.astro';
 import Gallery from '@components/sections/Gallery.astro';
-import FormRenderer from '@components/FormRenderer.astro';
+import StandaloneForm from '@components/sections/StandaloneForm.astro';
 
 interface Props {
     element: PageElement;
 }
 
 const { element } = Astro.props;
+
+const sectionMap: Record<string, any> = {
+    hero:         Hero,
+    banner:       Banner,
+    cards:        Cards,
+    features:     Features,
+    testimonials: Testimonials,
+    stats:        Stats,
+    text:         TextSection,
+    carousel:     Carousel,
+    gallery:      Gallery,
+};
+
+const Component = element.kind === 'form'
+    ? StandaloneForm
+    : (sectionMap[element.type] ?? null);
+
+const props = element.kind === 'form'
+    ? { form: element }
+    : { section: element };
 ---
 
-{element.kind === 'form' && (
-    <div class="page-form-block" data-theme={element.theme}>
-        <div class="page-form-block__inner">
-            <FormRenderer form={element} />
-        </div>
-    </div>
-)}
-
-{element.kind === 'section' && element.type === 'hero' && <Hero section={element} />}
-{element.kind === 'section' && element.type === 'banner' && <Banner section={element} />}
-{element.kind === 'section' && element.type === 'cards' && <Cards section={element} />}
-{element.kind === 'section' && element.type === 'features' && <Features section={element} />}
-{element.kind === 'section' && element.type === 'testimonials' && <Testimonials section={element} />}
-{element.kind === 'section' && element.type === 'stats' && <Stats section={element} />}
-{element.kind === 'section' && element.type === 'text' && <TextSection section={element} />}
-{element.kind === 'section' && element.type === 'carousel' && <Carousel section={element} />}
-{element.kind === 'section' && element.type === 'gallery' && <Gallery section={element} />}
-
-<style>
-    .page-form-block {
-        padding: 4rem 1.5rem;
-    }
-
-    .page-form-block__inner {
-        max-width: 40rem;
-        margin: 0 auto;
-    }
-</style>
+{Component && <Component {...props} />}

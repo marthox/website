@@ -1,0 +1,27 @@
+---
+import type { Form } from '@/types/page';
+import FormRenderer from '@components/FormRenderer.astro';
+
+interface Props {
+    form: Form;
+}
+
+const { form } = Astro.props;
+---
+
+<section class="standalone-form" data-theme={form.theme}>
+    <div class="standalone-form__inner">
+        <FormRenderer form={form} />
+    </div>
+</section>
+
+<style>
+    .standalone-form {
+        padding: 4rem 1.5rem;
+    }
+
+    .standalone-form__inner {
+        max-width: 40rem;
+        margin: 0 auto;
+    }
+</style>
