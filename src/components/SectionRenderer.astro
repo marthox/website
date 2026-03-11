@@ -10,7 +10,7 @@ import Stats from '@components/sections/Stats.astro';
 import TextSection from '@components/sections/TextSection.astro';
 import Carousel from '@components/sections/Carousel.astro';
 import Gallery from '@components/sections/Gallery.astro';
-import StandaloneForm from '@components/sections/StandaloneForm.astro';
+import Form from '@components/sections/Form.astro';
 
 interface Props {
     element: PageElement;
@@ -31,7 +31,7 @@ const sectionMap: Record<string, any> = {
 };
 
 const Component = element.kind === 'form'
-    ? StandaloneForm
+    ? Form
     : (sectionMap[element.type] ?? null);
 
 const props = element.kind === 'form'
