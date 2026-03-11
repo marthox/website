@@ -1,0 +1,49 @@
+---
+import type { PageElement } from '@/types/page';
+
+import Hero from '@components/sections/Hero.astro';
+import Banner from '@components/sections/Banner.astro';
+import Cards from '@components/sections/Cards.astro';
+import Features from '@components/sections/Features.astro';
+import Testimonials from '@components/sections/Testimonials.astro';
+import Stats from '@components/sections/Stats.astro';
+import TextSection from '@components/sections/TextSection.astro';
+import Carousel from '@components/sections/Carousel.astro';
+import Gallery from '@components/sections/Gallery.astro';
+import FormRenderer from '@components/FormRenderer.astro';
+
+interface Props {
+    element: PageElement;
+}
+
+const { element } = Astro.props;
+---
+
+{element.kind === 'form' && (
+    <div class="page-form-block" data-theme={element.theme}>
+        <div class="page-form-block__inner">
+            <FormRenderer form={element} />
+        </div>
+    </div>
+)}
+
+{element.kind === 'section' && element.type === 'hero' && <Hero section={element} />}
+{element.kind === 'section' && element.type === 'banner' && <Banner section={element} />}
+{element.kind === 'section' && element.type === 'cards' && <Cards section={element} />}
+{element.kind === 'section' && element.type === 'features' && <Features section={element} />}
+{element.kind === 'section' && element.type === 'testimonials' && <Testimonials section={element} />}
+{element.kind === 'section' && element.type === 'stats' && <Stats section={element} />}
+{element.kind === 'section' && element.type === 'text' && <TextSection section={element} />}
+{element.kind === 'section' && element.type === 'carousel' && <Carousel section={element} />}
+{element.kind === 'section' && element.type === 'gallery' && <Gallery section={element} />}
+
+<style>
+    .page-form-block {
+        padding: 4rem 1.5rem;
+    }
+
+    .page-form-block__inner {
+        max-width: 40rem;
+        margin: 0 auto;
+    }
+</style>

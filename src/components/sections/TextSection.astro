@@ -1,0 +1,122 @@
+---
+import type { Section } from '@/types/page';
+import FormRenderer from '@components/FormRenderer.astro';
+
+interface Props {
+    section: Section;
+}
+
+const { section } = Astro.props;
+
+const isSplit = section.layout === 'split' && section.form;
+---
+
+<section class={`text-section ${isSplit ? 'text-section--split' : ''}`} data-theme={section.theme}>
+    <div class="text-section__inner">
+        <div class="text-section__content">
+            {section.title && <h2 class="text-section__title">{section.title}</h2>}
+            {section.subtitle && <p class="text-section__subtitle">{section.subtitle}</p>}
+            {section.ctas && section.ctas.length > 0 && (
+                <div class="text-section__ctas">
+                    {section.ctas.map(cta => (
+                        <a
+                            href={cta.href}
+                            class={`text-section__cta text-section__cta--${cta.variant ?? 'primary'}`}
+                            target={cta.openInNewTab ? '_blank' : undefined}
+                            rel={cta.openInNewTab ? 'noopener noreferrer' : undefined}
+                        >
+                            {cta.label}
+                        </a>
+                    ))}
+                </div>
+            )}
+        </div>
+        {section.form && (
+            <div class="text-section__form">
+                <FormRenderer form={section.form} />
+            </div>
+        )}
+    </div>
+</section>
+
+<style>
+    .text-section {
+        padding: 4rem 1.5rem;
+    }
+
+    .text-section__inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    .text-section--split .text-section__inner {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .text-section__content {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        flex: 1;
+    }
+
+    .text-section__title {
+        font-size: clamp(1.5rem, 3vw, 2.25rem);
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .text-section__subtitle {
+        margin: 0;
+        opacity: 0.75;
+        line-height: 1.7;
+        max-width: 65ch;
+    }
+
+    .text-section__ctas {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .text-section__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.625rem 1.5rem;
+        border-radius: 0.375rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: opacity 0.15s;
+    }
+
+    .text-section__cta:hover {
+        opacity: 0.85;
+    }
+
+    .text-section__cta--primary {
+        background: currentColor;
+    }
+
+    .text-section__cta--secondary {
+        border: 2px solid currentColor;
+    }
+
+    .text-section__cta--ghost {
+        text-decoration: underline;
+    }
+
+    .text-section__form {
+        flex: 1;
+    }
+
+    @media (max-width: 767px) {
+        .text-section--split .text-section__inner {
+            flex-direction: column;
+        }
+    }
+</style>

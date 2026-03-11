@@ -1,5 +1,6 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
+import SectionRenderer from '@components/SectionRenderer.astro';
 import { cms } from '@/cms';
 import type { Page } from '@/types/page';
 
@@ -18,8 +19,6 @@ const { page } = Astro.props;
 
 <PageLayout title={page.slug}>
     {page.pageElements.map(element => (
-        <section data-kind={element.kind} data-type={element.kind === 'section' ? element.type : element.type}>
-            <p>{element.title ?? element.kind}</p>
-        </section>
+        <SectionRenderer element={element} />
     ))}
 </PageLayout>
