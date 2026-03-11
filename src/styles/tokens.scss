@@ -1,0 +1,93 @@
+// =============================================================================
+// Design Tokens
+// Default values — overridden at runtime by ThemeStyle.astro via CSS vars
+// injected from the Contentful siteTheme entry.
+// =============================================================================
+
+:root {
+    // ---------------------------------------------------------------------------
+    // Colors – base palette
+    // ---------------------------------------------------------------------------
+    --color-bg:           #FAFAF8;
+    --color-surface:      #F0EDE8;
+    --color-border:       #D9D3CB;
+    --color-text:         #1A1A1A;
+    --color-text-muted:   #6B6457;
+    --color-accent:       #8B6F47;
+
+    // Derived accent states (used for hover / focus)
+    --color-accent-dark:  #7A6040;
+    --color-accent-light: #C4A882;
+
+    // ---------------------------------------------------------------------------
+    // Typography
+    // ---------------------------------------------------------------------------
+    --font-heading: 'Playfair Display', Georgia, serif;
+    --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+    --font-size-base: 16px;
+
+    // ---------------------------------------------------------------------------
+    // Layout
+    // ---------------------------------------------------------------------------
+    --container-width:   1200px;
+    --section-padding-y: 5rem;
+    --section-padding-x: 1.5rem;
+
+    // ---------------------------------------------------------------------------
+    // Radii
+    // ---------------------------------------------------------------------------
+    --radius-sm: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+}
+
+// =============================================================================
+// Section theme variants
+// Applied via data-theme="light | dark | accent" on <section> elements.
+// Each variant exposes a consistent set of --section-* tokens consumed by
+// all section components.
+// =============================================================================
+
+// Light (default — also applied when data-theme is absent)
+:root,
+[data-theme="light"] {
+    --section-bg:         var(--color-bg);
+    --section-surface:    var(--color-surface);
+    --section-border:     var(--color-border);
+    --section-text:       var(--color-text);
+    --section-text-muted: var(--color-text-muted);
+
+    --btn-primary-bg:     var(--color-accent);
+    --btn-primary-text:   #FAFAF8;
+    --btn-secondary-border: var(--color-text);
+    --btn-secondary-text:   var(--color-text);
+    --btn-ghost-text:       var(--color-accent);
+}
+
+[data-theme="dark"] {
+    --section-bg:         #1C1A17;
+    --section-surface:    #2A2722;
+    --section-border:     #3D3830;
+    --section-text:       #F0EDE8;
+    --section-text-muted: #AFA89E;
+
+    --btn-primary-bg:     var(--color-accent);
+    --btn-primary-text:   #FAF8F5;
+    --btn-secondary-border: #F0EDE8;
+    --btn-secondary-text:   #F0EDE8;
+    --btn-ghost-text:       var(--color-accent-light);
+}
+
+[data-theme="accent"] {
+    --section-bg:         var(--color-accent);
+    --section-surface:    var(--color-accent-dark);
+    --section-border:     rgba(255, 255, 255, 0.25);
+    --section-text:       #FAF8F5;
+    --section-text-muted: #E8D9C5;
+
+    --btn-primary-bg:     #FAF8F5;
+    --btn-primary-text:   var(--color-accent);
+    --btn-secondary-border: #FAF8F5;
+    --btn-secondary-text:   #FAF8F5;
+    --btn-ghost-text:       #FAF8F5;
+}

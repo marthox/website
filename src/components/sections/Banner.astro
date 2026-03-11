@@ -34,11 +34,13 @@ const { section } = Astro.props;
 
 <style>
     .banner {
-        padding: 2.5rem 1.5rem;
+        padding: 2.5rem var(--section-padding-x, 1.5rem);
+        background-color: var(--section-bg);
+        color: var(--section-text);
     }
 
     .banner__inner {
-        max-width: 1200px;
+        max-width: var(--container-width, 1200px);
         margin: 0 auto;
         display: flex;
         align-items: center;
@@ -61,7 +63,7 @@ const { section } = Astro.props;
 
     .banner__subtitle {
         margin: 0;
-        opacity: 0.8;
+        color: var(--section-text-muted);
     }
 
     .banner__ctas {
@@ -76,7 +78,7 @@ const { section } = Astro.props;
         align-items: center;
         gap: 0.5rem;
         padding: 0.625rem 1.5rem;
-        border-radius: 0.375rem;
+        border-radius: var(--radius-md, 0.375rem);
         font-weight: 600;
         text-decoration: none;
         white-space: nowrap;
@@ -88,14 +90,17 @@ const { section } = Astro.props;
     }
 
     .banner__cta--primary {
-        background: currentColor;
+        background-color: var(--btn-primary-bg);
+        color: var(--btn-primary-text);
     }
 
     .banner__cta--secondary {
-        border: 2px solid currentColor;
+        border: 2px solid var(--btn-secondary-border);
+        color: var(--btn-secondary-text);
     }
 
     .banner__cta--ghost {
+        color: var(--btn-ghost-text);
         text-decoration: underline;
     }
 

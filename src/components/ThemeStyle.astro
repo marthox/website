@@ -1,0 +1,58 @@
+---
+/**
+ * ThemeStyle
+ *
+ * Injects a <style> block that overrides CSS custom properties defined in
+ * tokens.scss with values fetched from the Contentful siteTheme entry.
+ *
+ * If a field is not set in Contentful the SCSS default value stays active —
+ * so partial overrides are fully supported.
+ */
+import type { SiteTheme } from '@/types/theme';
+
+interface Props {
+    theme: SiteTheme | null;
+}
+
+const { theme } = Astro.props;
+
+// Map SiteTheme fields → CSS custom property names
+const vars: [string, string | undefined][] = theme ? [
+    ['--color-bg',         theme.colorBg],
+    ['--color-surface',    theme.colorSurface],
+    ['--color-border',     theme.colorBorder],
+    ['--color-text',       theme.colorText],
+    ['--color-text-muted', theme.colorTextMuted],
+    ['--color-accent',     theme.colorAccent],
+    ['--font-heading',     theme.fontHeading],
+    ['--font-body',        theme.fontBody],
+] : [];
+
+// Dark section overrides
+const darkVars: [string, string | undefined][] = theme ? [
+    ['--section-bg',   theme.colorDarkBg],
+    ['--section-text', theme.colorDarkText],
+] : [];
+
+// Accent section overrides
+const accentVars: [string, string | undefined][] = theme ? [
+    ['--section-bg',   theme.colorAccentBg],
+    ['--section-text', theme.colorAccentText],
+] : [];
+
+function renderBlock(selector: string, pairs: [string, string | undefined][]): string {
+    const declarations = pairs
+        .filter(([, v]) => v !== undefined)
+        .map(([k, v]) => `    ${k}: ${v};`)
+        .join('\n');
+    return declarations ? `${selector} {\n${declarations}\n}` : '';
+}
+
+const rootBlock   = renderBlock(':root',                vars);
+const darkBlock   = renderBlock('[data-theme="dark"]',  darkVars);
+const accentBlock = renderBlock('[data-theme="accent"]', accentVars);
+
+const css = [rootBlock, darkBlock, accentBlock].filter(Boolean).join('\n\n');
+---
+
+{css && <style set:html={css} is:global />}
