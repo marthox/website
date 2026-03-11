@@ -1,0 +1,167 @@
+---
+import type { Section } from '@/types/page';
+
+interface Props {
+    section: Section;
+}
+
+const { section } = Astro.props;
+
+const layoutClass = section.layout === 'left' ? 'hero--left'
+    : section.layout === 'right' ? 'hero--right'
+    : section.layout === 'split' ? 'hero--split'
+    : 'hero--center';
+---
+
+<section class={`hero ${layoutClass}`} data-theme={section.theme}>
+    <div class="hero__inner">
+        <div class="hero__content">
+            {section.title && <h1 class="hero__title">{section.title}</h1>}
+            {section.subtitle && <p class="hero__subtitle">{section.subtitle}</p>}
+            {section.ctas && section.ctas.length > 0 && (
+                <div class="hero__ctas">
+                    {section.ctas.map(cta => (
+                        <a
+                            href={cta.href}
+                            class={`hero__cta hero__cta--${cta.variant ?? 'primary'}`}
+                            target={cta.openInNewTab ? '_blank' : undefined}
+                            rel={cta.openInNewTab ? 'noopener noreferrer' : undefined}
+                        >
+                            {cta.icon && <span class={`icon icon--${cta.icon}`} aria-hidden="true" />}
+                            {cta.label}
+                        </a>
+                    ))}
+                </div>
+            )}
+        </div>
+        {section.mediaUrl && (
+            <div class="hero__media">
+                <img src={section.mediaUrl} alt={section.title ?? ''} class="hero__image" />
+            </div>
+        )}
+    </div>
+</section>
+
+<style>
+    .hero {
+        padding: 5rem 1.5rem;
+    }
+
+    .hero__inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        gap: 3rem;
+        align-items: center;
+    }
+
+    .hero--center .hero__inner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero--left .hero__inner {
+        flex-direction: row;
+    }
+
+    .hero--right .hero__inner {
+        flex-direction: row-reverse;
+    }
+
+    .hero--split .hero__inner {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .hero__content {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        flex: 1;
+    }
+
+    .hero__title {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 800;
+        line-height: 1.1;
+        margin: 0;
+    }
+
+    .hero__subtitle {
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        margin: 0;
+        opacity: 0.8;
+        max-width: 60ch;
+    }
+
+    .hero--center .hero__subtitle {
+        margin-inline: auto;
+    }
+
+    .hero__ctas {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .hero--center .hero__ctas {
+        justify-content: center;
+    }
+
+    .hero__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.75rem;
+        border-radius: 0.375rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: opacity 0.15s;
+    }
+
+    .hero__cta:hover {
+        opacity: 0.85;
+    }
+
+    .hero__cta--primary {
+        background: currentColor;
+    }
+
+    .hero__cta--secondary {
+        border: 2px solid currentColor;
+    }
+
+    .hero__cta--ghost {
+        text-decoration: underline;
+    }
+
+    .hero__media {
+        flex: 1;
+        max-width: 50%;
+    }
+
+    .hero--center .hero__media {
+        max-width: 70%;
+    }
+
+    .hero__image {
+        width: 100%;
+        height: auto;
+        border-radius: 0.5rem;
+    }
+
+    @media (max-width: 767px) {
+        .hero__inner {
+            flex-direction: column !important;
+            text-align: center;
+        }
+
+        .hero__ctas {
+            justify-content: center;
+        }
+
+        .hero__media {
+            max-width: 100%;
+        }
+    }
+</style>

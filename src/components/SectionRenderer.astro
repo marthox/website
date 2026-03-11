@@ -1,0 +1,42 @@
+---
+import type { PageElement } from '@/types/page';
+
+import Hero from '@components/sections/Hero.astro';
+import Banner from '@components/sections/Banner.astro';
+import Cards from '@components/sections/Cards.astro';
+import Features from '@components/sections/Features.astro';
+import Testimonials from '@components/sections/Testimonials.astro';
+import Stats from '@components/sections/Stats.astro';
+import TextSection from '@components/sections/TextSection.astro';
+import Carousel from '@components/sections/Carousel.astro';
+import Gallery from '@components/sections/Gallery.astro';
+import Form from '@components/sections/Form.astro';
+
+interface Props {
+    element: PageElement;
+}
+
+const { element } = Astro.props;
+
+const sectionMap: Record<string, any> = {
+    hero:         Hero,
+    banner:       Banner,
+    cards:        Cards,
+    features:     Features,
+    testimonials: Testimonials,
+    stats:        Stats,
+    text:         TextSection,
+    carousel:     Carousel,
+    gallery:      Gallery,
+};
+
+const Component = element.kind === 'form'
+    ? Form
+    : (sectionMap[element.type] ?? null);
+
+const props = element.kind === 'form'
+    ? { form: element }
+    : { section: element };
+---
+
+{Component && <Component {...props} />}
