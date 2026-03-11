@@ -34,9 +34,12 @@ export async function getFooter(): Promise<Footer | null> {
     const entry = entries[0];
     const brand = entry.fields.brand as Asset<'WITHOUT_UNRESOLVABLE_LINKS'> | undefined;
 
+    const rawUrl = brand?.fields?.file?.url;
+    const brandSrc = rawUrl ? (rawUrl.startsWith('//') ? `https:${rawUrl}` : rawUrl) : undefined;
+
     return {
-        brand: brand?.fields?.file?.url
-            ? { src: brand.fields.file.url, alt: brand.fields.description ?? '', href: '/' }
+        brand: brandSrc
+            ? { src: brandSrc, alt: brand!.fields.description ?? '', href: '/' }
             : undefined,
         tagline: entry.fields.tagline,
         columns: (entry.fields.columns ?? []).filter(isEntry).map(mapColumn),
