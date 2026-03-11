@@ -17,7 +17,9 @@ const { form } = Astro.props;
 
 <style>
     .standalone-form {
-        padding: 4rem 1.5rem;
+        padding: var(--section-padding-y, 4rem) var(--section-padding-x, 1.5rem);
+        background-color: var(--section-bg);
+        color: var(--section-text);
     }
 
     .standalone-form__inner {

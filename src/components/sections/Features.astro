@@ -38,11 +38,13 @@ const { section } = Astro.props;
 
 <style>
     .features {
-        padding: 4rem 1.5rem;
+        padding: var(--section-padding-y, 4rem) var(--section-padding-x, 1.5rem);
+        background-color: var(--section-bg);
+        color: var(--section-text);
     }
 
     .features__inner {
-        max-width: 1200px;
+        max-width: var(--container-width, 1200px);
         margin: 0 auto;
         display: flex;
         flex-direction: column;
@@ -65,7 +67,7 @@ const { section } = Astro.props;
     .features__subtitle {
         margin: 0 auto;
         max-width: 60ch;
-        opacity: 0.75;
+        color: var(--section-text-muted);
     }
 
     .features__grid {
@@ -100,7 +102,7 @@ const { section } = Astro.props;
 
     .feature__subtitle {
         margin: 0;
-        opacity: 0.75;
+        color: var(--section-text-muted);
         font-size: 0.9375rem;
         line-height: 1.6;
     }

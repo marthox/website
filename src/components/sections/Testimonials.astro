@@ -48,11 +48,13 @@ const { section } = Astro.props;
 
 <style>
     .testimonials {
-        padding: 4rem 1.5rem;
+        padding: var(--section-padding-y, 4rem) var(--section-padding-x, 1.5rem);
+        background-color: var(--section-bg);
+        color: var(--section-text);
     }
 
     .testimonials__inner {
-        max-width: 1200px;
+        max-width: var(--container-width, 1200px);
         margin: 0 auto;
         display: flex;
         flex-direction: column;
@@ -75,7 +77,7 @@ const { section } = Astro.props;
     .testimonials__subtitle {
         margin: 0 auto;
         max-width: 60ch;
-        opacity: 0.75;
+        color: var(--section-text-muted);
     }
 
     .testimonials__grid {
@@ -87,8 +89,9 @@ const { section } = Astro.props;
     .testimonial {
         margin: 0;
         padding: 1.75rem;
-        border: 1px solid currentColor;
-        border-radius: 0.5rem;
+        border: 1px solid var(--section-border);
+        border-radius: var(--radius-lg, 0.5rem);
+        background-color: var(--section-surface);
         display: flex;
         flex-direction: column;
         gap: 1rem;
@@ -123,6 +126,6 @@ const { section } = Astro.props;
     }
 
     .testimonial__role {
-        opacity: 0.7;
+        color: var(--section-text-muted);
     }
 </style>

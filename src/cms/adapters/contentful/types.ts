@@ -101,6 +101,25 @@ export type ContentfulPage = EntrySkeletonType<
     'page'
 >;
 
+export type ContentfulSiteTheme = EntrySkeletonType<
+    {
+        name: EntryFieldTypes.Text;
+        colorBg?:         EntryFieldTypes.Symbol;
+        colorSurface?:    EntryFieldTypes.Symbol;
+        colorBorder?:     EntryFieldTypes.Symbol;
+        colorText?:       EntryFieldTypes.Symbol;
+        colorTextMuted?:  EntryFieldTypes.Symbol;
+        colorAccent?:     EntryFieldTypes.Symbol;
+        colorDarkBg?:     EntryFieldTypes.Symbol;
+        colorDarkText?:   EntryFieldTypes.Symbol;
+        colorAccentBg?:   EntryFieldTypes.Symbol;
+        colorAccentText?: EntryFieldTypes.Symbol;
+        fontHeading?:     EntryFieldTypes.Symbol;
+        fontBody?:        EntryFieldTypes.Symbol;
+    },
+    'siteTheme'
+>;
+
 export type ContentfulFooter = EntrySkeletonType<
     {
         brand?: EntryFieldTypes.AssetLink;

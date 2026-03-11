@@ -41,11 +41,13 @@ const isSplit = section.layout === 'split' && section.form;
 
 <style>
     .text-section {
-        padding: 4rem 1.5rem;
+        padding: var(--section-padding-y, 4rem) var(--section-padding-x, 1.5rem);
+        background-color: var(--section-bg);
+        color: var(--section-text);
     }
 
     .text-section__inner {
-        max-width: 1200px;
+        max-width: var(--container-width, 1200px);
         margin: 0 auto;
         display: flex;
         flex-direction: column;
@@ -72,7 +74,7 @@ const isSplit = section.layout === 'split' && section.form;
 
     .text-section__subtitle {
         margin: 0;
-        opacity: 0.75;
+        color: var(--section-text-muted);
         line-height: 1.7;
         max-width: 65ch;
     }
@@ -99,14 +101,17 @@ const isSplit = section.layout === 'split' && section.form;
     }
 
     .text-section__cta--primary {
-        background: currentColor;
+        background-color: var(--btn-primary-bg);
+        color: var(--btn-primary-text);
     }
 
     .text-section__cta--secondary {
-        border: 2px solid currentColor;
+        border: 2px solid var(--btn-secondary-border);
+        color: var(--btn-secondary-text);
     }
 
     .text-section__cta--ghost {
+        color: var(--btn-ghost-text);
         text-decoration: underline;
     }
 
