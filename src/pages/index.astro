@@ -1,7 +1,22 @@
 ---
-import PageLayout from "@/layouts/PageLayout.astro"
+import PageLayout from "@/layouts/PageLayout.astro";
+import SectionRenderer from "@components/SectionRenderer.astro";
+import { cms } from "@/cms";
+
+const pages = await cms.getPages();
+const page = pages.find(p => p.slug === 'home');
 ---
 
-<PageLayout title="Astro">
-	<h1>Astro</h1>
-</PageLayout>
+{page ? (
+    <PageLayout title={page.slug}>
+        {page.pageElements.map(element => (
+            <SectionRenderer element={element} />
+        ))}
+    </PageLayout>
+) : (
+    <PageLayout title="Home">
+        <main style="padding: 4rem 1.5rem; text-align: center;">
+            <h1>Welcome</h1>
+        </main>
+    </PageLayout>
+)}
