@@ -1,6 +1,7 @@
 ---
 import type { Section } from '@/types/page';
 import FormRenderer from '@components/FormRenderer.astro';
+import RichText from '@components/RichText.astro';
 
 interface Props {
     section: Section;
@@ -16,6 +17,7 @@ const isSplit = section.layout === 'split' && section.form;
         <div class="text-section__content">
             {section.title && <h2 class="text-section__title">{section.title}</h2>}
             {section.subtitle && <p class="text-section__subtitle">{section.subtitle}</p>}
+            <RichText doc={section.body} />
             {section.ctas && section.ctas.length > 0 && (
                 <div class="text-section__ctas">
                     {section.ctas.map(cta => (

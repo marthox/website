@@ -1,5 +1,6 @@
 ---
 import type { Section } from '@/types/page';
+import RichText from '@components/RichText.astro';
 
 interface Props {
     section: Section;
@@ -13,6 +14,7 @@ const { section } = Astro.props;
         <div class="banner__text">
             {section.title && <h2 class="banner__title">{section.title}</h2>}
             {section.subtitle && <p class="banner__subtitle">{section.subtitle}</p>}
+            <RichText doc={section.body} />
         </div>
         {section.ctas && section.ctas.length > 0 && (
             <div class="banner__ctas">

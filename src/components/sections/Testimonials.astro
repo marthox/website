@@ -1,5 +1,6 @@
 ---
 import type { Section } from '@/types/page';
+import RichText from '@components/RichText.astro';
 
 interface Props {
     section: Section;
@@ -32,6 +33,7 @@ const { section } = Astro.props;
                         )}
                         <div class="testimonial__content">
                             {item.subtitle && <p class="testimonial__quote">{item.subtitle}</p>}
+                            <RichText doc={item.body} />
                             {item.title && (
                                 <footer class="testimonial__author">
                                     <strong>{item.title}</strong>
