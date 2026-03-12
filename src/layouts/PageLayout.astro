@@ -5,13 +5,21 @@ import Footer from "@components/Footer.astro";
 
 import { cms } from "@/cms";
 
-const { title } = Astro.props;
+interface Props {
+    title: string;
+    description?: string;
+    ogTitle?: string;
+    ogDescription?: string;
+    ogImage?: string;
+}
+
+const { title, description, ogTitle, ogDescription, ogImage } = Astro.props;
 
 const [navBrand, navElements] = await cms.getNavigation();
 const footer = await cms.getFooter();
 ---
 
-<BaseLayout title={title}>
+<BaseLayout title={title} description={description} ogTitle={ogTitle} ogDescription={ogDescription} ogImage={ogImage}>
     <Header brandElement={navBrand} navElements={navElements} />
     <slot />
     <Footer footer={footer} />

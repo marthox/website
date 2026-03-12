@@ -1,0 +1,64 @@
+---
+import type { Document } from '@contentful/rich-text-types';
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+
+interface Props {
+    doc: Document | undefined;
+    class?: string;
+}
+
+const { doc, class: className } = Astro.props;
+const html = doc ? documentToHtmlString(doc) : '';
+---
+
+{html && <div class:list={['rich-text', className]} set:html={html} />}
+
+<style>
+    .rich-text :global(p) {
+        margin: 0 0 1em;
+        line-height: 1.7;
+    }
+
+    .rich-text :global(h1),
+    .rich-text :global(h2),
+    .rich-text :global(h3),
+    .rich-text :global(h4) {
+        margin: 1.5em 0 0.5em;
+        font-family: var(--font-heading);
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .rich-text :global(ul),
+    .rich-text :global(ol) {
+        margin: 0 0 1em 1.5em;
+        line-height: 1.7;
+    }
+
+    .rich-text :global(a) {
+        color: var(--color-accent);
+        text-decoration: underline;
+    }
+
+    .rich-text :global(a:hover) {
+        color: var(--color-accent-dark);
+    }
+
+    .rich-text :global(blockquote) {
+        border-left: 3px solid var(--color-accent);
+        margin: 1.5em 0;
+        padding: 0.5em 1em;
+        color: var(--section-text-muted);
+        font-style: italic;
+    }
+
+    .rich-text :global(hr) {
+        border: none;
+        border-top: 1px solid var(--section-border);
+        margin: 2em 0;
+    }
+
+    .rich-text :global(*:last-child) {
+        margin-bottom: 0;
+    }
+</style>

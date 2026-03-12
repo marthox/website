@@ -17,7 +17,13 @@ type Props = { page: Page };
 const { page } = Astro.props;
 ---
 
-<PageLayout title={page.slug}>
+<PageLayout
+    title={page.seoTitle ?? page.slug}
+    description={page.seoDescription}
+    ogTitle={page.seoTitle}
+    ogDescription={page.seoDescription}
+    ogImage={page.ogImageUrl}
+>
     {page.pageElements.map(element => (
         <SectionRenderer element={element} />
     ))}

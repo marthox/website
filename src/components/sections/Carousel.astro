@@ -1,5 +1,6 @@
 ---
 import type { Section } from '@/types/page';
+import RichText from '@components/RichText.astro';
 
 interface Props {
     section: Section;
@@ -29,6 +30,7 @@ const { section } = Astro.props;
                             <div class="carousel__content">
                                 {item.title && <h3 class="carousel__slide-title">{item.title}</h3>}
                                 {item.subtitle && <p class="carousel__slide-subtitle">{item.subtitle}</p>}
+                                <RichText doc={item.body} />
                                 {item.ctas && item.ctas.length > 0 && (
                                     <div class="carousel__ctas">
                                         {item.ctas.map(cta => (

@@ -97,6 +97,9 @@ export type ContentfulPage = EntrySkeletonType<
         pageElements?: EntryFieldTypes.Array<
             EntryFieldTypes.EntryLink<ContentfulSection | ContentfulForm>
         >;
+        seoTitle?: EntryFieldTypes.Symbol;
+        seoDescription?: EntryFieldTypes.Text;
+        ogImage?: EntryFieldTypes.AssetLink;
     },
     'page'
 >;

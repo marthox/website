@@ -34,7 +34,7 @@ describe('getFooter', () => {
         mockFetch.mockResolvedValue([makeFooter('f1', { brand })] as any);
         const footer = await getFooter();
         expect(footer?.brand).toEqual({
-            src: '//images.ctfassets.net/logo.png',
+            src: 'https://images.ctfassets.net/logo.png',
             alt: 'Site logo',
             href: '/',
         });
