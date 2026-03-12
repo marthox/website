@@ -103,9 +103,13 @@ export async function getPages(): Promise<Page[]> {
                 return mapForm(element as unknown as FormEntry);
             });
 
+        const ogImage = entry.fields.ogImage as Asset<'WITHOUT_UNRESOLVABLE_LINKS'> | undefined;
         return {
             slug: entry.fields.slug,
             pageElements,
+            seoTitle: entry.fields.seoTitle,
+            seoDescription: entry.fields.seoDescription,
+            ogImageUrl: ogImage?.fields?.file?.url,
         };
     });
 }

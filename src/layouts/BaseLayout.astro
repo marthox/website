@@ -3,7 +3,15 @@ import "@styles/global.scss";
 import ThemeStyle from "@components/ThemeStyle.astro";
 import { cms } from "@/cms";
 
-const { title } = Astro.props;
+interface Props {
+    title: string;
+    description?: string;
+    ogTitle?: string;
+    ogDescription?: string;
+    ogImage?: string;
+}
+
+const { title, description, ogTitle, ogDescription, ogImage } = Astro.props;
 
 const theme = await cms.getSiteTheme();
 ---
@@ -14,6 +22,11 @@ const theme = await cms.getSiteTheme();
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
+        {description && <meta name="description" content={description} />}
+        <meta property="og:title" content={ogTitle ?? title} />
+        {(ogDescription ?? description) && <meta property="og:description" content={ogDescription ?? description} />}
+        {ogImage && <meta property="og:image" content={ogImage} />}
+        <meta property="og:type" content="website" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
