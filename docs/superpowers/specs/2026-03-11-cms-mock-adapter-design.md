@@ -10,6 +10,10 @@ The existing `CMSAdapter` interface is the sole contract. `src/cms/index.ts` sel
 
 **Tech stack:** TypeScript, Astro 5, Vite env vars (`import.meta.env`).
 
+**`@/` path alias** is already configured in `tsconfig.json` and `astro.config.mjs` and is used throughout the codebase — no changes needed.
+
+**`CMS_ADAPTER` is a build-time, server-side variable.** It is read by `src/cms/index.ts` only during the Astro static build (Node.js context). It is never exposed to the browser bundle and does not need a `VITE_` prefix. It will not work in client-side components.
+
 ---
 
 ## File Structure
@@ -68,13 +72,22 @@ export const MockAdapter: CMSAdapter = {
 
 Each fixture is a typed constant. TypeScript enforces the domain type shape at compile time.
 
+Both adapters are plain object literals (not classes) — no instantiation needed.
+
+**Fixture constant types:**
+- `navFixture` — type `[NavBrand | null, NavElement[]]` (a tuple, not a plain array)
+- `pagesFixture` — type `Page[]`
+- `footerFixture` — type `Footer` (not `Footer | null`; returning a concrete value satisfies `Promise<Footer | null>`)
+- `themeFixture` — type `SiteTheme` (same reasoning)
+
 ---
 
 ## Fixture Data
 
 ### `nav.ts`
-- `NavBrand`: logo image, site name, href `/`
-- `NavElement[]`: 4 top-level links (Home, About, Works, Contact) + 1 dropdown menu (Works submenu with 2 items)
+Export: `navFixture` typed as `[NavBrand | null, NavElement[]]` (tuple — the first element is `NavBrand | null`, the second is `NavElement[]`).
+- `NavBrand`: `{ src, alt, label, href }` — logo image URL, alt text, site name label, href `/`
+- `NavElement[]`: 4 top-level links (Home, About, Works, Contact) + 1 dropdown menu (`NavMenu` shape: `{ label, submenu: NavElement[] }`) with 2 items
 
 ### `theme.ts`
 - Hardcoded design token values matching the existing defaults:
@@ -89,22 +102,26 @@ Each fixture is a typed constant. TypeScript enforces the domain type shape at c
 - Copyright string
 
 ### `pages.ts`
+`PageElement = Section | Form` — a discriminated union on the `kind` field (`'section'` or `'form'`). `Section` also has a `type` field narrowing which section component renders.
+
 One page (`slug: 'home'`) with `pageElements` containing all section and form types in reading order:
 
-| Order | Kind | Type | Key fields exercised |
-|-------|------|------|----------------------|
-| 1 | section | `hero` | title, subtitle, body (rich text), mediaUrl, 2 CTAs (primary + secondary) |
-| 2 | section | `banner` | dark theme, title, subtitle, single CTA |
-| 3 | section | `features` | 3 items each with icon, title, subtitle, body |
-| 4 | section | `cards` | 3 items with mediaUrl, title, subtitle, body, CTA |
-| 5 | section | `testimonials` | 2 items with subtitle (quote), body (attribution) |
-| 6 | section | `stats` | 4 items with value + label (title) |
-| 7 | section | `text` | left layout, body rich text, ghost CTA |
-| 8 | section | `gallery` | 4 items with mediaUrl + title |
-| 9 | section | `carousel` | 3 slide items with title, subtitle, CTA |
-| 10 | form | — | contact form: text, email, textarea fields; submit label; success message |
+| Order | Kind (`PageElement.kind`) | `Section.type` | Key fields exercised |
+|-------|--------------------------|----------------|----------------------|
+| 1 | `section` | `hero` | title, subtitle, body (rich text), mediaUrl, 2 CTAs (primary + secondary) |
+| 2 | `section` | `banner` | dark theme, title, subtitle, single CTA |
+| 3 | `section` | `features` | 3 items each with icon, title, subtitle, body |
+| 4 | `section` | `cards` | 3 items with mediaUrl, title, subtitle, body, CTA |
+| 5 | `section` | `testimonials` | 2 items with subtitle (quote), body (attribution) |
+| 6 | `section` | `stats` | 4 items with value + label (title) |
+| 7 | `section` | `text` | left layout, body rich text, ghost CTA |
+| 8 | `section` | `gallery` | 4 items with mediaUrl + title |
+| 9 | `section` | `carousel` | 3 slide items with title, subtitle, CTA |
+| 10 | `form` | n/a | contact form: text, email, textarea fields; submit label; success message |
 
 Rich text `body` fields use a minimal Contentful `Document` node (single paragraph) so `RichText.astro` renders real output.
+
+**Note on the `Document` type:** `body` is typed as `Document` from `@contentful/rich-text-types`. This package is already installed and is a pure-types package (no API credentials required). Importing it in the mock fixtures is acceptable — it represents the rich text data format, not a Contentful API dependency.
 
 ---
 
@@ -113,7 +130,7 @@ Rich text `body` fields use a minimal Contentful `Document` node (single paragra
 ```env
 # Set to "mock" to use local fixture data (no Contentful credentials needed)
 # CMS_ADAPTER=mock
-CMS_ADAPTER=contentful
+# (omit or set to any other value to use ContentfulAdapter)
 ```
 
 ---
