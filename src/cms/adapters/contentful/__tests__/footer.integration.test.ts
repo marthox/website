@@ -68,7 +68,7 @@ describe('getFooter (integration)', () => {
 
     it('brand has correct src, alt and href', () => {
         expect(footer?.brand).toEqual({
-            src: '//images.ctfassets.net/brand.svg',
+            src: 'https://images.ctfassets.net/brand.svg',
             alt: 'Author logo',
             href: '/',
         });
