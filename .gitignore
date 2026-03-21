@@ -1,4 +1,6 @@
 .claude/
+.claire/
+.superpowers/
 node_modules/
 /triage/
 dist/
