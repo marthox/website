@@ -50,24 +50,22 @@ function isNavLink(el: NavElement): el is NavLink {
     const html = document.documentElement;
 
     function applyTheme(mode: string) {
-        if (mode === 'dark') {
-            html.dataset.themeMode = 'dark';
-            if (toggle) toggle.textContent = '🌙';
-        } else {
-            delete html.dataset.themeMode;
-            if (toggle) toggle.textContent = '☀';
+        html.dataset.themeMode = mode;           // always set explicitly
+        if (toggle) {
+            toggle.textContent = mode === 'dark' ? '☀' : '🌙';
+            toggle.setAttribute('aria-label', mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
         }
     }
 
-    // Initialise from localStorage
-    const saved = localStorage.getItem('theme') ?? 'light';
+    // Initialise — dark is the default
+    const saved = localStorage.getItem('theme') ?? 'dark';
     applyTheme(saved);
 
     toggle?.addEventListener('click', () => {
-        const current = html.dataset.themeMode === 'dark' ? 'dark' : 'light';
+        const current = html.dataset.themeMode ?? 'dark';
         const next = current === 'dark' ? 'light' : 'dark';
-        localStorage.setItem('theme', next);
         applyTheme(next);
+        localStorage.setItem('theme', next);
     });
 </script>
 
