@@ -11,6 +11,7 @@ import TextSection from '@components/sections/TextSection.astro';
 import Carousel from '@components/sections/Carousel.astro';
 import Gallery from '@components/sections/Gallery.astro';
 import Form from '@components/sections/Form.astro';
+import Tabs from '@components/sections/Tabs.astro';
 
 interface Props {
     element: PageElement;
@@ -28,6 +29,7 @@ const sectionMap: Record<string, any> = {
     text:         TextSection,
     carousel:     Carousel,
     gallery:      Gallery,
+    tabs:         Tabs,
 };
 
 const Component = element.kind === 'form'
