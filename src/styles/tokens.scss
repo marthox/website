@@ -5,16 +5,16 @@
 // =============================================================================
 
 :root {
-    // Base palette — Digital Hub
-    --color-bg:           #FFFFFF;
-    --color-surface:      #F8F9FF;
-    --color-border:       #E2E6F0;
-    --color-text:         #0A0A1A;
-    --color-text-muted:   #5A6080;
-    --color-accent:       #00B4FF;          // cyan
+    // Base palette — Digital Hub DARK (default)
+    --color-bg:           #080C14;
+    --color-surface:      #0D1525;
+    --color-border:       #1E2D45;
+    --color-text:         #F0F4FF;
+    --color-text-muted:   #8892B0;
+    --color-accent:       #00CFFF;          // brighter cyan for dark bg
     --color-accent-alt:   #FF2D7A;          // magenta
 
-    --color-accent-dark:  #0099DD;
+    --color-accent-dark:  #00B4FF;
     --color-accent-light: #7DD8FF;
 
     --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
@@ -30,7 +30,6 @@
     --radius-lg:   0.5rem;
     --radius-pill: 50px;
 
-    // Gradient definitions (referenced by components)
     --gradient-brand:     linear-gradient(135deg, #00B4FF, #FF2D7A);
     --gradient-hero-dark: linear-gradient(135deg, #0D1B2A, #1B3A5C, #0D2240);
 }
@@ -42,22 +41,8 @@
 // all section components.
 // =============================================================================
 
-// Light (default — also applied when data-theme is absent)
+// ── Dark section tokens (default when no data-theme set) ──────────────────
 :root,
-[data-theme="light"] {
-    --section-bg:           var(--color-bg);
-    --section-surface:      var(--color-surface);
-    --section-border:       var(--color-border);
-    --section-text:         var(--color-text);
-    --section-text-muted:   var(--color-text-muted);
-
-    --btn-primary-bg:       var(--color-accent);
-    --btn-primary-text:     #FFFFFF;
-    --btn-secondary-border: var(--color-text);
-    --btn-secondary-text:   var(--color-text);
-    --btn-ghost-text:       var(--color-accent);
-}
-
 [data-theme="dark"] {
     --section-bg:           #080C14;
     --section-surface:      #0D1525;
@@ -72,12 +57,27 @@
     --btn-ghost-text:       #00CFFF;
 }
 
-// Page-level dark mode — applied to <html data-theme-mode="dark">
-html[data-theme-mode="dark"] {
-    --color-bg:           #080C14;
-    --color-surface:      #0D1525;
-    --color-border:       #1E2D45;
-    --color-text:         #F0F4FF;
-    --color-text-muted:   #8892B0;
-    --color-accent:       #00CFFF;
+// ── Light section tokens (explicit override) ──────────────────────────────
+[data-theme="light"] {
+    --section-bg:           #FFFFFF;
+    --section-surface:      #F8F9FF;
+    --section-border:       #E2E6F0;
+    --section-text:         #0A0A1A;
+    --section-text-muted:   #5A6080;
+
+    --btn-primary-bg:       #00B4FF;
+    --btn-primary-text:     #FFFFFF;
+    --btn-secondary-border: #0A0A1A;
+    --btn-secondary-text:   #0A0A1A;
+    --btn-ghost-text:       #00B4FF;
+}
+
+// Page-level LIGHT mode override (when user toggles away from dark default)
+html[data-theme-mode="light"] {
+    --color-bg:           #FFFFFF;
+    --color-surface:      #F8F9FF;
+    --color-border:       #E2E6F0;
+    --color-text:         #0A0A1A;
+    --color-text-muted:   #5A6080;
+    --color-accent:       #00B4FF;
 }
