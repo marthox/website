@@ -6,10 +6,12 @@ import type { Page } from '@/types/page';
 
 export async function getStaticPaths() {
     const pages = await cms.getPages();
-    return pages.map(page => ({
-        params: { pages: page.slug },
-        props: { page },
-    }));
+    return pages
+        .filter(page => page.slug !== 'home')
+        .map(page => ({
+            params: { pages: page.slug },
+            props: { page },
+        }));
 }
 
 type Props = { page: Page };

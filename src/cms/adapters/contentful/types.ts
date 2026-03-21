@@ -113,8 +113,12 @@ export type ContentfulSiteTheme = EntrySkeletonType<
         colorText?:       EntryFieldTypes.Symbol;
         colorTextMuted?:  EntryFieldTypes.Symbol;
         colorAccent?:     EntryFieldTypes.Symbol;
-        colorDarkBg?:     EntryFieldTypes.Symbol;
-        colorDarkText?:   EntryFieldTypes.Symbol;
+        colorDarkBg?:        EntryFieldTypes.Symbol;
+        colorDarkText?:      EntryFieldTypes.Symbol;
+        colorDarkSurface?:   EntryFieldTypes.Symbol;
+        colorDarkBorder?:    EntryFieldTypes.Symbol;
+        colorDarkTextMuted?: EntryFieldTypes.Symbol;
+        colorDarkAccent?:    EntryFieldTypes.Symbol;
         colorAccentBg?:   EntryFieldTypes.Symbol;
         colorAccentText?: EntryFieldTypes.Symbol;
         fontHeading?:     EntryFieldTypes.Symbol;

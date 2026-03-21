@@ -1,0 +1,174 @@
+---
+import type { NavBrand, NavElement, NavLink, NavMenu } from '@/types/nav';
+
+interface Props {
+    brand: NavBrand | null;
+    elements: NavElement[];
+}
+
+const { brand, elements } = Astro.props;
+
+// Type guards
+function isNavMenu(el: NavElement): el is NavMenu {
+    return 'submenu' in el;
+}
+function isNavLink(el: NavElement): el is NavLink {
+    return 'href' in el && !('src' in el);
+}
+---
+
+<nav class="site-nav" aria-label="Main navigation">
+    <div class="site-nav__inner">
+        <a class="site-nav__brand" href={brand?.href ?? '/'}>
+            {brand?.label ?? 'Digital Hub'}
+        </a>
+
+        <ul class="site-nav__links" role="list">
+            {elements.filter(isNavLink).map(el => (
+                <li>
+                    <a href={el.href} class="site-nav__link">{el.label}</a>
+                </li>
+            ))}
+        </ul>
+
+        <div class="site-nav__actions">
+            <a class="site-nav__cta" href="#contact">Conectar</a>
+            <button
+                class="site-nav__toggle"
+                id="theme-toggle"
+                aria-label="Toggle dark mode"
+                type="button"
+            >
+                ☀
+            </button>
+        </div>
+    </div>
+</nav>
+
+<script>
+    const toggle = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+
+    function applyTheme(mode: string) {
+        if (mode === 'dark') {
+            html.dataset.themeMode = 'dark';
+            if (toggle) toggle.textContent = '🌙';
+        } else {
+            delete html.dataset.themeMode;
+            if (toggle) toggle.textContent = '☀';
+        }
+    }
+
+    // Initialise from localStorage
+    const saved = localStorage.getItem('theme') ?? 'light';
+    applyTheme(saved);
+
+    toggle?.addEventListener('click', () => {
+        const current = html.dataset.themeMode === 'dark' ? 'dark' : 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', next);
+        applyTheme(next);
+    });
+</script>
+
+<style>
+    .site-nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        background-color: rgba(255, 255, 255, 0.85);
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    html[data-theme-mode="dark"] .site-nav {
+        background-color: rgba(8, 12, 20, 0.9);
+    }
+
+    .site-nav__inner {
+        max-width: var(--container-width, 1200px);
+        margin: 0 auto;
+        padding: 0.875rem var(--section-padding-x, 1.5rem);
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .site-nav__brand {
+        color: var(--color-accent);
+        font-weight: 800;
+        font-size: 1.25rem;
+        text-decoration: none;
+        flex-shrink: 0;
+    }
+
+    .site-nav__links {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        flex: 1;
+    }
+
+    .site-nav__link {
+        color: var(--color-text);
+        text-decoration: none;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        transition: color 0.15s;
+    }
+
+    .site-nav__link:hover {
+        color: var(--color-accent);
+    }
+
+    .site-nav__actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-shrink: 0;
+    }
+
+    .site-nav__cta {
+        background: var(--gradient-brand);
+        color: #FFFFFF;
+        border-radius: var(--radius-pill, 50px);
+        padding: 0.5rem 1.25rem;
+        font-weight: 600;
+        font-size: 0.9375rem;
+        text-decoration: none;
+        transition: opacity 0.15s;
+    }
+
+    .site-nav__cta:hover {
+        opacity: 0.88;
+    }
+
+    .site-nav__toggle {
+        background: none;
+        border: 1px solid var(--color-border);
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        cursor: pointer;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-text);
+        transition: border-color 0.15s;
+    }
+
+    .site-nav__toggle:hover {
+        border-color: var(--color-accent);
+    }
+
+    @media (max-width: 767px) {
+        .site-nav__links {
+            display: none;
+        }
+    }
+</style>

@@ -30,14 +30,16 @@ const vars: [string, string | undefined][] = theme ? [
 
 // Dark section overrides
 const darkVars: [string, string | undefined][] = theme ? [
-    ['--section-bg',   theme.colorDarkBg],
-    ['--section-text', theme.colorDarkText],
+    ['--section-bg',         theme.colorDarkBg],
+    ['--section-surface',    theme.colorDarkSurface],
+    ['--section-border',     theme.colorDarkBorder],
+    ['--section-text',       theme.colorDarkText],
+    ['--section-text-muted', theme.colorDarkTextMuted],
 ] : [];
 
-// Accent section overrides
-const accentVars: [string, string | undefined][] = theme ? [
-    ['--section-bg',   theme.colorAccentBg],
-    ['--section-text', theme.colorAccentText],
+// Dark mode accent override (page-level dark mode)
+const darkAccentVars: [string, string | undefined][] = theme ? [
+    ['--color-accent', theme.colorDarkAccent],
 ] : [];
 
 function renderBlock(selector: string, pairs: [string, string | undefined][]): string {
@@ -48,11 +50,11 @@ function renderBlock(selector: string, pairs: [string, string | undefined][]): s
     return declarations ? `${selector} {\n${declarations}\n}` : '';
 }
 
-const rootBlock   = renderBlock(':root',                vars);
-const darkBlock   = renderBlock('[data-theme="dark"]',  darkVars);
-const accentBlock = renderBlock('[data-theme="accent"]', accentVars);
+const rootBlock       = renderBlock(':root',                          vars);
+const darkBlock       = renderBlock('[data-theme="dark"]',            darkVars);
+const darkAccentBlock = renderBlock('html[data-theme-mode="dark"]',   darkAccentVars);
 
-const css = [rootBlock, darkBlock, accentBlock].filter(Boolean).join('\n\n');
+const css = [rootBlock, darkBlock, darkAccentBlock].filter(Boolean).join('\n\n');
 ---
 
 {css && <style set:html={css} is:global />}

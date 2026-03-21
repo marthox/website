@@ -10,14 +10,15 @@ interface Props {
 const { section } = Astro.props;
 
 const isSplit = section.layout === 'split' && section.form;
+const isLeft  = section.layout === 'left';
 ---
 
-<section class={`text-section ${isSplit ? 'text-section--split' : ''}`} data-theme={section.theme}>
+<section class={`text-section ${isSplit ? 'text-section--split' : ''} ${isLeft ? 'text-section--left' : ''}`} data-theme={section.theme}>
     <div class="text-section__inner">
         <div class="text-section__content">
+            {section.subtitle && <span class="text-section__eyebrow">{section.subtitle}</span>}
             {section.title && <h2 class="text-section__title">{section.title}</h2>}
-            {section.subtitle && <p class="text-section__subtitle">{section.subtitle}</p>}
-            <RichText doc={section.body} />
+            {!isLeft && <RichText doc={section.body} />}
             {section.ctas && section.ctas.length > 0 && (
                 <div class="text-section__ctas">
                     {section.ctas.map(cta => (
@@ -33,6 +34,11 @@ const isSplit = section.layout === 'split' && section.form;
                 </div>
             )}
         </div>
+        {isLeft && (
+            <div class="text-section__body-col">
+                <RichText doc={section.body} />
+            </div>
+        )}
         {section.form && (
             <div class="text-section__form">
                 <FormRenderer form={section.form} />
@@ -74,11 +80,12 @@ const isSplit = section.layout === 'split' && section.form;
         margin: 0;
     }
 
-    .text-section__subtitle {
-        margin: 0;
-        color: var(--section-text-muted);
-        line-height: 1.7;
-        max-width: 65ch;
+    .text-section__eyebrow {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--color-accent);
     }
 
     .text-section__ctas {
@@ -121,9 +128,34 @@ const isSplit = section.layout === 'split' && section.form;
         flex: 1;
     }
 
+    .text-section--left .text-section__inner {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 4rem;
+    }
+
+    .text-section--left .text-section__content {
+        flex: 0 0 40%;
+        border-left: 3px solid var(--color-accent);
+        padding-left: 1.5rem;
+    }
+
+    .text-section--left .text-section__body-col {
+        flex: 1;
+    }
+
     @media (max-width: 767px) {
         .text-section--split .text-section__inner {
             flex-direction: column;
+        }
+        .text-section--left .text-section__inner {
+            flex-direction: column;
+        }
+        .text-section--left .text-section__content {
+            border-left: none;
+            padding-left: 0;
+            border-top: 3px solid var(--color-accent);
+            padding-top: 1rem;
         }
     }
 </style>
