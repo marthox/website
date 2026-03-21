@@ -1,0 +1,233 @@
+---
+import type { Section } from '@/types/page';
+import RichText from '@components/RichText.astro';
+
+interface Props {
+    section: Section;
+}
+
+const { section } = Astro.props;
+const tabs = section.items ?? [];
+---
+
+<section class="tabs-section" data-theme="dark">
+    <div class="tabs-section__inner">
+        {section.subtitle && (
+            <div class="tabs-section__eyebrow">{section.subtitle}</div>
+        )}
+        {section.title && (
+            <h2 class="tabs-section__title">{section.title}</h2>
+        )}
+
+        <div class="tabs-section__tab-bar" role="tablist">
+            {tabs.map((tab, i) => (
+                <button
+                    class={`tabs-section__tab${i === 0 ? ' is-active' : ''}`}
+                    role="tab"
+                    data-tab-index={String(i)}
+                    aria-selected={String(i === 0)}
+                >
+                    {tab.title}
+                </button>
+            ))}
+        </div>
+
+        <div class="tabs-section__panels">
+            {tabs.map((tab, i) => {
+                const badges = tab.value
+                    ? tab.value.split('|').map(b => b.trim())
+                    : [];
+                return (
+                    <div
+                        class={`tabs-section__panel${i === 0 ? ' is-active' : ''}`}
+                        role="tabpanel"
+                        data-panel-index={String(i)}
+                    >
+                        {badges.length > 0 && (
+                            <div class="tabs-section__badges">
+                                {badges.map((badge, bi) => (
+                                    <span class={`tabs-section__badge tabs-section__badge--${bi === 0 ? 'cyan' : 'magenta'}`}>
+                                        {badge}
+                                    </span>
+                                ))}
+                            </div>
+                        )}
+                        <div class="tabs-section__divider"></div>
+                        {tab.subtitle && (
+                            <h3 class="tabs-section__panel-title">{tab.subtitle}</h3>
+                        )}
+                        {tab.body && (
+                            <div class="tabs-section__panel-body">
+                                <RichText doc={tab.body} />
+                            </div>
+                        )}
+                        {tab.ctas && tab.ctas.length > 0 && (
+                            <div class="tabs-section__ctas">
+                                {tab.ctas.map(cta => (
+                                    <a
+                                        href={cta.href}
+                                        class="tabs-section__cta"
+                                        target={cta.openInNewTab ? '_blank' : undefined}
+                                    >
+                                        {cta.label} {cta.icon ?? '→'}
+                                    </a>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                );
+            })}
+        </div>
+    </div>
+</section>
+
+<style lang="scss">
+.tabs-section {
+    background: var(--gradient-hero-dark);
+    padding: var(--section-padding-y) var(--section-padding-x);
+    text-align: center;
+
+    &__inner {
+        max-width: var(--container-width);
+        margin: 0 auto;
+    }
+
+    &__eyebrow {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #00CFFF;
+        margin-bottom: 0.75rem;
+    }
+
+    &__title {
+        font-size: clamp(1.75rem, 4vw, 2.75rem);
+        font-weight: 800;
+        color: #F0F4FF;
+        margin: 0 0 2.5rem;
+        line-height: 1.15;
+    }
+
+    &__tab-bar {
+        display: flex;
+        justify-content: center;
+        border-bottom: 1px solid #1E2D45;
+        margin-bottom: 3rem;
+    }
+
+    &__tab {
+        padding: 0.875rem 2rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #8892B0;
+        background: none;
+        border: none;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -1px;
+        cursor: pointer;
+        transition: color 0.2s, border-color 0.2s;
+
+        &:hover { color: #F0F4FF; }
+
+        &.is-active {
+            color: #00CFFF;
+            border-bottom-color: #00CFFF;
+        }
+    }
+
+    &__panels {
+        max-width: 620px;
+        margin: 0 auto;
+    }
+
+    &__panel {
+        display: none;
+        animation: tabFadeIn 0.25s ease;
+
+        &.is-active { display: block; }
+    }
+
+    &__badges {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    &__badge {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 0.3rem 0.85rem;
+        border-radius: var(--radius-pill);
+
+        &--cyan    { color: #00CFFF; border: 1.5px solid #00CFFF; }
+        &--magenta { color: #FF6BAE; border: 1.5px solid #FF6BAE; }
+    }
+
+    &__divider {
+        width: 40px;
+        height: 2px;
+        background: var(--gradient-brand);
+        margin: 0 auto 1.5rem;
+    }
+
+    &__panel-title {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #F0F4FF;
+        margin: 0 0 0.875rem;
+        line-height: 1.25;
+    }
+
+    &__panel-body {
+        color: #8892B0;
+        line-height: 1.75;
+        font-size: 1rem;
+
+        :global(p) { margin: 0 0 0.75rem; }
+        :global(p:last-child) { margin-bottom: 0; }
+    }
+
+    &__ctas {
+        margin-top: 1.75rem;
+    }
+
+    &__cta {
+        color: #00CFFF;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: opacity 0.15s;
+
+        &:hover { opacity: 0.8; }
+    }
+}
+
+@keyframes tabFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<script>
+    const tabBtns = document.querySelectorAll<HTMLButtonElement>('.tabs-section__tab');
+    const panels  = document.querySelectorAll<HTMLElement>('.tabs-section__panel');
+
+    tabBtns.forEach((btn, i) => {
+        btn.addEventListener('click', () => {
+            tabBtns.forEach(b => {
+                b.classList.remove('is-active');
+                b.setAttribute('aria-selected', 'false');
+            });
+            panels.forEach(p => p.classList.remove('is-active'));
+
+            btn.classList.add('is-active');
+            btn.setAttribute('aria-selected', 'true');
+            panels[i]?.classList.add('is-active');
+        });
+    });
+</script>

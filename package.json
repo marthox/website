@@ -23,7 +23,9 @@
   "devDependencies": {
     "contentful-export": "^7.22.4",
     "contentful-import": "^9.4.133",
+    "contentful-management": "^11.74.0",
     "contentful-migration": "^4.31.9",
+    "dotenv": "^17.3.1",
     "sass": "^1.97.3",
     "vitest": "^4.0.18"
   }

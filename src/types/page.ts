@@ -30,7 +30,7 @@ export interface Form {
 }
 
 export interface Item {
-    type?: 'card' | 'slide' | 'product' | 'testimonial' | 'stat' | 'feature';
+    type?: 'card' | 'slide' | 'product' | 'testimonial' | 'stat' | 'feature' | 'tab';
     title?: string;
     subtitle?: string;
     body?: Document;
@@ -42,7 +42,7 @@ export interface Item {
 
 export interface Section {
     kind: 'section';
-    type: 'hero' | 'banner' | 'carousel' | 'cards' | 'features' | 'testimonials' | 'stats' | 'text' | 'gallery';
+    type: 'hero' | 'banner' | 'carousel' | 'cards' | 'features' | 'testimonials' | 'stats' | 'text' | 'gallery' | 'tabs';
     title?: string;
     subtitle?: string;
     body?: Document;
@@ -50,7 +50,7 @@ export interface Section {
     items?: Item[];
     ctas?: CTA[];
     form?: Form;
-    layout?: 'left' | 'right' | 'center' | 'split';
+    layout?: 'left' | 'right' | 'center' | 'split' | 'roles';
     theme?: 'light' | 'dark' | 'accent';
 }
 
