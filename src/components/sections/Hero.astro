@@ -17,8 +17,8 @@ const layoutClass = section.layout === 'left' ? 'hero--left'
 <section class={`hero ${layoutClass}`} data-theme={section.theme}>
     <div class="hero__inner">
         <div class="hero__content">
+            {section.subtitle && <span class="hero__eyebrow">{section.subtitle}</span>}
             {section.title && <h1 class="hero__title">{section.title}</h1>}
-            {section.subtitle && <p class="hero__subtitle">{section.subtitle}</p>}
             <RichText doc={section.body} />
             {section.ctas && section.ctas.length > 0 && (
                 <div class="hero__ctas">
@@ -29,7 +29,7 @@ const layoutClass = section.layout === 'left' ? 'hero--left'
                             target={cta.openInNewTab ? '_blank' : undefined}
                             rel={cta.openInNewTab ? 'noopener noreferrer' : undefined}
                         >
-                            {cta.icon && <span class={`icon icon--${cta.icon}`} aria-hidden="true" />}
+                            {cta.icon && <span aria-hidden="true">{cta.icon}</span>}
                             {cta.label}
                         </a>
                     ))}
@@ -42,6 +42,7 @@ const layoutClass = section.layout === 'left' ? 'hero--left'
             </div>
         )}
     </div>
+    <div class="hero__scroll-arrow" aria-hidden="true">↓</div>
 </section>
 
 <style>
@@ -49,6 +50,14 @@ const layoutClass = section.layout === 'left' ? 'hero--left'
         padding: var(--section-padding-y, 5rem) var(--section-padding-x, 1.5rem);
         background-color: var(--section-bg);
         color: var(--section-text);
+        position: relative;
+    }
+
+    .hero[data-theme="dark"] {
+        background: var(--gradient-hero-dark);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
     }
 
     .hero__inner {
@@ -82,6 +91,14 @@ const layoutClass = section.layout === 'left' ? 'hero--left'
         flex-direction: column;
         gap: 1.25rem;
         flex: 1;
+    }
+
+    .hero__eyebrow {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--color-accent);
     }
 
     .hero__title {
@@ -155,6 +172,21 @@ const layoutClass = section.layout === 'left' ? 'hero--left'
         width: 100%;
         height: auto;
         border-radius: 0.5rem;
+    }
+
+    .hero__scroll-arrow {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 1.5rem;
+        color: var(--color-accent);
+        animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+        0%, 100% { transform: translateX(-50%) translateY(0); }
+        50%       { transform: translateX(-50%) translateY(8px); }
     }
 
     @media (max-width: 767px) {

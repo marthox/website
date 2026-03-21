@@ -7,33 +7,41 @@ interface Props {
 }
 
 const { section } = Astro.props;
+
+const isSplit = section.layout === 'split';
 ---
 
-<section class="features" data-theme={section.theme}>
+<section
+  class={`features ${isSplit ? 'features--split' : ''}`}
+  data-theme={section.theme}
+>
     <div class="features__inner">
-        {(section.title || section.subtitle) && (
+        {(section.title || section.subtitle || section.body) && (
             <div class="features__header">
+                {section.subtitle && <span class="features__eyebrow">{section.subtitle}</span>}
                 {section.title && <h2 class="features__title">{section.title}</h2>}
-                {section.subtitle && <p class="features__subtitle">{section.subtitle}</p>}
                 <RichText doc={section.body} />
             </div>
         )}
         {section.items && section.items.length > 0 && (
-            <div class="features__grid">
-                {section.items.map(item => (
-                    <div class="feature">
-                        {item.icon && (
-                            <div class="feature__icon-wrap">
-                                <span class={`icon icon--${item.icon}`} aria-hidden="true" />
+            <div class="features__right">
+                <div class="features__grid">
+                    {section.items.map(item => (
+                        <div class="feature">
+                            {item.icon && (
+                                <div class="feature__icon-wrap">
+                                    <span class="feature__icon" aria-hidden="true">{item.icon}</span>
+                                </div>
+                            )}
+                            <div class="feature__content">
+                                {item.title && <h3 class="feature__title">{item.title}</h3>}
+                                {item.subtitle && <p class="feature__subtitle">{item.subtitle}</p>}
+                                <RichText doc={item.body} />
                             </div>
-                        )}
-                        <div class="feature__content">
-                            {item.title && <h3 class="feature__title">{item.title}</h3>}
-                            {item.subtitle && <p class="feature__subtitle">{item.subtitle}</p>}
-                            <RichText doc={item.body} />
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
+                {isSplit && <div class="features__orb" aria-hidden="true" />}
             </div>
         )}
     </div>
@@ -67,10 +75,22 @@ const { section } = Astro.props;
         margin: 0;
     }
 
+    .features__eyebrow {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--color-accent);
+    }
+
     .features__subtitle {
         margin: 0 auto;
         max-width: 60ch;
         color: var(--section-text-muted);
+    }
+
+    .features__right {
+        position: relative;
     }
 
     .features__grid {
@@ -91,6 +111,10 @@ const { section } = Astro.props;
         line-height: 1;
     }
 
+    .feature__icon {
+        font-size: 1.75rem;
+    }
+
     .feature__content {
         display: flex;
         flex-direction: column;
@@ -108,5 +132,57 @@ const { section } = Astro.props;
         color: var(--section-text-muted);
         font-size: 0.9375rem;
         line-height: 1.6;
+    }
+
+    .features--split .features__inner {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 4rem;
+    }
+
+    .features--split .features__header {
+        flex: 0 0 35%;
+        text-align: left;
+    }
+
+    .features--split .features__right {
+        flex: 1;
+        position: relative;
+    }
+
+    .features--split .features__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .features--split .features__header :global(em) {
+        display: block;
+        font-style: italic;
+        color: var(--section-text-muted);
+        margin-top: 1.5rem;
+        font-size: 0.9375rem;
+        line-height: 1.7;
+        border-left: 2px solid var(--color-accent);
+        padding-left: 1rem;
+    }
+
+    .features__orb {
+        position: absolute;
+        right: -2rem;
+        bottom: 2rem;
+        width: 280px;
+        height: 280px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%, rgba(0, 180, 255, 0.15), rgba(255, 45, 122, 0.05) 60%, transparent);
+        border: 1px solid rgba(0, 180, 255, 0.2);
+        pointer-events: none;
+    }
+
+    @media (max-width: 900px) {
+        .features--split .features__inner {
+            flex-direction: column;
+        }
+        .features__orb {
+            display: none;
+        }
     }
 </style>

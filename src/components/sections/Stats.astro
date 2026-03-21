@@ -22,7 +22,15 @@ const { section } = Astro.props;
             <div class="stats__grid">
                 {section.items.map(item => (
                     <div class="stat">
-                        {item.value && <span class="stat__value">{item.value}</span>}
+                        {item.value && (
+                            <span
+                                class="stat__value"
+                                data-count-target={item.value}
+                                aria-label={item.value}
+                            >
+                                {item.value}
+                            </span>
+                        )}
                         {item.title && <span class="stat__label">{item.title}</span>}
                         {item.subtitle && <span class="stat__description">{item.subtitle}</span>}
                     </div>
@@ -84,6 +92,24 @@ const { section } = Astro.props;
         font-size: clamp(2rem, 5vw, 3.5rem);
         font-weight: 800;
         line-height: 1;
+        background: var(--gradient-brand);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .stat + .stat {
+        border-left: 1px solid var(--section-border);
+        padding-left: 2rem;
+    }
+
+    @media (max-width: 600px) {
+        .stat + .stat {
+            border-left: none;
+            padding-left: 0;
+            border-top: 1px solid var(--section-border);
+            padding-top: 1.5rem;
+        }
     }
 
     .stat__label {
@@ -98,3 +124,43 @@ const { section } = Astro.props;
         color: var(--section-text-muted);
     }
 </style>
+
+<script>
+function easeOutQuart(t: number): number {
+    return 1 - Math.pow(1 - t, 4);
+}
+
+function parseTarget(raw: string): { prefix: string; end: number; suffix: string } {
+    const match = raw.match(/^([^0-9]*)(\d+(?:\.\d+)?)([^0-9]*)$/);
+    if (!match) return { prefix: '', end: 0, suffix: raw };
+    return { prefix: match[1], end: parseFloat(match[2]), suffix: match[3] };
+}
+
+function animateCounter(el: Element): void {
+    const raw = (el as HTMLElement).dataset.countTarget;
+    if (!raw) return;
+    const { prefix, end, suffix } = parseTarget(raw);
+    const duration = 2000;
+    const start = performance.now();
+    function frame(now: number) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const value = Math.round(easeOutQuart(progress) * end);
+        el.textContent = prefix + value + suffix;
+        if (progress < 1) requestAnimationFrame(frame);
+        else el.textContent = raw;
+    }
+    requestAnimationFrame(frame);
+}
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.querySelectorAll('[data-count-target]').forEach(animateCounter);
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('.stats').forEach(el => observer.observe(el));
+</script>
