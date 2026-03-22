@@ -190,12 +190,25 @@ const layoutClass = section.layout === 'left' ? 'hero--left'
     }
 
     @media (max-width: 767px) {
+        .hero[data-theme="dark"] {
+            min-height: unset;
+            padding-top: 4rem;
+            padding-bottom: 4.5rem;
+            align-items: center;
+        }
+
         .hero__inner {
             flex-direction: column !important;
             text-align: center;
         }
 
         .hero__ctas {
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .hero__cta {
+            width: 100%;
             justify-content: center;
         }
 

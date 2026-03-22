@@ -72,6 +72,14 @@
     --btn-ghost-text:       #00B4FF;
 }
 
+// ── Mobile tokens ─────────────────────────────────────────────────────────
+@media (max-width: 767px) {
+    :root {
+        --section-padding-y: 3rem;
+        --section-padding-x: 1.25rem;
+    }
+}
+
 // Page-level LIGHT mode override (when user toggles away from dark default)
 html[data-theme-mode="light"] {
     --color-bg:           #FFFFFF;

@@ -15,6 +15,8 @@ function isNavMenu(el: NavElement): el is NavMenu {
 function isNavLink(el: NavElement): el is NavLink {
     return 'href' in el && !('src' in el);
 }
+
+const navLinks = elements.filter(isNavLink);
 ---
 
 <nav class="site-nav" aria-label="Main navigation">
@@ -23,8 +25,9 @@ function isNavLink(el: NavElement): el is NavLink {
             {brand?.label ?? 'Digital Hub'}
         </a>
 
+        <!-- Desktop nav links -->
         <ul class="site-nav__links" role="list">
-            {elements.filter(isNavLink).map(el => (
+            {navLinks.map(el => (
                 <li>
                     <a href={el.href} class="site-nav__link">{el.label}</a>
                 </li>
@@ -41,23 +44,47 @@ function isNavLink(el: NavElement): el is NavLink {
             >
                 ☀
             </button>
+            <!-- Hamburger (mobile only) -->
+            <button
+                class="site-nav__hamburger"
+                id="mobile-menu-toggle"
+                aria-label="Open menu"
+                aria-expanded="false"
+                type="button"
+            >
+                <span class="site-nav__hamburger-bar"></span>
+                <span class="site-nav__hamburger-bar"></span>
+                <span class="site-nav__hamburger-bar"></span>
+            </button>
         </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="site-nav__mobile-menu" id="mobile-menu" aria-hidden="true">
+        <ul class="site-nav__mobile-links" role="list">
+            {navLinks.map(el => (
+                <li>
+                    <a href={el.href} class="site-nav__mobile-link">{el.label}</a>
+                </li>
+            ))}
+        </ul>
+        <a class="site-nav__mobile-cta" href="#contact">Conectar</a>
     </div>
 </nav>
 
 <script>
+    // ── Theme toggle ──────────────────────────────────────────────────────────
     const toggle = document.getElementById('theme-toggle');
     const html = document.documentElement;
 
     function applyTheme(mode: string) {
-        html.dataset.themeMode = mode;           // always set explicitly
+        html.dataset.themeMode = mode;
         if (toggle) {
             toggle.textContent = mode === 'dark' ? '☀' : '🌙';
             toggle.setAttribute('aria-label', mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
         }
     }
 
-    // Initialise — dark is the default
     const saved = localStorage.getItem('theme') ?? 'dark';
     applyTheme(saved);
 
@@ -66,6 +93,28 @@ function isNavLink(el: NavElement): el is NavLink {
         const next = current === 'dark' ? 'light' : 'dark';
         applyTheme(next);
         localStorage.setItem('theme', next);
+    });
+
+    // ── Mobile hamburger ──────────────────────────────────────────────────────
+    const hamburger = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    function setMenuOpen(open: boolean) {
+        hamburger?.setAttribute('aria-expanded', String(open));
+        hamburger?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        mobileMenu?.setAttribute('aria-hidden', String(!open));
+        mobileMenu?.classList.toggle('is-open', open);
+        hamburger?.classList.toggle('is-active', open);
+    }
+
+    hamburger?.addEventListener('click', () => {
+        const isOpen = mobileMenu?.classList.contains('is-open');
+        setMenuOpen(!isOpen);
+    });
+
+    // Close on link click
+    mobileMenu?.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => setMenuOpen(false));
     });
 </script>
 
@@ -164,9 +213,112 @@ function isNavLink(el: NavElement): el is NavLink {
         border-color: var(--color-accent);
     }
 
+    /* Hamburger button */
+    .site-nav__hamburger {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .site-nav__hamburger-bar {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: var(--color-text);
+        border-radius: 2px;
+        transition: transform 0.2s, opacity 0.2s;
+        transform-origin: center;
+    }
+
+    /* X state */
+    .site-nav__hamburger.is-active .site-nav__hamburger-bar:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+    .site-nav__hamburger.is-active .site-nav__hamburger-bar:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+    }
+    .site-nav__hamburger.is-active .site-nav__hamburger-bar:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Mobile menu drawer */
+    .site-nav__mobile-menu {
+        display: none;
+        flex-direction: column;
+        padding: 1rem var(--section-padding-x, 1.25rem) 1.5rem;
+        border-top: 1px solid var(--color-border);
+        gap: 0.25rem;
+        background-color: rgba(8, 12, 20, 0.97);
+    }
+
+    html[data-theme-mode="light"] .site-nav__mobile-menu {
+        background-color: rgba(255, 255, 255, 0.97);
+    }
+
+    .site-nav__mobile-menu.is-open {
+        display: flex;
+    }
+
+    .site-nav__mobile-links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .site-nav__mobile-link {
+        display: block;
+        padding: 0.875rem 0;
+        color: var(--color-text);
+        text-decoration: none;
+        font-size: 1.0625rem;
+        font-weight: 500;
+        border-bottom: 1px solid var(--color-border);
+        transition: color 0.15s;
+    }
+
+    .site-nav__mobile-link:hover {
+        color: var(--color-accent);
+    }
+
+    .site-nav__mobile-cta {
+        display: block;
+        margin-top: 1.25rem;
+        text-align: center;
+        background: var(--gradient-brand);
+        color: #FFFFFF;
+        border-radius: var(--radius-pill, 50px);
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        font-size: 1rem;
+        text-decoration: none;
+        transition: opacity 0.15s;
+    }
+
+    .site-nav__mobile-cta:hover {
+        opacity: 0.88;
+    }
+
     @media (max-width: 767px) {
         .site-nav__links {
             display: none;
+        }
+
+        .site-nav__cta {
+            display: none;
+        }
+
+        .site-nav__hamburger {
+            display: flex;
         }
     }
 </style>
