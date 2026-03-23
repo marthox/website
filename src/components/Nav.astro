@@ -73,6 +73,16 @@ const navLinks = elements.filter(isNavLink);
 </nav>
 
 <script>
+    // ── Nav height CSS variable ───────────────────────────────────────────────
+    const nav = document.querySelector('.site-nav') as HTMLElement | null;
+    function updateNavHeight() {
+        if (nav) {
+            document.documentElement.style.setProperty('--nav-height', `${nav.offsetHeight}px`);
+        }
+    }
+    updateNavHeight();
+    new ResizeObserver(updateNavHeight).observe(document.documentElement);
+
     // ── Theme toggle ──────────────────────────────────────────────────────────
     const toggle = document.getElementById('theme-toggle');
     const html = document.documentElement;
@@ -319,6 +329,10 @@ const navLinks = elements.filter(isNavLink);
 
         .site-nav__hamburger {
             display: flex;
+        }
+
+        .site-nav__actions {
+            margin-left: auto;
         }
     }
 </style>

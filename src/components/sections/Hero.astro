@@ -55,7 +55,7 @@ const layoutClass = section.layout === 'left' ? 'hero--left'
 
     .hero[data-theme="dark"] {
         background: var(--gradient-hero-dark);
-        min-height: 100vh;
+        min-height: calc(100svh - var(--nav-height, 0px));
         display: flex;
         align-items: center;
         position: relative;
@@ -75,6 +75,7 @@ const layoutClass = section.layout === 'left' ? 'hero--left'
     }
 
     .hero__inner {
+        width: 100%;
         max-width: var(--container-width, 1200px);
         margin: 0 auto;
         display: flex;
@@ -208,10 +209,10 @@ const layoutClass = section.layout === 'left' ? 'hero--left'
 
     @media (max-width: 767px) {
         .hero[data-theme="dark"] {
-            min-height: 100svh;
-            padding-top: 3.5rem;
-            padding-bottom: 4.5rem;
-            align-items: center;
+            min-height: calc(100svh - var(--nav-height, 0px));
+            padding-top: clamp(2.5rem, 10svh, 5rem);
+            padding-bottom: clamp(3rem, 8svh, 5rem);
+            align-items: flex-start;
         }
 
         .hero__inner {
