@@ -39,6 +39,27 @@ const Component = element.kind === 'form'
 const props = element.kind === 'form'
     ? { form: element }
     : { section: element };
+
+// Stable anchor IDs matched to Contentful nav hrefs.
+// Cards: only the non-roles variant gets #solutions (roles layout is the CTA block).
+function getAnchorId(): string | null {
+    if (element.kind === 'form') return 'contact';
+    if (element.kind !== 'section') return null;
+    if (element.type === 'cards') return element.layout === 'roles' ? null : 'solutions';
+    const map: Record<string, string> = {
+        features: 'why-dh',
+        stats:    'track-record',
+    };
+    return map[element.type] ?? null;
+}
+
+const anchorId = getAnchorId();
 ---
 
-{Component && <Component {...props} />}
+{anchorId ? (
+    <div id={anchorId} style="scroll-margin-top: 5rem">
+        {Component && <Component {...props} />}
+    </div>
+) : (
+    Component && <Component {...props} />
+)}
