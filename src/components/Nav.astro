@@ -36,14 +36,6 @@ const navLinks = elements.filter(isNavLink);
 
         <div class="site-nav__actions">
             <a class="site-nav__cta" href="#contact">Conectar</a>
-            <button
-                class="site-nav__toggle"
-                id="theme-toggle"
-                aria-label="Toggle dark mode"
-                type="button"
-            >
-                ☀
-            </button>
             <!-- Hamburger (mobile only) -->
             <button
                 class="site-nav__hamburger"
@@ -83,27 +75,8 @@ const navLinks = elements.filter(isNavLink);
     updateNavHeight();
     new ResizeObserver(updateNavHeight).observe(document.documentElement);
 
-    // ── Theme toggle ──────────────────────────────────────────────────────────
-    const toggle = document.getElementById('theme-toggle');
-    const html = document.documentElement;
-
-    function applyTheme(mode: string) {
-        html.dataset.themeMode = mode;
-        if (toggle) {
-            toggle.textContent = mode === 'dark' ? '☀' : '🌙';
-            toggle.setAttribute('aria-label', mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
-        }
-    }
-
-    const saved = localStorage.getItem('theme') ?? 'dark';
-    applyTheme(saved);
-
-    toggle?.addEventListener('click', () => {
-        const current = html.dataset.themeMode ?? 'dark';
-        const next = current === 'dark' ? 'light' : 'dark';
-        applyTheme(next);
-        localStorage.setItem('theme', next);
-    });
+    // Always dark mode
+    document.documentElement.dataset.themeMode = 'dark';
 
     // ── Mobile hamburger ──────────────────────────────────────────────────────
     const hamburger = document.getElementById('mobile-menu-toggle');
@@ -135,12 +108,8 @@ const navLinks = elements.filter(isNavLink);
         z-index: 100;
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        background-color: rgba(255, 255, 255, 0.85);
-        border-bottom: 1px solid var(--color-border);
-    }
-
-    html[data-theme-mode="dark"] .site-nav {
         background-color: rgba(8, 12, 20, 0.9);
+        border-bottom: 1px solid var(--color-border);
     }
 
     .site-nav__inner {
@@ -204,25 +173,6 @@ const navLinks = elements.filter(isNavLink);
         opacity: 0.88;
     }
 
-    .site-nav__toggle {
-        background: none;
-        border: 1px solid var(--color-border);
-        border-radius: 50%;
-        width: 2rem;
-        height: 2rem;
-        cursor: pointer;
-        font-size: 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--color-text);
-        transition: border-color 0.15s;
-    }
-
-    .site-nav__toggle:hover {
-        border-color: var(--color-accent);
-    }
-
     /* Hamburger button */
     .site-nav__hamburger {
         display: none;
@@ -267,10 +217,6 @@ const navLinks = elements.filter(isNavLink);
         border-top: 1px solid var(--color-border);
         gap: 0.25rem;
         background-color: rgba(8, 12, 20, 0.97);
-    }
-
-    html[data-theme-mode="light"] .site-nav__mobile-menu {
-        background-color: rgba(255, 255, 255, 0.97);
     }
 
     .site-nav__mobile-menu.is-open {
