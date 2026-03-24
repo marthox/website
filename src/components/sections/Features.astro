@@ -15,22 +15,74 @@ const isSplit = section.layout === 'split';
   class={`features ${isSplit ? 'features--split' : ''}`}
   data-theme={section.theme}
 >
+    {isSplit && (
+        <div class="features__globe" aria-hidden="true">
+            <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <clipPath id="globe-clip">
+                        <circle cx="150" cy="150" r="145"/>
+                    </clipPath>
+                    <radialGradient id="sphere-glow" cx="38%" cy="32%" r="55%">
+                        <stop offset="0%" stop-color="#00CFFF" stop-opacity="0.15"/>
+                        <stop offset="100%" stop-color="#00CFFF" stop-opacity="0"/>
+                    </radialGradient>
+                </defs>
+                <circle cx="150" cy="150" r="145" fill="url(#sphere-glow)"/>
+                <g clip-path="url(#globe-clip)" stroke="#00CFFF" stroke-width="0.6" fill="none" opacity="0.35">
+                    <ellipse cx="150" cy="24"  rx="72"  ry="9"/>
+                    <ellipse cx="150" cy="78"  rx="126" ry="14"/>
+                    <ellipse cx="150" cy="150" rx="145" ry="17"/>
+                    <ellipse cx="150" cy="222" rx="126" ry="14"/>
+                    <ellipse cx="150" cy="276" rx="72"  ry="9"/>
+                </g>
+                <g clip-path="url(#globe-clip)" stroke="#00CFFF" stroke-width="0.6" fill="none" opacity="0.35">
+                    <line x1="150" y1="5"  x2="150" y2="295"/>
+                    <ellipse cx="150" cy="150" rx="72"  ry="145"/>
+                    <ellipse cx="150" cy="150" rx="126" ry="145"/>
+                </g>
+                <circle cx="150" cy="150" r="145" stroke="#00CFFF" stroke-width="1" opacity="0.5"/>
+                <circle cx="132" cy="61" r="3.5" fill="#00CFFF" opacity="0.95"/>
+                <circle cx="132" cy="61" r="7"   stroke="#00CFFF" stroke-width="1"   fill="none" class="globe-ping"/>
+                <circle cx="132" cy="61" r="11"  stroke="#00CFFF" stroke-width="0.5" fill="none" class="globe-ping globe-ping--delay"/>
+                <text x="142" y="59" font-size="7.5" fill="#00CFFF" font-family="monospace" letter-spacing="1.8" opacity="0.85">US</text>
+                <circle cx="222" cy="188" r="3.5" fill="#00CFFF" opacity="0.95"/>
+                <circle cx="222" cy="188" r="7"   stroke="#00CFFF" stroke-width="1"   fill="none" class="globe-ping globe-ping--offset"/>
+                <circle cx="222" cy="188" r="11"  stroke="#00CFFF" stroke-width="0.5" fill="none" class="globe-ping globe-ping--delay globe-ping--offset"/>
+                <text x="232" y="186" font-size="7.5" fill="#00CFFF" font-family="monospace" letter-spacing="1.8" opacity="0.85">LATAM</text>
+                <path d="M 132 64 Q 200 130 222 185" stroke="#00CFFF" stroke-width="0.75" stroke-dasharray="3 4" fill="none" opacity="0.3"/>
+            </svg>
+        </div>
+    )}
     <div class="features__inner">
         {(section.title || section.subtitle || section.body) && (
             <div class="features__header">
                 {section.subtitle && <span class="features__eyebrow">{section.subtitle}</span>}
-                {section.title && <h2 class="features__title">{section.title}</h2>}
+                {section.title && <h2 class="features__title" set:html={section.title} />}
                 <RichText doc={section.body} />
+                {isSplit && section.ctas && section.ctas.length > 0 && (
+                    <div class="features__ctas">
+                        {section.ctas.map(cta => (
+                            <a
+                                href={cta.href}
+                                class={`features__cta features__cta--${cta.variant ?? 'primary'}`}
+                                target={cta.openInNewTab ? '_blank' : undefined}
+                                rel={cta.openInNewTab ? 'noopener noreferrer' : undefined}
+                            >
+                                {cta.label}
+                            </a>
+                        ))}
+                    </div>
+                )}
             </div>
         )}
         {section.items && section.items.length > 0 && (
             <div class="features__right">
                 <div class="features__grid">
-                    {section.items.map(item => (
+                    {section.items.filter(item => item.type !== 'testimonial').map(item => (
                         <div class="feature">
                             {item.icon && (
-                                <div class="feature__icon-wrap">
-                                    <span class="feature__icon" aria-hidden="true">{item.icon}</span>
+                                <div class="feature__icon-wrap" aria-hidden="true">
+                                    <span class="feature__icon">{item.icon}</span>
                                 </div>
                             )}
                             <div class="feature__content">
@@ -41,6 +93,12 @@ const isSplit = section.layout === 'split';
                         </div>
                     ))}
                 </div>
+                {section.items.filter(item => item.type === 'testimonial').map(item => (
+                    <blockquote class="features__quote">
+                        {item.body && <RichText doc={item.body} />}
+                        {item.subtitle && <cite class="features__quote-cite">{item.subtitle}</cite>}
+                    </blockquote>
+                ))}
                 {isSplit && <div class="features__orb" aria-hidden="true" />}
             </div>
         )}
@@ -52,6 +110,50 @@ const isSplit = section.layout === 'split';
         padding: var(--section-padding-y, 4rem) var(--section-padding-x, 1.5rem);
         background-color: var(--section-bg);
         color: var(--section-text);
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* ── Globe decoration (split layout only) ──────────────────────────── */
+    .features__globe {
+        position: absolute;
+        right: -80px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 420px;
+        height: 420px;
+        opacity: 0.13;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .features__globe svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    @keyframes globe-pulse {
+        0%   { opacity: 0.75; transform: scale(1); }
+        100% { opacity: 0;    transform: scale(1.7); }
+    }
+
+    :global(.globe-ping) {
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: globe-pulse 2.4s ease-out infinite;
+    }
+
+    :global(.globe-ping--delay)  { animation-delay: 0.9s; }
+    :global(.globe-ping--offset) { animation-delay: 1.2s; }
+    :global(.globe-ping--delay.globe-ping--offset) { animation-delay: 2.1s; }
+
+    @media (max-width: 767px) {
+        .features__globe {
+            width: 280px;
+            height: 280px;
+            right: -60px;
+            opacity: 0.08;
+        }
     }
 
     .features__inner {
@@ -60,6 +162,8 @@ const isSplit = section.layout === 'split';
         display: flex;
         flex-direction: column;
         gap: 3rem;
+        position: relative;
+        z-index: 1;
     }
 
     .features__header {
@@ -106,13 +210,19 @@ const isSplit = section.layout === 'split';
     }
 
     .feature__icon-wrap {
-        font-size: 1.75rem;
         flex-shrink: 0;
-        line-height: 1;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 0.75rem;
+        background-color: color-mix(in srgb, var(--color-accent) 12%, transparent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .feature__icon {
-        font-size: 1.75rem;
+        font-size: 1.25rem;
+        line-height: 1;
     }
 
     .feature__content {
@@ -154,6 +264,74 @@ const isSplit = section.layout === 'split';
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .features__title :global(.accent) {
+        color: var(--color-accent);
+    }
+
+    .features__ctas {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 0.5rem;
+    }
+
+    .features__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        font-weight: 600;
+        font-size: 0.9375rem;
+        text-decoration: none;
+        transition: color 0.15s;
+    }
+
+    .features__cta--ghost {
+        color: var(--section-text);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-color: var(--color-accent);
+        text-decoration-thickness: 2px;
+    }
+
+    .features__cta--ghost:hover { color: var(--color-accent); }
+
+    .features__cta--primary {
+        background-color: var(--btn-primary-bg);
+        color: var(--btn-primary-text);
+        padding: 0.625rem 1.5rem;
+        border-radius: 0.375rem;
+    }
+
+    .features__cta--secondary {
+        border: 2px solid var(--btn-secondary-border);
+        color: var(--btn-secondary-text);
+        padding: 0.625rem 1.5rem;
+        border-radius: 0.375rem;
+    }
+
+    .features__quote {
+        margin: 2rem 0 0;
+        padding: 0 0 0 1.25rem;
+        border-left: 3px solid var(--color-accent);
+        font-style: italic;
+        font-size: 1.0625rem;
+        line-height: 1.65;
+        color: var(--section-text-muted);
+    }
+
+    .features__quote :global(p) {
+        margin: 0;
+    }
+
+    .features__quote-cite {
+        display: block;
+        margin-top: 0.5rem;
+        font-style: normal;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--color-accent);
+    }
+
     .features--split .features__header :global(em) {
         display: block;
         font-style: italic;
@@ -180,6 +358,9 @@ const isSplit = section.layout === 'split';
     @media (max-width: 900px) {
         .features--split .features__inner {
             flex-direction: column;
+        }
+        .features--split .features__grid {
+            grid-template-columns: 1fr;
         }
         .features__orb {
             display: none;
