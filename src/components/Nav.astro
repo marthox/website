@@ -50,19 +50,32 @@ const navLinks = elements.filter(isNavLink);
             </button>
         </div>
     </div>
+</nav>
 
-    <!-- Mobile drawer -->
-    <div class="site-nav__mobile-menu" id="mobile-menu" aria-hidden="true">
-        <ul class="site-nav__mobile-links" role="list">
+<!-- Full-screen mobile overlay — outside <nav> so it escapes its stacking context -->
+<div class="site-nav__overlay" id="mobile-menu" aria-hidden="true" role="dialog" aria-label="Navigation menu">
+    <div class="site-nav__overlay-header">
+        <a class="site-nav__overlay-brand" href={brand?.href ?? '/'}>
+            {brand?.label ?? 'Digital Hub'}
+        </a>
+        <button class="site-nav__overlay-close" id="mobile-menu-close" aria-label="Close menu" type="button">
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+    <nav class="site-nav__overlay-nav" aria-label="Mobile navigation">
+        <ul class="site-nav__overlay-links" role="list">
             {navLinks.map(el => (
                 <li>
-                    <a href={el.href} class="site-nav__mobile-link">{el.label}</a>
+                    <a href={el.href} class="site-nav__overlay-link">{el.label}</a>
                 </li>
             ))}
         </ul>
-        <a class="site-nav__mobile-cta" href="#contact">Conectar</a>
+    </nav>
+    <div class="site-nav__overlay-footer">
+        <a class="site-nav__overlay-cta" href="#contact">Conectar</a>
     </div>
-</nav>
+</div>
 
 <script>
     // ── Nav height CSS variable ───────────────────────────────────────────────
@@ -78,25 +91,26 @@ const navLinks = elements.filter(isNavLink);
     // Always dark mode
     document.documentElement.dataset.themeMode = 'dark';
 
-    // ── Mobile hamburger ──────────────────────────────────────────────────────
+    // ── Mobile fullscreen overlay ─────────────────────────────────────────────
     const hamburger = document.getElementById('mobile-menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
+    const closeBtn  = document.getElementById('mobile-menu-close');
+    const overlay   = document.getElementById('mobile-menu');
 
     function setMenuOpen(open: boolean) {
         hamburger?.setAttribute('aria-expanded', String(open));
         hamburger?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-        mobileMenu?.setAttribute('aria-hidden', String(!open));
-        mobileMenu?.classList.toggle('is-open', open);
+        overlay?.setAttribute('aria-hidden', String(!open));
+        overlay?.classList.toggle('is-open', open);
         hamburger?.classList.toggle('is-active', open);
+        // Prevent page scroll while menu is open
+        document.body.style.overflow = open ? 'hidden' : '';
     }
 
-    hamburger?.addEventListener('click', () => {
-        const isOpen = mobileMenu?.classList.contains('is-open');
-        setMenuOpen(!isOpen);
-    });
+    hamburger?.addEventListener('click', () => setMenuOpen(true));
+    closeBtn?.addEventListener('click',  () => setMenuOpen(false));
 
     // Close on link click
-    mobileMenu?.querySelectorAll('a').forEach(link => {
+    overlay?.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => setMenuOpen(false));
     });
 </script>
@@ -209,60 +223,123 @@ const navLinks = elements.filter(isNavLink);
         transform: translateY(-7px) rotate(-45deg);
     }
 
-    /* Mobile menu drawer */
-    .site-nav__mobile-menu {
-        display: none;
-        flex-direction: column;
-        padding: 1rem var(--section-padding-x, 1.25rem) 1.5rem;
-        border-top: 1px solid var(--color-border);
-        gap: 0.25rem;
-        background-color: rgba(8, 12, 20, 0.97);
-    }
-
-    .site-nav__mobile-menu.is-open {
+    /* ── Fullscreen overlay ─────────────────────────────────────────────────── */
+    .site-nav__overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        background-color: rgb(8, 12, 20);
         display: flex;
+        flex-direction: column;
+        padding: 0 var(--section-padding-x, 1.5rem);
+
+        /* Hidden state — slide up out of view */
+        transform: translateY(-100%);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                    opacity 0.25s ease;
     }
 
-    .site-nav__mobile-links {
+    .site-nav__overlay.is-open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .site-nav__overlay-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.875rem 0;
+        border-bottom: 1px solid var(--color-border);
+        flex-shrink: 0;
+    }
+
+    .site-nav__overlay-brand {
+        color: var(--color-accent);
+        font-weight: 800;
+        font-size: 1.25rem;
+        text-decoration: none;
+    }
+
+    /* Close button — two diagonal lines forming an X */
+    .site-nav__overlay-close {
+        background: none;
+        border: none;
+        cursor: pointer;
+        width: 2rem;
+        height: 2rem;
+        position: relative;
+        padding: 0;
+    }
+
+    .site-nav__overlay-close span {
+        display: block;
+        position: absolute;
+        width: 22px;
+        height: 2px;
+        background: var(--color-text);
+        border-radius: 2px;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+    }
+
+    .site-nav__overlay-close span:first-child { rotate: 45deg; }
+    .site-nav__overlay-close span:last-child  { rotate: -45deg; }
+
+    .site-nav__overlay-nav {
+        flex: 1;
+        display: flex;
+        align-items: center;
+    }
+
+    .site-nav__overlay-links {
         list-style: none;
         margin: 0;
         padding: 0;
+        width: 100%;
         display: flex;
         flex-direction: column;
+        gap: 0;
     }
 
-    .site-nav__mobile-link {
+    .site-nav__overlay-link {
         display: block;
-        padding: 0.875rem 0;
+        padding: 1.25rem 0;
         color: var(--color-text);
         text-decoration: none;
-        font-size: 1.0625rem;
-        font-weight: 500;
+        font-size: clamp(1.5rem, 7vw, 2.25rem);
+        font-weight: 700;
         border-bottom: 1px solid var(--color-border);
         transition: color 0.15s;
+        line-height: 1.2;
     }
 
-    .site-nav__mobile-link:hover {
+    .site-nav__overlay-link:hover {
         color: var(--color-accent);
     }
 
-    .site-nav__mobile-cta {
+    .site-nav__overlay-footer {
+        padding: 2rem 0;
+        flex-shrink: 0;
+    }
+
+    .site-nav__overlay-cta {
         display: block;
-        margin-top: 1.25rem;
         text-align: center;
         background: var(--gradient-brand);
-        color: #FFFFFF;
+        color: #fff;
         border-radius: var(--radius-pill, 50px);
-        padding: 0.75rem 1.5rem;
-        font-weight: 600;
+        padding: 1rem 2rem;
+        font-weight: 700;
         font-size: 1rem;
         text-decoration: none;
         transition: opacity 0.15s;
     }
 
-    .site-nav__mobile-cta:hover {
-        opacity: 0.88;
-    }
+    .site-nav__overlay-cta:hover { opacity: 0.88; }
 
     @media (max-width: 767px) {
         .site-nav__links {
@@ -279,6 +356,13 @@ const navLinks = elements.filter(isNavLink);
 
         .site-nav__actions {
             margin-left: auto;
+        }
+    }
+
+    /* Overlay is mobile-only — hide on desktop */
+    @media (min-width: 768px) {
+        .site-nav__overlay {
+            display: none;
         }
     }
 </style>
