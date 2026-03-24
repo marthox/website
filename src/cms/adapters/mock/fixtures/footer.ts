@@ -1,37 +1,27 @@
 import type { Footer } from '@/types/page';
 
 export const footerFixture: Footer = {
-    brand: {
-        src: 'https://placehold.co/120x40/8B6F47/FAFAF8?text=MEA',
-        alt: 'Manuela E. Aguirre',
-        href: '/',
-    },
-    tagline: 'Literature that moves you.',
+    tagline: 'Performance infrastructure for predictable acquisition.',
     columns: [
         {
-            title: 'Navigation',
+            title: 'Solutions',
             links: [
-                { label: 'Home',    href: '/' },
-                { label: 'About',   href: '/about' },
-                { label: 'Works',   href: '/works' },
-                { label: 'Contact', href: '/contact' },
+                { label: 'Affilia',       href: '#solutions' },
+                { label: 'Pay Per Call',  href: '#solutions' },
+                { label: 'Ping Post',     href: '#solutions' },
             ],
         },
         {
-            title: 'Works',
+            title: 'Company',
             links: [
-                { label: 'Novels',  href: '/novels' },
-                { label: 'Stories', href: '/stories' },
+                { label: 'About',    href: '#about'   },
+                { label: 'Contact',  href: '#contact' },
             ],
         },
-    ],
-    socialLinks: [
-        { label: 'Instagram', href: 'https://instagram.com', icon: 'instagram' },
-        { label: 'Twitter',   href: 'https://x.com',        icon: 'twitter'   },
     ],
     legalLinks: [
         { label: 'Privacy Policy', href: '/privacy' },
         { label: 'Terms of Use',   href: '/terms'   },
     ],
-    copyright: '© 2026 Manuela E. Aguirre. All rights reserved.',
+    copyright: '© 2026 Digital Hub. All rights reserved.',
 };
