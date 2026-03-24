@@ -47,16 +47,41 @@ export const pagesFixture: Page[] = [
             // ── 2a. About — two-column intro ──────────────────────────────────
             {
                 kind: 'section',
-                type: 'text',
+                type: 'features',
                 theme: 'light',
-                layout: 'left',
+                layout: 'split',
                 subtitle: 'ABOUT US',
-                title: "We Don't Manage Campaigns. We Architect Acquisition Ecosystems.",
+                title: "We Don't Manage Campaigns.<br><span class=\"accent\">We Architect Acquisition Ecosystems.</span>",
                 body: doc(
                     p('Digital Hub was built to solve one problem: how to scale customer acquisition predictably, across markets, verticals and channels.'),
-                    p('Today we operate a multi-vertical performance infrastructure that connects advertisers, publishers and buyers through proprietary technology and measurable acquisition models.'),
-                    p('Operating across LATAM and the United States, Digital Hub has evolved into a performance engine designed for scalability, automation and intelligent decisioning.'),
                 ),
+                ctas: [
+                    { label: 'Explore Our Solutions →', href: '#solutions', variant: 'ghost' },
+                ],
+                items: [
+                    {
+                        type: 'feature',
+                        icon: '⚙️',
+                        title: 'Systems, Not Campaigns',
+                        body: doc(p('We design systems where traffic is controlled, data is actionable, revenue is optimised and performance is predictable.')),
+                    },
+                    {
+                        type: 'feature',
+                        icon: '🌐',
+                        title: 'Cross-Border Operations',
+                        body: doc(p('Today we operate a multi-vertical performance infrastructure that connects advertisers, publishers and buyers through proprietary technology and measurable acquisition models.')),
+                    },
+                    {
+                        type: 'feature',
+                        icon: '🏢',
+                        title: 'Acquisition Ecosystems',
+                        body: doc(p('Operating across LATAM and the United States, Digital Hub has evolved into a performance engine designed for scalability, automation and intelligent decisioning.')),
+                    },
+                    {
+                        type: 'testimonial',
+                        body: doc(p('"We create acquisition environments where performance compounds over time."')),
+                    },
+                ],
             },
 
             // ── 2b. About — agency vs infrastructure comparison ───────────────
