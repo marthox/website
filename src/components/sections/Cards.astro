@@ -128,24 +128,46 @@ const { section } = Astro.props;
         .cards-section__grid {
             display: flex;
             flex-wrap: nowrap;
+            align-items: flex-start; /* each card sizes to its own content, no height equalisation */
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
             gap: 1rem;
-            /* extend beyond the section padding so cards can peek edge-to-edge */
+            /* Extend past section padding for full-bleed scroll, but keep a visible
+               left indent so the first card has breathing room from the screen edge */
             margin-left: calc(-1 * var(--section-padding-x, 1.25rem));
             margin-right: calc(-1 * var(--section-padding-x, 1.25rem));
-            padding-left: var(--section-padding-x, 1.25rem);
-            padding-right: var(--section-padding-x, 1.25rem);
+            padding-left: calc(var(--section-padding-x, 1.25rem) + 0.5rem);
+            padding-right: calc(var(--section-padding-x, 1.25rem) + 0.5rem);
             padding-bottom: 0.75rem;
         }
 
         .cards-section__grid::-webkit-scrollbar { display: none; }
 
         .cards-section__grid .card {
-            flex: 0 0 82%;
+            flex: 0 0 84%;
             scroll-snap-align: start;
+        }
+
+        /* Icon: smaller and moved to top-right corner — frees vertical space */
+        .card {
+            position: relative;
+        }
+
+        .card__icon {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.25rem;
+            width: 2.25rem;
+            height: 2.25rem;
+            margin-bottom: 0;
+        }
+
+        /* CTA: fixed spacing instead of stretching to card bottom */
+        .card__ctas {
+            margin-top: 1.25rem;
         }
     }
 
@@ -255,11 +277,20 @@ const { section } = Astro.props;
         font-size: 0.875rem;
         font-weight: 600;
         text-decoration: none;
+        color: inherit;
+        -webkit-tap-highlight-color: transparent;
+        transition: opacity 0.15s;
     }
 
+    .card__cta:active { opacity: 0.7; }
+
     .card__cta--ghost {
-        text-decoration: underline;
+        color: var(--color-accent);
+        text-decoration: none;
+        font-weight: 600;
     }
+
+    .card__cta--ghost:hover { opacity: 0.8; }
 
     .card__cta--primary {
         padding: 0.5rem 1rem;
