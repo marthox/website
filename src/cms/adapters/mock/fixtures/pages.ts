@@ -44,7 +44,7 @@ export const pagesFixture: Page[] = [
                 ],
             },
 
-            // ── 2. About ───────────────────────────────────────────────────────
+            // ── 2a. About — two-column intro ──────────────────────────────────
             {
                 kind: 'section',
                 type: 'text',
@@ -55,6 +55,17 @@ export const pagesFixture: Page[] = [
                 body: doc(
                     p('Digital Hub was built to solve one problem: how to scale customer acquisition predictably, across markets, verticals and channels.'),
                     p('Today we operate a multi-vertical performance infrastructure that connects advertisers, publishers and buyers through proprietary technology and measurable acquisition models.'),
+                    p('Operating across LATAM and the United States, Digital Hub has evolved into a performance engine designed for scalability, automation and intelligent decisioning.'),
+                ),
+            },
+
+            // ── 2b. About — agency vs infrastructure comparison ───────────────
+            {
+                kind: 'section',
+                type: 'text',
+                theme: 'light',
+                layout: 'comparison',
+                body: doc(
                     p('The difference between an agency and infrastructure:'),
                     ul(
                         'Agencies optimise campaigns. We architect the system that campaigns run on.',

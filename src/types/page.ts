@@ -50,7 +50,7 @@ export interface Section {
     items?: Item[];
     ctas?: CTA[];
     form?: Form;
-    layout?: 'left' | 'right' | 'center' | 'split' | 'roles';
+    layout?: 'left' | 'right' | 'center' | 'split' | 'roles' | 'comparison';
     theme?: 'light' | 'dark' | 'accent';
 }
 

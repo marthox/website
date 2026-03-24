@@ -117,9 +117,35 @@ const { section } = Astro.props;
         gap: 1.5rem;
     }
 
-    @media (max-width: 900px) {
+    @media (min-width: 768px) and (max-width: 900px) {
         .cards-section__grid {
             grid-template-columns: 1fr;
+        }
+    }
+
+    /* Mobile carousel */
+    @media (max-width: 767px) {
+        .cards-section__grid {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            gap: 1rem;
+            /* extend beyond the section padding so cards can peek edge-to-edge */
+            margin-left: calc(-1 * var(--section-padding-x, 1.25rem));
+            margin-right: calc(-1 * var(--section-padding-x, 1.25rem));
+            padding-left: var(--section-padding-x, 1.25rem);
+            padding-right: var(--section-padding-x, 1.25rem);
+            padding-bottom: 0.75rem;
+        }
+
+        .cards-section__grid::-webkit-scrollbar { display: none; }
+
+        .cards-section__grid .card {
+            flex: 0 0 82%;
+            scroll-snap-align: start;
         }
     }
 
