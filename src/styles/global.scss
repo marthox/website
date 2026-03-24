@@ -3,8 +3,16 @@
 @use 'alignments';
 @use 'distributions';
 
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    overflow-x: hidden;
+}
+
 body {
-    width: 100vw;
+    width: 100%;
     background-color: var(--color-bg);
     color: var(--color-text);
     font-family: var(--font-body);
@@ -15,4 +23,5 @@ body {
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     line-height: 1.2;
+    font-weight: 700;
 }

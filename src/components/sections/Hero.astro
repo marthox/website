@@ -55,17 +55,34 @@ const layoutClass = section.layout === 'left' ? 'hero--left'
 
     .hero[data-theme="dark"] {
         background: var(--gradient-hero-dark);
-        min-height: 100vh;
+        min-height: calc(100svh - var(--nav-height, 0px));
         display: flex;
         align-items: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero[data-theme="dark"]::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(0, 207, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 207, 255, 0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+        pointer-events: none;
+        z-index: 0;
     }
 
     .hero__inner {
+        width: 100%;
         max-width: var(--container-width, 1200px);
         margin: 0 auto;
         display: flex;
         gap: 3rem;
         align-items: center;
+        position: relative;
+        z-index: 1;
     }
 
     .hero--center .hero__inner {
@@ -182,6 +199,7 @@ const layoutClass = section.layout === 'left' ? 'hero--left'
         font-size: 1.5rem;
         color: var(--color-accent);
         animation: bounce 2s ease-in-out infinite;
+        z-index: 1;
     }
 
     @keyframes bounce {
@@ -190,12 +208,25 @@ const layoutClass = section.layout === 'left' ? 'hero--left'
     }
 
     @media (max-width: 767px) {
+        .hero[data-theme="dark"] {
+            min-height: calc(100svh - var(--nav-height, 0px));
+            padding-top: clamp(2.5rem, 10svh, 5rem);
+            padding-bottom: clamp(3rem, 8svh, 5rem);
+            align-items: flex-start;
+        }
+
         .hero__inner {
             flex-direction: column !important;
             text-align: center;
         }
 
         .hero__ctas {
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .hero__cta {
+            width: 100%;
             justify-content: center;
         }
 

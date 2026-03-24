@@ -17,8 +17,8 @@
     --color-accent-dark:  #00B4FF;
     --color-accent-light: #7DD8FF;
 
-    --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
-    --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+    --font-heading: 'Syne', system-ui, sans-serif;
+    --font-body:    'DM Sans', system-ui, sans-serif;
     --font-size-base: 16px;
 
     --container-width:   1200px;
@@ -31,7 +31,7 @@
     --radius-pill: 50px;
 
     --gradient-brand:     linear-gradient(135deg, #00B4FF, #FF2D7A);
-    --gradient-hero-dark: linear-gradient(135deg, #0D1B2A, #1B3A5C, #0D2240);
+    --gradient-hero-dark: radial-gradient(ellipse 130% 80% at 50% -10%, #0F2D52 0%, #0A1F3A 35%, #080C14 70%);
 }
 
 // =============================================================================
@@ -70,6 +70,34 @@
     --btn-secondary-border: #0A0A1A;
     --btn-secondary-text:   #0A0A1A;
     --btn-ghost-text:       #00B4FF;
+}
+
+// ── Mobile tokens ─────────────────────────────────────────────────────────
+@media (max-width: 767px) {
+    :root {
+        --section-padding-y: 3rem;
+        --section-padding-x: 1.25rem;
+    }
+}
+
+// ── Dark mode: override light-themed sections to use elevated dark tokens ──
+// Prevents jarring white panels when page theme is dark (default)
+html[data-theme-mode="dark"] [data-theme="light"] {
+    --section-bg:           #0D1525;
+    --section-surface:      #111D35;
+    --section-border:       #1E2D45;
+    --section-text:         #F0F4FF;
+    --section-text-muted:   #8892B0;
+
+    --btn-primary-bg:       #00CFFF;
+    --btn-primary-text:     #080C14;
+    --btn-secondary-border: rgba(240, 244, 255, 0.3);
+    --btn-secondary-text:   #F0F4FF;
+    --btn-ghost-text:       #00CFFF;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 // Page-level LIGHT mode override (when user toggles away from dark default)
