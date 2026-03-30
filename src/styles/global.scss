@@ -25,3 +25,17 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1.2;
     font-weight: 700;
 }
+
+// UI elements — nav, buttons, labels use Montserrat
+nav, button, .btn, input, select, textarea, label {
+    font-family: var(--font-ui, var(--font-body));
+}
+
+// Gradient accent text — applied globally to all .accent spans
+.accent {
+    background: var(--gradient-brand, linear-gradient(135deg, #0099ff 0%, #ff0087 100%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline;
+}

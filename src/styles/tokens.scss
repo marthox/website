@@ -1,78 +1,78 @@
 // =============================================================================
-// Design Tokens
-// Default values — overridden at runtime by ThemeStyle.astro via CSS vars
-// injected from the Contentful siteTheme entry.
+// Design Tokens — Digital Hub
+// Approved palette: Blanco #ffffff · Azul Claro #7bc9f5 · Fucsia #ff0087 · Azul Oscuro #0099ff
 // =============================================================================
 
 :root {
-    // Base palette — Digital Hub DARK (default)
-    --color-bg:           #080C14;
-    --color-surface:      #0D1525;
-    --color-border:       #1E2D45;
-    --color-text:         #F0F4FF;
-    --color-text-muted:   #8892B0;
-    --color-accent:       #00CFFF;          // brighter cyan for dark bg
-    --color-accent-alt:   #FF2D7A;          // magenta
+    // ── Base palette ──────────────────────────────────────────────────────────
+    --color-bg:           #07070E;
+    --color-surface:      #0a0f22;
+    --color-border:       rgba(123, 201, 245, 0.1);
+    --color-text:         #ffffff;
+    --color-text-muted:   rgba(123, 201, 245, 0.8);   // Azul Claro — readable body text
+    --color-accent:       #ff0087;        // Fucsia — client approved
+    --color-accent-alt:   #0099ff;        // Azul Oscuro — client approved
+    --color-accent-light: #7bc9f5;        // Azul Claro — client approved
 
-    --color-accent-dark:  #00B4FF;
-    --color-accent-light: #7DD8FF;
-
-    --font-heading: 'Syne', system-ui, sans-serif;
-    --font-body:    'DM Sans', system-ui, sans-serif;
+    // ── Typography ────────────────────────────────────────────────────────────
+    --font-heading: 'Syne', system-ui, sans-serif;       // Display / hero headers
+    --font-body:    'Open Sans', system-ui, sans-serif;  // Client approved body
+    --font-ui:      'Montserrat', system-ui, sans-serif; // Client approved UI
     --font-size-base: 16px;
 
+    // ── Layout ────────────────────────────────────────────────────────────────
     --container-width:   1200px;
     --section-padding-y: 5rem;
     --section-padding-x: 1.5rem;
 
+    // ── Radius ────────────────────────────────────────────────────────────────
     --radius-sm:   0.25rem;
-    --radius-md:   0.375rem;
-    --radius-lg:   0.5rem;
+    --radius-md:   0.5rem;
+    --radius-lg:   0.75rem;
+    --radius-xl:   1rem;
     --radius-pill: 50px;
 
-    --gradient-brand:     linear-gradient(135deg, #00B4FF, #FF2D7A);
+    // ── Gradients ─────────────────────────────────────────────────────────────
+    --gradient-brand:     linear-gradient(135deg, #0099ff 0%, #ff0087 100%);
     --gradient-hero-dark: radial-gradient(ellipse 130% 80% at 50% -10%, #0F2D52 0%, #0A1F3A 35%, #080C14 70%);
 }
 
 // =============================================================================
-// Section theme variants
-// Applied via data-theme="light | dark" on <section> elements.
-// Each variant exposes a consistent set of --section-* tokens consumed by
-// all section components.
+// Section theme tokens
 // =============================================================================
 
-// ── Dark section tokens (default when no data-theme set) ──────────────────
+// ── Dark sections (default) ───────────────────────────────────────────────────
 :root,
 [data-theme="dark"] {
-    --section-bg:           #080C14;
-    --section-surface:      #0D1525;
-    --section-border:       #1E2D45;
-    --section-text:         #F0F4FF;
-    --section-text-muted:   #8892B0;
+    --section-bg:           #07070E;
+    --section-surface:      #0a0f22;
+    --section-border:       rgba(123, 201, 245, 0.1);
+    --section-text:         #ffffff;
+    --section-text-muted:   rgba(123, 201, 245, 0.8);  // Azul Claro — readable on dark
 
-    --btn-primary-bg:       #00CFFF;
-    --btn-primary-text:     #080C14;
-    --btn-secondary-border: #F0F4FF;
-    --btn-secondary-text:   #F0F4FF;
-    --btn-ghost-text:       #00CFFF;
+    --btn-primary-bg:       #ff0087;
+    --btn-primary-text:     #ffffff;
+    --btn-secondary-border: rgba(123, 201, 245, 0.35);
+    --btn-secondary-text:   #7bc9f5;
+    --btn-ghost-text:       #7bc9f5;
 }
 
-// ── Light section tokens (explicit override) ──────────────────────────────
+// ── Light sections — true white with dark text ────────────────────────────────
 [data-theme="light"] {
     --section-bg:           #FFFFFF;
-    --section-surface:      #F8F9FF;
-    --section-border:       #E2E6F0;
-    --section-text:         #0A0A1A;
-    --section-text-muted:   #5A6080;
+    --section-surface:      #F5F5F0;
+    --section-border:       #EBEBEB;
+    --section-text:         #0A0A0A;
+    --section-text-muted:   #6B6B6B;
 
-    --btn-primary-bg:       #00B4FF;
+    --btn-primary-bg:       #ff0087;
     --btn-primary-text:     #FFFFFF;
-    --btn-secondary-border: #0A0A1A;
-    --btn-secondary-text:   #0A0A1A;
-    --btn-ghost-text:       #00B4FF;
+    --btn-secondary-border: #0A0A0A;
+    --btn-secondary-text:   #0A0A0A;
+    --btn-ghost-text:       #ff0087;
 }
 
-// ── Mobile tokens ─────────────────────────────────────────────────────────
+// ── Mobile ────────────────────────────────────────────────────────────────────
 @media (max-width: 767px) {
     :root {
         --section-padding-y: 3rem;
@@ -80,32 +80,4 @@
     }
 }
 
-// ── Dark mode: override light-themed sections to use elevated dark tokens ──
-// Prevents jarring white panels when page theme is dark (default)
-html[data-theme-mode="dark"] [data-theme="light"] {
-    --section-bg:           #0D1525;
-    --section-surface:      #111D35;
-    --section-border:       #1E2D45;
-    --section-text:         #F0F4FF;
-    --section-text-muted:   #8892B0;
-
-    --btn-primary-bg:       #00CFFF;
-    --btn-primary-text:     #080C14;
-    --btn-secondary-border: rgba(240, 244, 255, 0.3);
-    --btn-secondary-text:   #F0F4FF;
-    --btn-ghost-text:       #00CFFF;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-// Page-level LIGHT mode override (when user toggles away from dark default)
-html[data-theme-mode="light"] {
-    --color-bg:           #FFFFFF;
-    --color-surface:      #F8F9FF;
-    --color-border:       #E2E6F0;
-    --color-text:         #0A0A1A;
-    --color-text-muted:   #5A6080;
-    --color-accent:       #00B4FF;
-}
+html { scroll-behavior: smooth; }
