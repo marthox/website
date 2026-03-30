@@ -1,17 +1,17 @@
 import type { SiteTheme } from '@/types/theme';
 
 export const themeFixture: SiteTheme = {
-    colorBg:          '#080C14',
-    colorSurface:     '#0D1525',
-    colorBorder:      '#1E2D45',
-    colorText:        '#F0F4FF',
-    colorTextMuted:   '#8892B0',
-    colorAccent:      '#00CFFF',
-    colorDarkBg:      '#080C14',
-    colorDarkSurface: '#0D1525',
-    colorDarkBorder:  '#1E2D45',
-    colorDarkText:    '#F0F4FF',
-    colorDarkTextMuted: '#8892B0',
-    fontHeading:      "'Syne', system-ui, sans-serif",
-    fontBody:         "'DM Sans', system-ui, sans-serif",
+    colorBg:            '#07070E',
+    colorSurface:       '#0F0F18',
+    colorBorder:        'rgba(255,255,255,0.07)',
+    colorText:          '#F4F4EE',
+    colorTextMuted:     'rgba(244,244,238,0.45)',
+    colorAccent:        '#ff0087',          // Fucsia — client approved
+    colorDarkBg:        '#07070E',
+    colorDarkSurface:   '#0F0F18',
+    colorDarkBorder:    'rgba(255,255,255,0.07)',
+    colorDarkText:      '#F4F4EE',
+    colorDarkTextMuted: 'rgba(244,244,238,0.45)',
+    fontHeading:        "'Syne', system-ui, sans-serif",
+    fontBody:           "'Open Sans', system-ui, sans-serif",
 };

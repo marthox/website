@@ -35,12 +35,13 @@ export const pagesFixture: Page[] = [
                 kind: 'section',
                 type: 'hero',
                 theme: 'dark',
-                subtitle: 'DIGITAL HUB',
-                title: 'We Build the Infrastructure That Makes Acquisition Predictable.',
-                body: doc(p('Not an agency. Not a platform. Infrastructure.')),
+                layout: 'left',
+                subtitle: 'Performance Infrastructure · LATAM & US',
+                title: 'We Build <span class="accent">Revenue</span> Infrastructure.',
+                body: doc(p('Digital Hub is a multi-model performance infrastructure operating across LATAM and the US — integrating Affiliate Networks, Pay Per Call and Real-Time Lead Distribution through proprietary technology and intelligent optimization systems.')),
                 ctas: [
-                    { label: 'Explore Our Solutions', href: '#solutions', variant: 'primary'   },
-                    { label: 'Talk to Our Team',      href: '#contact',       variant: 'secondary' },
+                    { label: 'Explore Partnerships', href: '#solutions', variant: 'primary'   },
+                    { label: 'Our Solutions →',       href: '#solutions', variant: 'secondary' },
                 ],
             },
 
@@ -48,7 +49,7 @@ export const pagesFixture: Page[] = [
             {
                 kind: 'section',
                 type: 'features',
-                theme: 'light',
+                theme: 'dark',
                 layout: 'split',
                 subtitle: 'ABOUT US',
                 title: "We Don't Manage Campaigns.<br><span class=\"accent\">We Architect Acquisition Ecosystems.</span>",
@@ -88,7 +89,7 @@ export const pagesFixture: Page[] = [
             {
                 kind: 'section',
                 type: 'text',
-                theme: 'light',
+                theme: 'dark',
                 layout: 'comparison',
                 body: doc(
                     p('The difference between an agency and infrastructure:'),
@@ -139,7 +140,7 @@ export const pagesFixture: Page[] = [
             {
                 kind: 'section',
                 type: 'cards',
-                theme: 'light',
+                theme: 'dark',
                 subtitle: 'TECH SOLUTIONS',
                 title: 'Performance Models Powered by Proprietary Technology',
                 body: doc(p('Our infrastructure is structured around three high-growth acquisition engines. Each one is designed to maximise revenue efficiency and deliver measurable outcomes.')),
@@ -256,7 +257,7 @@ export const pagesFixture: Page[] = [
             {
                 kind: 'section',
                 type: 'stats',
-                theme: 'light',
+                theme: 'dark',
                 subtitle: 'TRACK RECORD',
                 title: 'By the Numbers',
                 items: [

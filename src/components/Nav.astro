@@ -22,6 +22,7 @@ const navLinks = elements.filter(isNavLink);
 <nav class="site-nav" aria-label="Main navigation">
     <div class="site-nav__inner">
         <a class="site-nav__brand" href={brand?.href ?? '/'}>
+            <span class="site-nav__brand-dot" aria-hidden="true"></span>
             {brand?.label ?? 'Digital Hub'}
         </a>
 
@@ -35,7 +36,7 @@ const navLinks = elements.filter(isNavLink);
         </ul>
 
         <div class="site-nav__actions">
-            <a class="site-nav__cta" href="#contact">Conectar</a>
+            <a class="site-nav__cta" href="#contact">Get Started</a>
             <!-- Hamburger (mobile only) -->
             <button
                 class="site-nav__hamburger"
@@ -56,6 +57,7 @@ const navLinks = elements.filter(isNavLink);
 <div class="site-nav__overlay" id="mobile-menu" aria-hidden="true" role="dialog" aria-label="Navigation menu">
     <div class="site-nav__overlay-header">
         <a class="site-nav__overlay-brand" href={brand?.href ?? '/'}>
+            <span class="site-nav__brand-dot" style="background:#ff0087;width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;" aria-hidden="true"></span>
             {brand?.label ?? 'Digital Hub'}
         </a>
         <button class="site-nav__overlay-close" id="mobile-menu-close" aria-label="Close menu" type="button">
@@ -73,7 +75,7 @@ const navLinks = elements.filter(isNavLink);
         </ul>
     </nav>
     <div class="site-nav__overlay-footer">
-        <a class="site-nav__overlay-cta" href="#contact">Conectar</a>
+        <a class="site-nav__overlay-cta" href="#contact">Get Started</a>
     </div>
 </div>
 
@@ -88,7 +90,7 @@ const navLinks = elements.filter(isNavLink);
     updateNavHeight();
     new ResizeObserver(updateNavHeight).observe(document.documentElement);
 
-    // Always dark mode
+    // Always dark mode for page-level theme tokens
     document.documentElement.dataset.themeMode = 'dark';
 
     // ── Mobile fullscreen overlay ─────────────────────────────────────────────
@@ -116,14 +118,16 @@ const navLinks = elements.filter(isNavLink);
 </script>
 
 <style>
+    /* ── Desktop nav — dark ─────────────────────────────────────────────────── */
     .site-nav {
         position: sticky;
         top: 0;
         z-index: 100;
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        background-color: rgba(8, 12, 20, 0.9);
-        border-bottom: 1px solid var(--color-border);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        background-color: rgba(5, 8, 20, 0.97);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        box-shadow: 0 1px 24px rgba(0, 0, 0, 0.4);
     }
 
     .site-nav__inner {
@@ -135,18 +139,38 @@ const navLinks = elements.filter(isNavLink);
         gap: 2rem;
     }
 
+    /* Brand — cyan gradient text */
     .site-nav__brand {
-        color: var(--color-accent);
+        background: var(--gradient-brand, linear-gradient(90deg, #0099ff 0%, #ff0087 100%));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
         font-weight: 800;
-        font-size: 1.25rem;
+        font-size: 1.0625rem;
         text-decoration: none;
         flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        letter-spacing: -0.01em;
     }
 
+    .site-nav__brand-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #ff0087;
+        flex-shrink: 0;
+        box-shadow: 0 0 8px rgba(255, 0, 135, 0.5);
+        /* dot can't use text-fill, so reset */
+        -webkit-text-fill-color: initial;
+    }
+
+    /* Nav links — light text on dark nav */
     .site-nav__links {
         display: flex;
         align-items: center;
-        gap: 1.5rem;
+        gap: 1.75rem;
         list-style: none;
         margin: 0;
         padding: 0;
@@ -154,17 +178,19 @@ const navLinks = elements.filter(isNavLink);
     }
 
     .site-nav__link {
-        color: var(--color-text);
+        color: rgba(123, 201, 245, 0.85);
         text-decoration: none;
         font-size: 0.9375rem;
         font-weight: 500;
         transition: color 0.15s;
+        letter-spacing: 0.005em;
     }
 
     .site-nav__link:hover {
-        color: var(--color-accent);
+        color: #ff0087;
     }
 
+    /* Actions row */
     .site-nav__actions {
         display: flex;
         align-items: center;
@@ -172,22 +198,26 @@ const navLinks = elements.filter(isNavLink);
         flex-shrink: 0;
     }
 
+    /* CTA — gradient pill button */
     .site-nav__cta {
-        background: var(--gradient-brand);
+        background: var(--gradient-brand, linear-gradient(135deg, #0099ff 0%, #ff0087 100%));
         color: #FFFFFF;
         border-radius: var(--radius-pill, 50px);
         padding: 0.5rem 1.25rem;
         font-weight: 600;
-        font-size: 0.9375rem;
+        font-size: 0.875rem;
         text-decoration: none;
-        transition: opacity 0.15s;
+        transition: box-shadow 0.15s, opacity 0.15s;
+        box-shadow: 0 2px 14px rgba(255, 0, 135, 0.2);
+        letter-spacing: 0.01em;
     }
 
     .site-nav__cta:hover {
-        opacity: 0.88;
+        box-shadow: 0 4px 24px rgba(255, 0, 135, 0.4);
+        opacity: 0.9;
     }
 
-    /* Hamburger button */
+    /* Hamburger — dark bars on white nav */
     .site-nav__hamburger {
         display: none;
         flex-direction: column;
@@ -205,7 +235,7 @@ const navLinks = elements.filter(isNavLink);
         display: block;
         width: 22px;
         height: 2px;
-        background: var(--color-text);
+        background: #07070E;
         border-radius: 2px;
         transition: transform 0.2s, opacity 0.2s;
         transform-origin: center;
@@ -223,12 +253,12 @@ const navLinks = elements.filter(isNavLink);
         transform: translateY(-7px) rotate(-45deg);
     }
 
-    /* ── Fullscreen overlay ─────────────────────────────────────────────────── */
+    /* ── Fullscreen overlay (mobile) ────────────────────────────────────────── */
     .site-nav__overlay {
         position: fixed;
         inset: 0;
         z-index: 200;
-        background-color: rgb(8, 12, 20);
+        background-color: #07070E;
         display: flex;
         flex-direction: column;
         padding: 0 var(--section-padding-x, 1.5rem);
@@ -252,15 +282,18 @@ const navLinks = elements.filter(isNavLink);
         align-items: center;
         justify-content: space-between;
         padding: 0.875rem 0;
-        border-bottom: 1px solid var(--color-border);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
         flex-shrink: 0;
     }
 
     .site-nav__overlay-brand {
-        color: var(--color-accent);
+        color: #F4F4EE;
         font-weight: 800;
-        font-size: 1.25rem;
+        font-size: 1.125rem;
         text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
     }
 
     /* Close button — two diagonal lines forming an X */
@@ -279,7 +312,7 @@ const navLinks = elements.filter(isNavLink);
         position: absolute;
         width: 22px;
         height: 2px;
-        background: var(--color-text);
+        background: #F4F4EE;
         border-radius: 2px;
         top: 50%;
         left: 50%;
@@ -308,17 +341,17 @@ const navLinks = elements.filter(isNavLink);
     .site-nav__overlay-link {
         display: block;
         padding: 1.25rem 0;
-        color: var(--color-text);
+        color: #F4F4EE;
         text-decoration: none;
         font-size: clamp(1.5rem, 7vw, 2.25rem);
         font-weight: 700;
-        border-bottom: 1px solid var(--color-border);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
         transition: color 0.15s;
         line-height: 1.2;
     }
 
     .site-nav__overlay-link:hover {
-        color: var(--color-accent);
+        color: #ff0087;
     }
 
     .site-nav__overlay-footer {
@@ -329,7 +362,7 @@ const navLinks = elements.filter(isNavLink);
     .site-nav__overlay-cta {
         display: block;
         text-align: center;
-        background: var(--gradient-brand);
+        background: var(--gradient-brand, linear-gradient(135deg, #0099ff 0%, #ff0087 100%));
         color: #fff;
         border-radius: var(--radius-pill, 50px);
         padding: 1rem 2rem;
@@ -337,6 +370,7 @@ const navLinks = elements.filter(isNavLink);
         font-size: 1rem;
         text-decoration: none;
         transition: opacity 0.15s;
+        box-shadow: 0 4px 20px rgba(255, 0, 135, 0.3);
     }
 
     .site-nav__overlay-cta:hover { opacity: 0.88; }
