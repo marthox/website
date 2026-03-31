@@ -217,7 +217,7 @@ const isSplit = section.layout === "split";
                                                 class="feature__icon-wrap"
                                                 aria-hidden="true"
                                             >
-                                                {item.icon.startsWith('/') ? (
+                                                {item.icon.startsWith("/") ? (
                                                     <img
                                                         src={item.icon}
                                                         class="feature__icon feature__icon--img"
@@ -431,7 +431,9 @@ const isSplit = section.layout === "split";
         padding: 1.25rem;
         border: 1px solid rgba(255, 255, 255, 0.05);
         border-radius: 0.75rem;
-        transition: border-color 0.2s, background 0.2s;
+        transition:
+            border-color 0.2s,
+            background 0.2s;
         background: rgba(255, 255, 255, 0.02);
     }
 
@@ -458,7 +460,7 @@ const isSplit = section.layout === "split";
     }
 
     .feature__content {
-        color: var(--section-text-muted);
+        color: var(--section-text);
         font-size: 0.9375rem;
         line-height: 1.65;
     }
@@ -471,7 +473,7 @@ const isSplit = section.layout === "split";
 
     .feature__subtitle {
         margin: 0;
-        color: var(--color-accent);
+        color: var(--color-accent-light);
         font-size: 0.8125rem;
         font-weight: 500;
         line-height: 1.4;
@@ -532,7 +534,10 @@ const isSplit = section.layout === "split";
     }
 
     .features__cta--primary {
-        background: var(--gradient-brand, linear-gradient(135deg, #0099ff 0%, #ff0087 100%));
+        background: var(
+            --gradient-brand,
+            linear-gradient(135deg, #0099ff 0%, #ff0087 100%)
+        );
         color: var(--btn-primary-text);
         padding: 0.625rem 1.5rem;
         border-radius: 0.375rem;
