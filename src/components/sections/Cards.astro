@@ -28,7 +28,15 @@ const { section } = Astro.props;
                             </div>
                         )}
                         <div class="card__body">
-                            {item.icon && <span class="card__icon" aria-hidden="true">{item.icon}</span>}
+                            {item.icon && (
+                            item.icon.startsWith('/') ? (
+                                <div class="card__icon" aria-hidden="true">
+                                    <img src={item.icon} class="card__icon-img" width="32" height="32" />
+                                </div>
+                            ) : (
+                                <span class="card__icon" aria-hidden="true">{item.icon}</span>
+                            )
+                        )}
                             {item.title && <h3 class="card__title">{item.title}</h3>}
                             {item.subtitle && <p class="card__subtitle">{item.subtitle}</p>}
                             <RichText doc={item.body} />
@@ -191,8 +199,8 @@ const { section } = Astro.props;
 
     .card__icon {
         font-size: 2rem;
-        width: 3.5rem;
-        height: 3.5rem;
+        width: 4rem;
+        height: 4rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -200,6 +208,19 @@ const { section } = Astro.props;
         border-radius: var(--radius-lg, 0.5rem);
         margin-bottom: 0.75rem;
         flex-shrink: 0;
+        overflow: hidden;
+    }
+
+    .card__icon-img {
+        width: 3.25rem;
+        height: 3.25rem;
+        object-fit: contain;
+        transform: scale(2.2);
+        filter: brightness(0) invert(0.15);
+    }
+
+    [data-theme="dark"] .card__icon-img {
+        filter: brightness(0) invert(1);
     }
 
     .card__title {

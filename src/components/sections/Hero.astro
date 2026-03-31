@@ -98,7 +98,7 @@ const layoutClass = isLeft ? 'hero--left'
                 {/* Inbound Call card */}
                 <div class="hero__dash-card hero__dash-card--calls">
                     <div class="hero__dash-mini-header">
-                        <span class="hero__dash-mini-icon">📞</span>
+                        <img src="/icons/Pay per call.svg" class="hero__dash-mini-icon hero__dash-mini-icon--img" width="20" height="20" aria-hidden="true" />
                         <div>
                             <div class="hero__dash-mini-title">
                                 Inbound Call
@@ -114,7 +114,7 @@ const layoutClass = isLeft ? 'hero--left'
                 {/* Ping Post card */}
                 <div class="hero__dash-card hero__dash-card--ping">
                     <div class="hero__dash-mini-header">
-                        <span class="hero__dash-mini-icon hero__dash-mini-icon--blue">⚡</span>
+                        <img src="/icons/ping post.svg" class="hero__dash-mini-icon hero__dash-mini-icon--img hero__dash-mini-icon--blue" width="20" height="20" aria-hidden="true" />
                         <div class="hero__dash-mini-title">Ping Post</div>
                     </div>
                     <div class="hero__dash-value hero__dash-value--sm">2.4ms</div>
@@ -524,6 +524,12 @@ const layoutClass = isLeft ? 'hero--left'
 
     .hero__dash-mini-icon--blue {
         background: rgba(0,153,255,0.12);
+    }
+
+    .hero__dash-mini-icon--img {
+        padding: 0.3rem;
+        object-fit: contain;
+        filter: brightness(0) invert(1);
     }
 
     .hero__dash-mini-title {
