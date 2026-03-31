@@ -12,17 +12,44 @@ const { footer } = Astro.props;
     <footer class="site-footer">
         <div class="site-footer__inner">
 
-            {/* ── Top row: brand + tagline + social ─────────────────────── */}
-            <div class="site-footer__top">
+            {/* ── Main row: brand | columns | social ────────────────────── */}
+            <div class="site-footer__main">
                 <div class="site-footer__brand-block">
                     <a class="site-footer__brand" href="/">
-                        <span class="site-footer__brand-dot" aria-hidden="true"></span>
-                        Digital Hub
+                        <img src="/logo.svg" alt="Digital Hub" class="site-footer__logo" />
                     </a>
                     {footer.tagline && (
                         <p class="site-footer__tagline">{footer.tagline}</p>
                     )}
                 </div>
+
+                {/* Link columns */}
+                {footer.columns && footer.columns.length > 0 && (
+                    <div class="site-footer__columns">
+                        {footer.columns.map(col => (
+                            <div class="site-footer__column">
+                                {col.title && (
+                                    <h3 class="site-footer__column-title">{col.title}</h3>
+                                )}
+                                {col.links && col.links.length > 0 && (
+                                    <ul class="site-footer__column-links">
+                                        {col.links.map(link => (
+                                            <li>
+                                                <a
+                                                    href={link.href}
+                                                    target={link.openInNewTab ? '_blank' : undefined}
+                                                    rel={link.openInNewTab ? 'noopener noreferrer' : undefined}
+                                                >
+                                                    {link.label}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                )}
 
                 {/* Social links */}
                 {footer.socialLinks && footer.socialLinks.length > 0 && (
@@ -60,37 +87,6 @@ const { footer } = Astro.props;
                 )}
             </div>
 
-            {/* ── Divider ────────────────────────────────────────────────── */}
-            <div class="site-footer__divider" aria-hidden="true"></div>
-
-            {/* ── Link columns ───────────────────────────────────────────── */}
-            {footer.columns && footer.columns.length > 0 && (
-                <div class="site-footer__columns">
-                    {footer.columns.map(col => (
-                        <div class="site-footer__column">
-                            {col.title && (
-                                <h3 class="site-footer__column-title">{col.title}</h3>
-                            )}
-                            {col.links && col.links.length > 0 && (
-                                <ul class="site-footer__column-links">
-                                    {col.links.map(link => (
-                                        <li>
-                                            <a
-                                                href={link.href}
-                                                target={link.openInNewTab ? '_blank' : undefined}
-                                                rel={link.openInNewTab ? 'noopener noreferrer' : undefined}
-                                            >
-                                                {link.label}
-                                            </a>
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                        </div>
-                    ))}
-                </div>
-            )}
-
             {/* ── Legal row ─────────────────────────────────────────────── */}
             {(footer.copyright || (footer.legalLinks && footer.legalLinks.length > 0)) && (
                 <div class="site-footer__legal">
@@ -116,8 +112,6 @@ const { footer } = Astro.props;
             )}
         </div>
 
-        {/* ── Giant gradient wordmark ────────────────────────────────────── */}
-        <div class="site-footer__wordmark" aria-hidden="true">DIGITAL HUB</div>
     </footer>
 )}
 
@@ -139,13 +133,12 @@ const { footer } = Astro.props;
         gap: 2.5rem;
     }
 
-    /* ── Top row ──────────────────────────────────────────────────────────── */
-    .site-footer__top {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 2rem;
-        flex-wrap: wrap;
+    /* ── Main row ─────────────────────────────────────────────────────────── */
+    .site-footer__main {
+        display: grid;
+        grid-template-columns: 220px 1fr auto;
+        gap: 3rem;
+        align-items: start;
     }
 
     .site-footer__brand-block {
@@ -157,22 +150,13 @@ const { footer } = Astro.props;
     .site-footer__brand {
         display: inline-flex;
         align-items: center;
-        gap: 0.45rem;
-        color: #F4F4EE !important;
-        font-family: var(--font-heading, 'Barlow', sans-serif);
-        font-weight: 800;
-        font-size: 1.125rem;
         text-decoration: none !important;
-        letter-spacing: -0.01em;
     }
 
-    .site-footer__brand-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: #ff0087;
-        flex-shrink: 0;
-        box-shadow: 0 0 8px rgba(255, 0, 135, 0.5);
+    .site-footer__logo {
+        height: 64px;
+        width: auto;
+        object-fit: contain;
     }
 
     .site-footer__tagline {
@@ -208,12 +192,6 @@ const { footer } = Astro.props;
         background: rgba(255, 0, 135, 0.1);
         border-color: rgba(255, 0, 135, 0.3);
         color: #ff0087;
-    }
-
-    /* ── Divider ──────────────────────────────────────────────────────────── */
-    .site-footer__divider {
-        height: 1px;
-        background: rgba(255, 255, 255, 0.06);
     }
 
     /* ── Columns ──────────────────────────────────────────────────────────── */
@@ -289,24 +267,6 @@ const { footer } = Astro.props;
         color: rgba(123,201,245,0.8);
     }
 
-    /* ── Giant gradient wordmark ──────────────────────────────────────────── */
-    .site-footer__wordmark {
-        font-family: var(--font-heading, 'Syne', sans-serif);
-        font-weight: 900;
-        font-size: clamp(4rem, 14vw, 12rem);
-        line-height: 0.88;
-        letter-spacing: -0.035em;
-        text-align: center;
-        background: linear-gradient(135deg, rgba(0, 153, 255, 0.55) 0%, rgba(255, 0, 135, 0.5) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin-top: 2rem;
-        padding-bottom: 0.25rem;
-        user-select: none;
-        pointer-events: none;
-        display: block;
-    }
 
     /* ── Accessibility ────────────────────────────────────────────────────── */
     .sr-only {

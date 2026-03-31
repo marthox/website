@@ -2,7 +2,7 @@ import type { NavBrand, NavElement } from '@/types/nav';
 
 export const navFixture: [NavBrand | null, NavElement[]] = [
     {
-        src: null,
+        src: '/logo.svg',
         alt: 'Digital Hub',
         label: 'Digital Hub',
         href: '/',
