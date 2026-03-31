@@ -6,4 +6,11 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
     site: import.meta.env.SITE_URL || 'https://example.com',
     integrations: [sitemap()],
+    vite: {
+        server: {
+            fs: {
+                allow: ['/Users/marthox/Dev/website'],
+            },
+        },
+    },
 });
