@@ -62,19 +62,19 @@ export const pagesFixture: Page[] = [
                 items: [
                     {
                         type: 'feature',
-                        icon: '⚙️',
+                        icon: '/icons/systems no campaigns.svg',
                         title: 'Systems, Not Campaigns',
                         body: doc(p('We design systems where traffic is controlled, data is actionable, revenue is optimised and performance is predictable.')),
                     },
                     {
                         type: 'feature',
-                        icon: '🌐',
+                        icon: '/icons/cross-border operaton.svg',
                         title: 'Cross-Border Operations',
                         body: doc(p('Today we operate a multi-vertical performance infrastructure that connects advertisers, publishers and buyers through proprietary technology and measurable acquisition models.')),
                     },
                     {
                         type: 'feature',
-                        icon: '🏢',
+                        icon: '/icons/Acquisition ecosystem.svg',
                         title: 'Acquisition Ecosystems',
                         body: doc(p('Operating across LATAM and the United States, Digital Hub has evolved into a performance engine designed for scalability, automation and intelligent decisioning.')),
                     },
@@ -147,7 +147,7 @@ export const pagesFixture: Page[] = [
                 items: [
                     {
                         type: 'card',
-                        icon: '🌐',
+                        icon: '/icons/Affilia.svg',
                         title: 'Affilia',
                         subtitle: 'Publisher Network & Affiliate Infrastructure',
                         body: doc(
@@ -164,7 +164,7 @@ export const pagesFixture: Page[] = [
                     },
                     {
                         type: 'card',
-                        icon: '📞',
+                        icon: '/icons/Pay per call.svg',
                         title: 'Pay Per Call',
                         subtitle: 'High-Intent Acquisition Engine',
                         body: doc(
@@ -181,7 +181,7 @@ export const pagesFixture: Page[] = [
                     },
                     {
                         type: 'card',
-                        icon: '⚡',
+                        icon: '/icons/ping post.svg',
                         title: 'Ping Post',
                         subtitle: 'Real-Time Lead Marketplace Infrastructure',
                         body: doc(
@@ -210,42 +210,42 @@ export const pagesFixture: Page[] = [
                 items: [
                     {
                         type: 'feature',
-                        icon: '🏗️',
+                        icon: '/icons/Owned infraestructure.svg',
                         title: 'Owned Infrastructure',
                         subtitle: 'No dependency on third-party platforms',
                         body: doc(p('We own and operate our own technology stack. No platform dependencies, no margin compression, no single points of failure.')),
                     },
                     {
                         type: 'feature',
-                        icon: '🌍',
+                        icon: '/icons/multimarket expertise.svg',
                         title: 'Multi-Market Expertise',
                         subtitle: 'UK and US operational presence',
                         body: doc(p('We understand both markets at the data and regulatory level.')),
                     },
                     {
                         type: 'feature',
-                        icon: '📊',
+                        icon: '/icons/Data first culture.svg',
                         title: 'Data-First Culture',
                         subtitle: 'Every decision made from real-time signals',
                         body: doc(p('Traffic quality, lead scoring, campaign optimisation, routing logic — all driven by real-time signals, not intuition.')),
                     },
                     {
                         type: 'feature',
-                        icon: '🤖',
+                        icon: '/icons/automated optimization systems.svg',
                         title: 'Automated Optimisation Systems',
                         subtitle: 'Performance compounds over time',
                         body: doc(p("Performance doesn't require manual intervention. Our systems detect underperformance and optimise autonomously — ensuring results compound over time.")),
                     },
                     {
                         type: 'feature',
-                        icon: '🤝',
+                        icon: '/icons/long term partner.svg',
                         title: 'Long-Term Strategic Partnerships',
                         subtitle: 'We build deep, lasting relationships',
                         body: doc(p("We don't work with everyone. We build deep, long-term relationships with partners who are serious about scale — and we invest in their growth accordingly.")),
                     },
                     {
                         type: 'feature',
-                        icon: '🔒',
+                        icon: '/icons/compliance ready infra.svg',
                         title: 'Compliance-Ready Architecture',
                         subtitle: 'Built for regulated verticals',
                         body: doc(p('Every system is designed with compliance in mind. From data handling to consent management, we operate within the strictest regulatory frameworks.')),
