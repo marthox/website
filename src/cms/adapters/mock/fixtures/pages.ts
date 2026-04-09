@@ -10,6 +10,22 @@ function p(text: string) {
     };
 }
 
+function h2(text: string) {
+    return {
+        nodeType: BLOCKS.HEADING_2,
+        data: {},
+        content: [{ nodeType: 'text', value: text, marks: [], data: {} }],
+    };
+}
+
+function h3(text: string) {
+    return {
+        nodeType: BLOCKS.HEADING_3,
+        data: {},
+        content: [{ nodeType: 'text', value: text, marks: [], data: {} }],
+    };
+}
+
 function ul(...items: string[]) {
     return {
         nodeType: BLOCKS.UL_LIST,
@@ -366,6 +382,208 @@ export const pagesFixture: Page[] = [
                 ],
                 submitLabel: 'Send Message',
                 successMessage: "Thank you — we'll be in touch within one business day.",
+            },
+        ],
+    },
+
+    // ── Privacy Policy ─────────────────────────────────────────────────────
+    {
+        slug: 'privacy-policy',
+        seoTitle: 'Privacy Policy — Digital Hub',
+        seoDescription: 'Learn how Digital Hub LLC collects, uses, and protects your personal information.',
+        pageElements: [
+            {
+                kind: 'section',
+                type: 'hero',
+                theme: 'dark',
+                layout: 'center',
+                title: 'Privacy Policy',
+                subtitle: 'Last updated: January 2026',
+                body: doc(p('Digital Hub LLC ("Digital Hub," "Company," "we," "us," or "our") is a marketing agency registered in the State of Delaware, with offices at 1441 Brickell Ave, Suite 1018, Miami, FL 33131. We operate owned-and-operated (O&O) digital properties across multiple verticals, including Life Insurance, Auto Insurance, Finance, and Sweepstakes (the "Services").')),
+            },
+            {
+                kind: 'section',
+                type: 'text',
+                theme: 'dark',
+                body: doc(
+                    p('This Privacy Policy explains how we collect, use, share, and protect personal information collected through our websites, landing pages, forms, and related technologies (collectively, the "Sites"). This policy is designed to meet strict U.S. advertiser and network compliance standards.'),
+                    p('By accessing or using the Services, you acknowledge that you have read, understood, and agreed to this Privacy Policy.'),
+
+                    h2('1. Scope of This Policy'),
+                    p('This Privacy Policy applies to the following Digital Hub O&O domains, including any subdomains, landing pages, or campaign-specific URLs:'),
+                    ul(
+                        'https://completecoveragehub.com/',
+                        'https://smartautoprice.com/',
+                        'https://freegiftgrabber.com/',
+                        'https://cashloanmatch.com/',
+                    ),
+                    p('The Services are intended exclusively for users located in the United States.'),
+
+                    h2('2. Information We Collect'),
+                    h3('2.1 Personal Information'),
+                    p('Depending on the campaign and vertical, we may collect the following categories of personal information directly from users:'),
+                    ul(
+                        'Full name',
+                        'Email address',
+                        'Telephone number',
+                        'Date of birth',
+                        'Residential address and ZIP code',
+                        'Insurance-related information',
+                        'Financial-related information',
+                        'Household-related information, including income and dependents (where applicable)',
+                    ),
+                    p('We do not knowingly collect Social Security numbers or detailed medical records.'),
+
+                    h3('2.2 Automatically Collected Information'),
+                    p('We may automatically collect certain information when users interact with the Sites, including:'),
+                    ul(
+                        'IP address',
+                        'Browser type and device information',
+                        'Operating system',
+                        'Referring URLs and timestamps',
+                        'Interaction and submission metadata',
+                    ),
+
+                    h2('3. Purpose of Data Collection'),
+                    p('We collect and process personal information for the following purposes:'),
+                    ul(
+                        'Marketing and lead generation activities',
+                        'Matching consumers with relevant insurance, finance, or promotional offers',
+                        'Transmitting leads to third-party advertisers, carriers, brokers, or licensed agents',
+                        'Campaign analytics, attribution, and quality control',
+                        'Fraud prevention, risk assessment, and traffic validation',
+                        'Compliance with applicable legal and regulatory obligations',
+                    ),
+
+                    h2('4. Consent and User Acknowledgment'),
+                    p('By submitting information through any Digital Hub Site, you expressly authorize Digital Hub to collect, store, process, and share your information with third parties for marketing and lead distribution purposes.'),
+                    p('You acknowledge and agree that:'),
+                    ul(
+                        'Your information may be shared with multiple third-party advertisers or partners',
+                        'Digital Hub acts as a marketing agency and lead generator, not as an insurer or lender',
+                        'Digital Hub does not provide insurance, financial, or legal advice',
+                    ),
+                    p('Digital Hub does not initiate outbound phone calls, SMS messages, or prerecorded communications. Email communications, where applicable, are sent by third-party advertisers or partners, not directly by Digital Hub.'),
+
+                    h2('5. Data Sharing and Lead Distribution'),
+                    p('Digital Hub may share personal information with:'),
+                    ul(
+                        'Licensed insurance agents, brokers, and carriers',
+                        'Financial service providers and lenders',
+                        'Sweepstakes and promotional partners',
+                        'Technology and compliance service providers',
+                    ),
+                    p('Lead distribution may occur through real-time technologies, including ping-post methodologies, where permitted.'),
+                    p('Digital Hub does not distribute leads to third-party call centers for outbound solicitation.'),
+
+                    h2('6. Cookies, Tracking, and Technology'),
+                    p('Digital Hub limits the use of tracking technologies. We currently utilize:'),
+                    ul(
+                        'Fraud detection and traffic quality tools',
+                        'Call tracking technologies (where applicable)',
+                    ),
+                    p('We do not use behavioral profiling, retargeting pixels, or session recording technologies.'),
+
+                    h2('7. Data Retention'),
+                    p('Personal information is retained only for as long as reasonably necessary to:'),
+                    ul(
+                        'Fulfill marketing and lead delivery purposes',
+                        'Meet advertiser, network, and regulatory requirements',
+                        'Resolve disputes and enforce contractual obligations',
+                    ),
+                    p('Retention periods are reviewed periodically and data is securely deleted when no longer required.'),
+
+                    h2('8. Consumer Rights (U.S. State Privacy Laws)'),
+                    p('Pursuant to applicable U.S. privacy laws, including the California Consumer Privacy Act (CCPA/CPRA), Virginia Consumer Data Protection Act (VCDPA), and Colorado Privacy Act (CPA), eligible consumers may have the right to:'),
+                    ul(
+                        'Request access to personal information collected',
+                        'Request correction or deletion of personal information',
+                        'Request information regarding data sharing practices',
+                    ),
+                    p('Requests may be submitted via email to privacy@dh-techs.com. Requests will be processed within 30 days, subject to verification requirements.'),
+
+                    h2('9. Opt-Out and Communications'),
+                    p('While Digital Hub does not engage in direct outbound communications, users may submit opt-out or data-related requests by contacting: privacy@dh-techs.com'),
+                    p('Requests will be honored within 30 days of receipt, where applicable.'),
+
+                    h2('10. Children\'s Privacy'),
+                    p('The Services are intended solely for individuals aged 18 or older. We do not knowingly collect personal information from minors.'),
+
+                    h2('11. Data Security'),
+                    p('Digital Hub implements reasonable administrative, technical, and organizational safeguards to protect personal information. However, no system can be guaranteed to be completely secure.'),
+
+                    h2('12. International Data Transfers'),
+                    p('All data collected through the Services is processed and stored in the United States. We do not target or knowingly collect data from users outside the United States.'),
+
+                    h2('13. Policy Updates'),
+                    p('We reserve the right to update this Privacy Policy at any time. Updates will be effective immediately upon posting.'),
+
+                    h2('14. Contact Information'),
+                    p('Digital Hub LLC\n1441 Brickell Ave, Suite 1018\nMiami, FL 33131'),
+                    p('Privacy: privacy@dh-techs.com\nLegal: legal@dh-techs.com\nCompliance: compliance@dh-techs.com'),
+                ),
+            },
+        ],
+    },
+
+    // ── Terms & Conditions ─────────────────────────────────────────────────
+    {
+        slug: 'terms-and-conditions',
+        seoTitle: 'Terms & Conditions — Digital Hub',
+        seoDescription: 'Read the Terms and Conditions governing access to and use of Digital Hub LLC\'s Sites and Services.',
+        pageElements: [
+            {
+                kind: 'section',
+                type: 'hero',
+                theme: 'dark',
+                layout: 'center',
+                title: 'Terms & Conditions',
+                subtitle: 'Last updated: January 2026',
+                body: doc(p('These Terms and Conditions ("Terms") govern access to and use of Digital Hub LLC\'s Sites and Services.')),
+            },
+            {
+                kind: 'section',
+                type: 'text',
+                theme: 'dark',
+                body: doc(
+                    h2('1. Nature of Services'),
+                    p('Digital Hub LLC operates as a marketing agency and lead generator. We do not provide insurance policies, financial products, lending decisions, or professional advice of any kind.'),
+
+                    h2('2. Eligibility'),
+                    p('You must be at least 18 years of age and located in the United States to use the Services.'),
+
+                    h2('3. User Obligations'),
+                    p('You agree to:'),
+                    ul(
+                        'Provide accurate and truthful information',
+                        'Refrain from fraudulent, abusive, or misleading conduct',
+                        'Use the Services solely for lawful purposes',
+                    ),
+
+                    h2('4. No Professional Advice'),
+                    p('Content and information provided through the Sites are for marketing and informational purposes only and do not constitute insurance, legal, or financial advice.'),
+
+                    h2('5. Intellectual Property'),
+                    p('All Site content, trademarks, and proprietary materials are owned by Digital Hub LLC or its licensors and may not be reproduced without prior written consent.'),
+
+                    h2('6. Disclaimers'),
+                    p('The Services are provided on an "as is" and "as available" basis without warranties of any kind.'),
+
+                    h2('7. Limitation of Liability'),
+                    p('To the fullest extent permitted by law, Digital Hub LLC shall not be liable for any indirect, incidental, consequential, or punitive damages arising from use of the Services.'),
+
+                    h2('8. Indemnification'),
+                    p('You agree to indemnify and hold harmless Digital Hub LLC from any claims arising out of your use of the Services or violation of these Terms.'),
+
+                    h2('9. Governing Law'),
+                    p('These Terms shall be governed by and construed in accordance with the laws of the State of Florida, without regard to conflict of law principles.'),
+
+                    h2('10. Modifications and Termination'),
+                    p('We reserve the right to modify these Terms or suspend Services at any time without notice.'),
+
+                    h2('11. Contact'),
+                    p('Legal inquiries may be directed to legal@dh-techs.com'),
+                ),
             },
         ],
     },

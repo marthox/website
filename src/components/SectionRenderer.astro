@@ -40,15 +40,19 @@ const props = element.kind === 'form'
     ? { form: element }
     : { section: element };
 
-// Stable anchor IDs matched to Contentful nav hrefs.
-// Cards: only the non-roles variant gets #solutions (roles layout is the CTA block).
+// Stable anchor IDs matched to nav/footer hrefs.
 function getAnchorId(): string | null {
     if (element.kind === 'form') return 'contact';
     if (element.kind !== 'section') return null;
-    if (element.type === 'cards') return element.layout === 'roles' ? null : 'solutions';
+    if (element.type === 'features') return element.layout === 'split' ? 'about' : 'why-dh';
+    if (element.type === 'cards') {
+        if (element.layout === 'roles') return null;
+        if (element.layout === 'tech')  return 'technology';
+        return 'solutions';
+    }
     const map: Record<string, string> = {
-        features: 'why-dh',
-        stats:    'track-record',
+        tabs:  'pillars',
+        stats: 'track-record',
     };
     return map[element.type] ?? null;
 }

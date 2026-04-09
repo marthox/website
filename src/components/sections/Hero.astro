@@ -18,13 +18,8 @@ const layoutClass = isLeft ? 'hero--left'
 <section class={`hero ${layoutClass}`} data-theme={section.theme}>
     <div class="hero__inner">
         <div class="hero__content">
-            {section.subtitle && (
-                isLeft
-                    ? <span class="hero__badge">
-                          <span class="hero__badge-dot" aria-hidden="true"></span>
-                          {section.subtitle}
-                      </span>
-                    : <span class="hero__eyebrow">{section.subtitle}</span>
+            {section.subtitle && !isLeft && (
+                <span class="hero__eyebrow">{section.subtitle}</span>
             )}
             {section.title && <h1 class="hero__title" set:html={section.title} />}
             <RichText doc={section.body} />
@@ -217,37 +212,6 @@ const layoutClass = isLeft ? 'hero--left'
         flex-direction: column;
         gap: 1.5rem;
         flex: 1;
-    }
-
-    /* Badge / pill eyebrow (left layout) */
-    .hero__badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.4rem 0.875rem 0.4rem 0.625rem;
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: var(--radius-pill);
-        font-size: 0.8125rem;
-        font-weight: 500;
-        letter-spacing: 0.02em;
-        color: rgba(123,201,245,0.85);
-        width: fit-content;
-        backdrop-filter: blur(4px);
-    }
-
-    .hero__badge-dot {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: #ff0087;
-        box-shadow: 0 0 6px #ff0087;
-        animation: pulse-dot 2s ease-in-out infinite;
-        flex-shrink: 0;
-    }
-
-    @keyframes pulse-dot {
-        0%, 100% { opacity: 1; box-shadow: 0 0 6px #ff0087; }
-        50%       { opacity: 0.6; box-shadow: 0 0 12px #ff0087; }
     }
 
     /* Simple eyebrow (center layout) */
@@ -544,6 +508,11 @@ const layoutClass = isLeft ? 'hero--left'
         font-size: 0.6875rem;
         color: rgba(123,201,245,0.6);
         margin-top: 0.125rem;
+    }
+
+    @keyframes pulse-dot {
+        0%, 100% { opacity: 1; box-shadow: 0 0 6px #ff0087; }
+        50%       { opacity: 0.6; box-shadow: 0 0 12px #ff0087; }
     }
 
     .hero__dash-live-dot {
