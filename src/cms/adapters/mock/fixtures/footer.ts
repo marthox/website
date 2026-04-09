@@ -14,8 +14,8 @@ export const footerFixture: Footer = {
         {
             title: 'Company',
             links: [
-                { label: 'About Us',    href: '#about'       },
-                { label: 'Technology',  href: '#technology'  },
+                { label: 'About Us',    href: '/#about'       },
+                { label: 'Technology',  href: '/#technology'  },
                 { label: 'Contact',     href: '#contact'     },
             ],
         },
@@ -28,13 +28,13 @@ export const footerFixture: Footer = {
         },
     ],
     socialLinks: [
-        { label: 'LinkedIn',  href: 'https://linkedin.com',  icon: 'linkedin'  },
-        { label: 'Instagram', href: 'https://instagram.com', icon: 'instagram' },
-        { label: 'Twitter',   href: 'https://twitter.com',   icon: 'twitter'   },
+        { label: 'LinkedIn',  href: 'https://www.linkedin.com/company/dh-techs',  icon: 'linkedin'  },
+        { label: 'Instagram', href: 'https://www.instagram.com/digitalhub_techs', icon: 'instagram' },
+        { label: 'Facebook',  href: 'https://www.facebook.com/DigitalHubTechs/',  icon: 'facebook'  },
     ],
     legalLinks: [
-        { label: 'Privacy Policy', href: '/privacy' },
-        { label: 'Terms of Use',   href: '/terms'   },
+        { label: 'Privacy Policy',     href: '/privacy-policy'      },
+        { label: 'Terms & Conditions', href: '/terms-and-conditions' },
     ],
     copyright: '© 2026 Digital Hub. All rights reserved.',
 };
