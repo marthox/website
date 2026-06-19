@@ -1,16 +1,12 @@
 ---
-import type { NavElement, NavLink, NavMenu } from '@/types/nav';
+import type { NavElement, NavLink } from '@/types/nav';
 
 interface Props {
-    brand: import('@/types/nav').NavBrand | null;
     elements: NavElement[];
 }
 
 const { elements } = Astro.props;
 
-function isNavMenu(el: NavElement): el is NavMenu {
-    return 'submenu' in el;
-}
 function isNavLink(el: NavElement): el is NavLink {
     return 'href' in el && !('src' in el);
 }
@@ -27,7 +23,7 @@ const rightLinks = navLinks.slice(half);
         <ul class="site-nav__links site-nav__links--left" role="list">
             {leftLinks.map(el => (
                 <li>
-                    <a href={el.href} class="site-nav__link">{el.label}</a>
+                    <a href={el.href} class="site-nav__link" aria-current={Astro.url.pathname === el.href ? 'page' : undefined}>{el.label}</a>
                 </li>
             ))}
         </ul>
@@ -38,8 +34,8 @@ const rightLinks = navLinks.slice(half);
                 src="/logo-manuela.jpg"
                 alt="Manuela E. Aguirre"
                 class="site-nav__logo"
-                width="180"
-                height="72"
+                width="130"
+                height="52"
             />
         </a>
 
@@ -48,7 +44,7 @@ const rightLinks = navLinks.slice(half);
             <ul class="site-nav__links site-nav__links--right" role="list">
                 {rightLinks.map(el => (
                     <li>
-                        <a href={el.href} class="site-nav__link">{el.label}</a>
+                        <a href={el.href} class="site-nav__link" aria-current={Astro.url.pathname === el.href ? 'page' : undefined}>{el.label}</a>
                     </li>
                 ))}
             </ul>
@@ -68,7 +64,7 @@ const rightLinks = navLinks.slice(half);
 </nav>
 
 <!-- Mobile overlay -->
-<div class="site-nav__overlay" id="mobile-menu" aria-hidden="true" role="dialog" aria-label="Menú de navegación">
+<div class="site-nav__overlay" id="mobile-menu" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menú de navegación">
     <div class="site-nav__overlay-header">
         <a class="site-nav__overlay-brand" href="/" aria-label="Inicio">
             <img src="/logo-manuela.jpg" alt="Manuela E. Aguirre" class="site-nav__overlay-logo" />
@@ -82,7 +78,7 @@ const rightLinks = navLinks.slice(half);
         <ul class="site-nav__overlay-links" role="list">
             {navLinks.map(el => (
                 <li>
-                    <a href={el.href} class="site-nav__overlay-link">{el.label}</a>
+                    <a href={el.href} class="site-nav__overlay-link" aria-current={Astro.url.pathname === el.href ? 'page' : undefined}>{el.label}</a>
                 </li>
             ))}
         </ul>
@@ -116,10 +112,28 @@ const rightLinks = navLinks.slice(half);
         overlay?.classList.toggle('is-open', open);
         hamburger?.classList.toggle('is-active', open);
         document.body.style.overflow = open ? 'hidden' : '';
+
+        if (open) {
+            const firstLink = overlay?.querySelector<HTMLElement>('a, button');
+            firstLink?.focus();
+        } else {
+            hamburger?.focus();
+        }
     }
 
     hamburger?.addEventListener('click', () => setMenuOpen(true));
     closeBtn?.addEventListener('click',  () => setMenuOpen(false));
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay?.classList.contains('is-open')) {
+            setMenuOpen(false);
+        }
+    });
+
+    const mql = window.matchMedia('(min-width: 768px)');
+    mql.addEventListener('change', (e) => {
+        if (e.matches) setMenuOpen(false);
+    });
 
     overlay?.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => setMenuOpen(false));
@@ -132,7 +146,7 @@ const rightLinks = navLinks.slice(half);
     position: sticky;
     top: 0;
     z-index: 100;
-    background-color: #FDFAF4;
+    background-color: var(--color-surface, #FDFAF4);
     border-bottom: 2px solid #2C1810;
 }
 
@@ -233,7 +247,7 @@ const rightLinks = navLinks.slice(half);
     position: fixed;
     inset: 0;
     z-index: 200;
-    background-color: #F7F3EC;
+    background-color: var(--color-bg, #F7F3EC);
     background-image: url('/fondo-pagina.png');
     background-size: cover;
     background-repeat: no-repeat;
@@ -298,7 +312,6 @@ const rightLinks = navLinks.slice(half);
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 0;
 }
 .site-nav__overlay-link {
     display: block;
