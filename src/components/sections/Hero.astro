@@ -80,19 +80,19 @@ const layoutClass = isLeft ? 'hero--left'
                     <div class="hero__dash-bars">
                         <div class="hero__dash-bar-row">
                             <span>Affilia Network</span>
-                            <span class="hero__dash-pct" style="color:#ff0087">72%</span>
+                            <span class="hero__dash-pct" style="color:var(--color-accent,#D4694A)">72%</span>
                         </div>
-                        <div class="hero__dash-bar"><div style="width:72%;background:#ff0087"></div></div>
+                        <div class="hero__dash-bar"><div style="width:72%;background:var(--color-accent,#D4694A)"></div></div>
                         <div class="hero__dash-bar-row">
                             <span>Pay Per Call</span>
-                            <span class="hero__dash-pct" style="color:#0099ff">55%</span>
+                            <span class="hero__dash-pct" style="color:var(--color-text-muted,#6B5040)">55%</span>
                         </div>
-                        <div class="hero__dash-bar"><div style="width:55%;background:#0099ff"></div></div>
+                        <div class="hero__dash-bar"><div style="width:55%;background:var(--color-text-muted,#6B5040)"></div></div>
                         <div class="hero__dash-bar-row">
                             <span>Ping Post</span>
-                            <span class="hero__dash-pct" style="color:#ff0087">88%</span>
+                            <span class="hero__dash-pct" style="color:var(--color-accent,#D4694A)">88%</span>
                         </div>
-                        <div class="hero__dash-bar"><div style="width:88%;background:#ff0087"></div></div>
+                        <div class="hero__dash-bar"><div style="width:88%;background:var(--color-accent,#D4694A)"></div></div>
                     </div>
                 </div>
 
@@ -284,24 +284,23 @@ const layoutClass = isLeft ? 'hero--left'
     .hero__cta:hover { transform: translateY(-1px); }
 
     .hero__cta--primary {
-        background: var(--gradient-brand, linear-gradient(135deg, #0099ff 0%, #ff0087 100%));
-        color: #FFFFFF;
-        box-shadow: 0 4px 24px rgba(255, 0, 135, 0.3);
+        background: var(--btn-primary-bg, var(--color-accent, #D4694A));
+        color: var(--btn-primary-text, #FFFFFF);
+        box-shadow: 0 4px 24px rgba(212, 105, 74, 0.3);
     }
 
     .hero__cta--primary:hover {
-        box-shadow: 0 6px 32px rgba(255, 0, 135, 0.5);
+        box-shadow: 0 6px 32px rgba(212, 105, 74, 0.5);
         opacity: 0.92;
     }
 
     .hero__cta--secondary {
-        border: 1.5px solid rgba(123,201,245,0.35);
-        color: #7bc9f5;
-        background: rgba(0,153,255,0.05);
-        backdrop-filter: blur(4px);
+        border: 1.5px solid var(--section-border);
+        color: var(--section-text-muted);
+        background: var(--section-surface);
     }
 
-    .hero__cta--secondary:hover { border-color: rgba(123,201,245,0.7); }
+    .hero__cta--secondary:hover { border-color: var(--color-accent); }
 
     .hero__cta--ghost {
         color: var(--color-accent);
@@ -358,8 +357,7 @@ const layoutClass = isLeft ? 'hero--left'
         position: absolute;
         background: rgba(6, 10, 28, 0.92);
         border: 1px solid rgba(255,255,255,0.09);
-        border-radius: 1rem;
-        backdrop-filter: blur(20px);
+        border-radius: 0;
         box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset;
         color: #F4F4EE;
         font-family: var(--font-body);
@@ -401,7 +399,7 @@ const layoutClass = isLeft ? 'hero--left'
     .hero__dash-live {
         font-size: 0.6875rem;
         font-weight: 700;
-        color: #0099ff;
+        color: var(--color-accent, #D4694A);
         letter-spacing: 0.05em;
     }
 
@@ -517,8 +515,8 @@ const layoutClass = isLeft ? 'hero--left'
     }
 
     @keyframes pulse-dot {
-        0%, 100% { opacity: 1; box-shadow: 0 0 6px #ff0087; }
-        50%       { opacity: 0.6; box-shadow: 0 0 12px #ff0087; }
+        0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--color-accent, #D4694A); }
+        50%       { opacity: 0.6; box-shadow: 0 0 12px var(--color-accent, #D4694A); }
     }
 
     .hero__dash-live-dot {
