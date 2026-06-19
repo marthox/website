@@ -90,9 +90,6 @@ const navLinks = elements.filter(isNavLink);
     updateNavHeight();
     new ResizeObserver(updateNavHeight).observe(document.documentElement);
 
-    // Always dark mode for page-level theme tokens
-    document.documentElement.dataset.themeMode = 'dark';
-
     // ── Mobile fullscreen overlay ─────────────────────────────────────────────
     const hamburger = document.getElementById('mobile-menu-toggle');
     const closeBtn  = document.getElementById('mobile-menu-close');
