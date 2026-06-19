@@ -52,6 +52,7 @@ export interface Section {
     form?: Form;
     layout?: 'left' | 'right' | 'center' | 'split' | 'roles' | 'comparison' | 'tech';
     theme?: 'light' | 'dark' | 'accent';
+    image?: { src: string; alt?: string };
 }
 
 export type PageElement = Section | Form;

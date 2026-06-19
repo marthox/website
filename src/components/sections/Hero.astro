@@ -17,10 +17,16 @@ const layoutClass = isLeft ? 'hero--left'
 
 <section class={`hero ${layoutClass}`} data-theme={section.theme}>
     <div class="hero__inner">
+        {section.layout === 'split' && section.image && (
+            <div class="hero__image-col">
+                <img src={section.image.src} alt={section.image.alt ?? ''} loading="eager" />
+            </div>
+        )}
         <div class="hero__content">
             {section.subtitle && !isLeft && (
                 <span class="hero__eyebrow">{section.subtitle}</span>
             )}
+            {section.layout === 'split' && <div class="hero__rule" aria-hidden="true"></div>}
             {section.title && <h1 class="hero__title" set:html={section.title} />}
             <RichText doc={section.body} />
             {section.ctas && section.ctas.length > 0 && (
@@ -606,5 +612,131 @@ const layoutClass = isLeft ? 'hero--left'
         }
 
         .hero__media { max-width: 100%; }
+    }
+
+    /* ── Portrait-split layout (homepage hero) ─────────────────────────────── */
+    .hero--split {
+        background: transparent;
+        border-bottom: 2px solid var(--section-border);
+        padding: 0;
+    }
+
+    .hero--split .hero__inner {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        max-width: var(--container-width, 1200px);
+        margin: 0 auto;
+        min-height: 520px;
+    }
+
+    .hero--split .hero__image-col {
+        position: relative;
+        overflow: hidden;
+        border-right: 1px solid var(--section-border);
+    }
+
+    .hero--split .hero__image-col img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+        display: block;
+    }
+
+    .hero--split .hero__content {
+        padding: 3rem 2.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .hero--split .hero__eyebrow {
+        font-family: var(--font-body, 'Lato', sans-serif);
+        font-size: 0.75rem;
+        font-weight: 400;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--color-accent, #D4694A);
+        margin: 0;
+    }
+
+    .hero--split .hero__rule {
+        width: 32px;
+        height: 2px;
+        background: var(--color-accent, #D4694A);
+        flex-shrink: 0;
+    }
+
+    .hero--split .hero__title {
+        font-family: var(--font-heading, 'Playfair Display', serif);
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 700;
+        color: var(--section-text, #1A0F08);
+        line-height: 1.05;
+        margin: 0;
+    }
+
+    .hero--split .hero__body,
+    .hero--split .rich-text {
+        font-family: var(--font-heading, 'Playfair Display', serif);
+        font-style: italic;
+        font-size: 1rem;
+        color: var(--section-text-muted, #6B5040);
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    .hero--split .hero__ctas {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-top: 0.5rem;
+    }
+
+    .hero--split .hero__cta {
+        font-family: var(--font-body, 'Lato', sans-serif);
+        font-size: 0.75rem;
+        font-weight: 400;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        text-decoration: none;
+        padding: 0.6rem 1.25rem;
+        transition: background 0.15s, color 0.15s, border-color 0.15s;
+        border-radius: 0;
+    }
+    .hero--split .hero__cta--primary {
+        background: var(--btn-primary-bg, #2C1810);
+        color: var(--btn-primary-text, #F7F3EC);
+        border: 1px solid transparent;
+    }
+    .hero--split .hero__cta--primary:hover {
+        background: var(--color-accent, #D4694A);
+    }
+    .hero--split .hero__cta--secondary {
+        border: 1px solid var(--btn-secondary-border, #D4694A);
+        color: var(--btn-secondary-text, #D4694A);
+        background: transparent;
+    }
+    .hero--split .hero__cta--secondary:hover {
+        background: var(--color-accent, #D4694A);
+        color: #FDFAF4;
+        border-color: var(--color-accent, #D4694A);
+    }
+
+    /* Mobile — stack vertically */
+    @media (max-width: 767px) {
+        .hero--split .hero__inner {
+            grid-template-columns: 1fr;
+            min-height: unset;
+        }
+        .hero--split .hero__image-col {
+            height: 55vw;
+            border-right: none;
+            border-bottom: 1px solid var(--section-border);
+        }
+        .hero--split .hero__content {
+            padding: 2rem 1.25rem;
+        }
     }
 </style>
