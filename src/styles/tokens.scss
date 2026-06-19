@@ -1,23 +1,21 @@
 // =============================================================================
-// Design Tokens — Digital Hub
-// Approved palette: Blanco #ffffff · Azul Claro #7bc9f5 · Fucsia #ff0087 · Azul Oscuro #0099ff
+// Design Tokens — Manuela E. Aguirre
+// Editorial Literary palette: cream paper, dark ink, coral accent
 // =============================================================================
 
 :root {
     // ── Base palette ──────────────────────────────────────────────────────────
-    --color-bg:           #07070E;
-    --color-surface:      #0a0f22;
-    --color-border:       rgba(123, 201, 245, 0.1);
-    --color-text:         #ffffff;
-    --color-text-muted:   rgba(123, 201, 245, 0.8);   // Azul Claro — readable body text
-    --color-accent:       #ff0087;        // Fucsia — client approved
-    --color-accent-alt:   #0099ff;        // Azul Oscuro — client approved
-    --color-accent-light: #7bc9f5;        // Azul Claro — client approved
+    --color-bg:           #F7F3EC;
+    --color-surface:      #FDFAF4;
+    --color-border:       #D4C9B0;
+    --color-text:         #1A0F08;
+    --color-text-muted:   #6B5040;
+    --color-accent:       #D4694A;
+    --color-ink:          #2C1810;
 
     // ── Typography ────────────────────────────────────────────────────────────
-    --font-heading: 'Syne', system-ui, sans-serif;       // Display / hero headers
-    --font-body:    'Open Sans', system-ui, sans-serif;  // Client approved body
-    --font-ui:      'Montserrat', system-ui, sans-serif; // Client approved UI
+    --font-heading: 'Playfair Display', Georgia, serif;
+    --font-body:    'Lato', system-ui, sans-serif;
     --font-size-base: 16px;
 
     // ── Layout ────────────────────────────────────────────────────────────────
@@ -25,57 +23,38 @@
     --section-padding-y: 5rem;
     --section-padding-x: 1.5rem;
 
-    // ── Radius ────────────────────────────────────────────────────────────────
-    --radius-sm:   0.25rem;
-    --radius-md:   0.5rem;
-    --radius-lg:   0.75rem;
-    --radius-xl:   1rem;
-    --radius-pill: 50px;
-
-    // ── Gradients ─────────────────────────────────────────────────────────────
-    --gradient-brand:     linear-gradient(135deg, #0099ff 0%, #ff0087 100%);
-    --gradient-hero-dark: radial-gradient(ellipse 130% 80% at 50% -10%, #0F2D52 0%, #0A1F3A 35%, #080C14 70%);
+    // ── Radius — hard editorial edges ─────────────────────────────────────────
+    --radius-sm:   0px;
+    --radius-md:   0px;
+    --radius-lg:   1px;
+    --radius-xl:   1px;
+    --radius-pill: 2px;
 }
 
 // =============================================================================
-// Section theme tokens
+// Section theme tokens — light only (no dark mode)
 // =============================================================================
 
-// ── Dark sections (default) ───────────────────────────────────────────────────
 :root,
+[data-theme="light"],
 [data-theme="dark"] {
-    --section-bg:           #07070E;
-    --section-surface:      #0a0f22;
-    --section-border:       rgba(123, 201, 245, 0.1);
-    --section-text:         #ffffff;
-    --section-text-muted:   rgba(123, 201, 245, 0.8);  // Azul Claro — readable on dark
+    --section-bg:           #F7F3EC;
+    --section-surface:      #FDFAF4;
+    --section-border:       #D4C9B0;
+    --section-text:         #1A0F08;
+    --section-text-muted:   #6B5040;
 
-    --btn-primary-bg:       #ff0087;
-    --btn-primary-text:     #ffffff;
-    --btn-secondary-border: rgba(123, 201, 245, 0.35);
-    --btn-secondary-text:   #7bc9f5;
-    --btn-ghost-text:       #7bc9f5;
-}
-
-// ── Light sections — true white with dark text ────────────────────────────────
-[data-theme="light"] {
-    --section-bg:           #FFFFFF;
-    --section-surface:      #F5F5F0;
-    --section-border:       #EBEBEB;
-    --section-text:         #0A0A0A;
-    --section-text-muted:   #6B6B6B;
-
-    --btn-primary-bg:       #ff0087;
-    --btn-primary-text:     #FFFFFF;
-    --btn-secondary-border: #0A0A0A;
-    --btn-secondary-text:   #0A0A0A;
-    --btn-ghost-text:       #ff0087;
+    --btn-primary-bg:       #2C1810;
+    --btn-primary-text:     #F7F3EC;
+    --btn-secondary-border: #D4694A;
+    --btn-secondary-text:   #D4694A;
+    --btn-ghost-text:       #D4694A;
 }
 
 // ── Mobile ────────────────────────────────────────────────────────────────────
 @media (max-width: 767px) {
     :root {
-        --section-padding-y: 3rem;
+        --section-padding-y: 3.5rem;
         --section-padding-x: 1.25rem;
     }
 }
