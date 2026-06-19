@@ -122,8 +122,9 @@ const { footer } = Astro.props;
 
 <style>
     .site-footer {
-        background-color: #07070E;
-        color: #F4F4EE;
+        background-color: var(--color-ink, #2C1810);
+        color: #F7F3EC;
+        border-top: 2px solid var(--color-ink, #2C1810);
         padding-top: 4rem;
         padding-inline: 1.5rem;
         overflow: hidden;
@@ -162,10 +163,12 @@ const { footer } = Astro.props;
         height: 64px;
         width: auto;
         object-fit: contain;
+        filter: invert(1);
+        opacity: 0.9;
     }
 
     .site-footer__tagline {
-        color: rgba(123,201,245,0.65);
+        color: rgba(247, 243, 236, 0.75);
         font-size: 0.875rem;
         margin: 0;
         max-width: 36ch;
@@ -185,18 +188,18 @@ const { footer } = Astro.props;
         justify-content: center;
         width: 2.25rem;
         height: 2.25rem;
-        border-radius: 0.5rem;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        color: rgba(123,201,245,0.75);
+        border-radius: 0;
+        background: rgba(247, 243, 236, 0.05);
+        border: 1px solid rgba(247, 243, 236, 0.12);
+        color: rgba(247, 243, 236, 0.75);
         text-decoration: none;
         transition: background 0.15s, color 0.15s, border-color 0.15s;
     }
 
     .site-footer__social-link:hover {
-        background: rgba(255, 0, 135, 0.1);
-        border-color: rgba(255, 0, 135, 0.3);
-        color: #ff0087;
+        background: rgba(212, 105, 74, 0.15);
+        border-color: rgba(212, 105, 74, 0.4);
+        color: var(--color-accent, #D4694A);
     }
 
     /* ── Columns ──────────────────────────────────────────────────────────── */
@@ -207,11 +210,12 @@ const { footer } = Astro.props;
     }
 
     .site-footer__column-title {
-        font-size: 0.75rem;
-        font-weight: 700;
+        font-family: var(--font-body);
+        font-size: 0.65rem;
+        font-weight: 400;
         text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: rgba(123,201,245,0.55);
+        letter-spacing: 0.18em;
+        color: var(--color-accent, #D4694A);
         margin: 0 0 1rem;
     }
 
@@ -225,14 +229,14 @@ const { footer } = Astro.props;
     }
 
     .site-footer__column-links a {
-        color: rgba(123,201,245,0.8);
+        color: rgba(247, 243, 236, 0.75);
         text-decoration: none;
         font-size: 0.9375rem;
         transition: color 0.15s;
     }
 
     .site-footer__column-links a:hover {
-        color: #F4F4EE;
+        color: var(--color-accent, #D4694A);
     }
 
     /* ── Legal row ────────────────────────────────────────────────────────── */
@@ -244,8 +248,8 @@ const { footer } = Astro.props;
         gap: 1rem;
         padding-top: 1.5rem;
         padding-bottom: 1.5rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.06);
-        color: rgba(123,201,245,0.45);
+        border-top: 1px solid rgba(247, 243, 236, 0.08);
+        color: rgba(247, 243, 236, 0.4);
         font-size: 0.8125rem;
     }
 
@@ -269,7 +273,7 @@ const { footer } = Astro.props;
     }
 
     .site-footer__legal-links a:hover {
-        color: rgba(123,201,245,0.8);
+        color: rgba(247, 243, 236, 0.75);
     }
 
 
