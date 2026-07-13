@@ -35,12 +35,12 @@ const isSplit = section.layout === "split";
                         >
                             <stop
                                 offset="0%"
-                                stop-color="#0099ff"
+                                stop-color="#D4694A"
                                 stop-opacity="0.12"
                             />
                             <stop
                                 offset="100%"
-                                stop-color="#ff0087"
+                                stop-color="#8B6F47"
                                 stop-opacity="0"
                             />
                         </radialGradient>
@@ -53,7 +53,7 @@ const isSplit = section.layout === "split";
                     />
                     <g
                         clip-path="url(#globe-clip)"
-                        stroke="#0099ff"
+                        stroke="#D4694A"
                         stroke-width="0.6"
                         fill="none"
                         opacity="0.3"
@@ -66,7 +66,7 @@ const isSplit = section.layout === "split";
                     </g>
                     <g
                         clip-path="url(#globe-clip)"
-                        stroke="#0099ff"
+                        stroke="#D4694A"
                         stroke-width="0.6"
                         fill="none"
                         opacity="0.3"
@@ -79,7 +79,7 @@ const isSplit = section.layout === "split";
                         cx="150"
                         cy="150"
                         r="145"
-                        stroke="#0099ff"
+                        stroke="#D4694A"
                         stroke-width="1"
                         opacity="0.4"
                     />
@@ -87,14 +87,14 @@ const isSplit = section.layout === "split";
                         cx="132"
                         cy="61"
                         r="3.5"
-                        fill="#0099ff"
+                        fill="#D4694A"
                         opacity="0.95"
                     />
                     <circle
                         cx="132"
                         cy="61"
                         r="7"
-                        stroke="#0099ff"
+                        stroke="#D4694A"
                         stroke-width="1"
                         fill="none"
                         class="globe-ping"
@@ -103,7 +103,7 @@ const isSplit = section.layout === "split";
                         cx="132"
                         cy="61"
                         r="11"
-                        stroke="#0099ff"
+                        stroke="#D4694A"
                         stroke-width="0.5"
                         fill="none"
                         class="globe-ping globe-ping--delay"
@@ -112,7 +112,7 @@ const isSplit = section.layout === "split";
                         x="142"
                         y="59"
                         font-size="7.5"
-                        fill="#0099ff"
+                        fill="#D4694A"
                         font-family="monospace"
                         letter-spacing="1.8"
                         opacity="0.85"
@@ -123,14 +123,14 @@ const isSplit = section.layout === "split";
                         cx="222"
                         cy="188"
                         r="3.5"
-                        fill="#ff0087"
+                        fill="#8B6F47"
                         opacity="0.95"
                     />
                     <circle
                         cx="222"
                         cy="188"
                         r="7"
-                        stroke="#ff0087"
+                        stroke="#8B6F47"
                         stroke-width="1"
                         fill="none"
                         class="globe-ping globe-ping--offset"
@@ -139,7 +139,7 @@ const isSplit = section.layout === "split";
                         cx="222"
                         cy="188"
                         r="11"
-                        stroke="#ff0087"
+                        stroke="#8B6F47"
                         stroke-width="0.5"
                         fill="none"
                         class="globe-ping globe-ping--delay globe-ping--offset"
@@ -148,7 +148,7 @@ const isSplit = section.layout === "split";
                         x="232"
                         y="186"
                         font-size="7.5"
-                        fill="#ff0087"
+                        fill="#8B6F47"
                         font-family="monospace"
                         letter-spacing="1.8"
                         opacity="0.85"
@@ -416,21 +416,21 @@ const isSplit = section.layout === "split";
         overflow: hidden;
     }
 
-    /* Alternate icon colors — even items use blue accent */
+    /* Alternate icon colors — even items use accent variant */
     .feature:nth-child(2n) .feature__icon-wrap {
-        background-color: rgba(0, 153, 255, 0.12);
+        background-color: rgba(139, 111, 71, 0.12);
     }
 
     .feature:nth-child(3n) .feature__icon-wrap {
-        background-color: rgba(255, 0, 135, 0.08);
-        border: 1px solid rgba(255, 0, 135, 0.15);
+        background-color: rgba(212, 105, 74, 0.08);
+        border: 1px solid rgba(212, 105, 74, 0.15);
     }
 
     /* Feature cards on dark theme — add subtle border */
     [data-theme="dark"] .feature {
         padding: 1.25rem;
         border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 0.75rem;
+        border-radius: 0;
         transition:
             border-color 0.2s,
             background 0.2s;
@@ -438,8 +438,8 @@ const isSplit = section.layout === "split";
     }
 
     [data-theme="dark"] .feature:hover {
-        border-color: rgba(255, 0, 135, 0.2);
-        background: rgba(255, 0, 135, 0.03);
+        border-color: rgba(212, 105, 74, 0.2);
+        background: rgba(212, 105, 74, 0.03);
     }
 
     .feature__icon {
@@ -534,13 +534,10 @@ const isSplit = section.layout === "split";
     }
 
     .features__cta--primary {
-        background: var(
-            --gradient-brand,
-            linear-gradient(135deg, #0099ff 0%, #ff0087 100%)
-        );
+        background: var(--btn-primary-bg, var(--color-accent, #D4694A));
         color: var(--btn-primary-text);
         padding: 0.625rem 1.5rem;
-        border-radius: 0.375rem;
+        border-radius: 0;
     }
 
     .features__cta--secondary {

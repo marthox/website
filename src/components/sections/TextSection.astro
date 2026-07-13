@@ -63,8 +63,8 @@ const isComparison = section.layout === 'comparison';
                                 <circle cx="150" cy="150" r="145"/>
                             </clipPath>
                             <radialGradient id="sphere-glow" cx="38%" cy="32%" r="55%">
-                                <stop offset="0%" stop-color="#00CFFF" stop-opacity="0.15"/>
-                                <stop offset="100%" stop-color="#00CFFF" stop-opacity="0"/>
+                                <stop offset="0%" stop-color="#D4C9B0" stop-opacity="0.15"/>
+                                <stop offset="100%" stop-color="#D4C9B0" stop-opacity="0"/>
                             </radialGradient>
                         </defs>
 
@@ -72,7 +72,7 @@ const isComparison = section.layout === 'comparison';
                         <circle cx="150" cy="150" r="145" fill="url(#sphere-glow)"/>
 
                         <!-- Latitude lines — clipped to globe -->
-                        <g clip-path="url(#globe-clip)" stroke="#00CFFF" stroke-width="0.6" fill="none" opacity="0.35">
+                        <g clip-path="url(#globe-clip)" stroke="#D4C9B0" stroke-width="0.6" fill="none" opacity="0.35">
                             <ellipse cx="150" cy="24"  rx="72"  ry="9"/>
                             <ellipse cx="150" cy="78"  rx="126" ry="14"/>
                             <ellipse cx="150" cy="150" rx="145" ry="17"/>
@@ -81,29 +81,29 @@ const isComparison = section.layout === 'comparison';
                         </g>
 
                         <!-- Longitude lines — clipped to globe -->
-                        <g clip-path="url(#globe-clip)" stroke="#00CFFF" stroke-width="0.6" fill="none" opacity="0.35">
+                        <g clip-path="url(#globe-clip)" stroke="#D4C9B0" stroke-width="0.6" fill="none" opacity="0.35">
                             <line x1="150" y1="5"  x2="150" y2="295"/>
                             <ellipse cx="150" cy="150" rx="72"  ry="145"/>
                             <ellipse cx="150" cy="150" rx="126" ry="145"/>
                         </g>
 
                         <!-- Globe outline -->
-                        <circle cx="150" cy="150" r="145" stroke="#00CFFF" stroke-width="1" opacity="0.5"/>
+                        <circle cx="150" cy="150" r="145" stroke="#D4C9B0" stroke-width="1" opacity="0.5"/>
 
                         <!-- US location marker (~38°N, 97°W — λ=−7° from −90°W center) -->
-                        <circle cx="132" cy="61" r="3.5" fill="#00CFFF" opacity="0.95"/>
-                        <circle cx="132" cy="61" r="7"   stroke="#00CFFF" stroke-width="1"   fill="none" class="globe-ping"/>
-                        <circle cx="132" cy="61" r="11"  stroke="#00CFFF" stroke-width="0.5" fill="none" class="globe-ping globe-ping--delay"/>
-                        <text x="142" y="59" font-size="7.5" fill="#00CFFF" font-family="monospace" letter-spacing="1.8" opacity="0.85">US</text>
+                        <circle cx="132" cy="61" r="3.5" fill="#D4C9B0" opacity="0.95"/>
+                        <circle cx="132" cy="61" r="7"   stroke="#D4C9B0" stroke-width="1"   fill="none" class="globe-ping"/>
+                        <circle cx="132" cy="61" r="11"  stroke="#D4C9B0" stroke-width="0.5" fill="none" class="globe-ping globe-ping--delay"/>
+                        <text x="142" y="59" font-size="7.5" fill="#D4C9B0" font-family="monospace" letter-spacing="1.8" opacity="0.85">US</text>
 
                         <!-- LATAM location marker (~15°S, 60°W — λ=+30° from −90°W center) -->
-                        <circle cx="222" cy="188" r="3.5" fill="#00CFFF" opacity="0.95"/>
-                        <circle cx="222" cy="188" r="7"   stroke="#00CFFF" stroke-width="1"   fill="none" class="globe-ping globe-ping--offset"/>
-                        <circle cx="222" cy="188" r="11"  stroke="#00CFFF" stroke-width="0.5" fill="none" class="globe-ping globe-ping--delay globe-ping--offset"/>
-                        <text x="232" y="186" font-size="7.5" fill="#00CFFF" font-family="monospace" letter-spacing="1.8" opacity="0.85">LATAM</text>
+                        <circle cx="222" cy="188" r="3.5" fill="#D4C9B0" opacity="0.95"/>
+                        <circle cx="222" cy="188" r="7"   stroke="#D4C9B0" stroke-width="1"   fill="none" class="globe-ping globe-ping--offset"/>
+                        <circle cx="222" cy="188" r="11"  stroke="#D4C9B0" stroke-width="0.5" fill="none" class="globe-ping globe-ping--delay globe-ping--offset"/>
+                        <text x="232" y="186" font-size="7.5" fill="#D4C9B0" font-family="monospace" letter-spacing="1.8" opacity="0.85">LATAM</text>
 
                         <!-- Connector arc between US and LATAM -->
-                        <path d="M 132 64 Q 200 130 222 185" stroke="#00CFFF" stroke-width="0.75" stroke-dasharray="3 4" fill="none" opacity="0.3"/>
+                        <path d="M 132 64 Q 200 130 222 185" stroke="#D4C9B0" stroke-width="0.75" stroke-dasharray="3 4" fill="none" opacity="0.3"/>
                     </svg>
                 </div>
             )}
@@ -143,14 +143,18 @@ const isComparison = section.layout === 'comparison';
         font-size: clamp(1.5rem, 3vw, 2.25rem);
         font-weight: 700;
         margin: 0;
+        font-family: var(--font-heading);
+        color: var(--section-text);
+        line-height: 1.15;
     }
 
     .text-section__eyebrow {
-        font-size: 0.8125rem;
-        font-weight: 600;
-        letter-spacing: 0.12em;
+        font-size: 0.75rem;
+        font-weight: 400;
+        letter-spacing: 0.18em;
         text-transform: uppercase;
         color: var(--color-accent);
+        font-family: var(--font-body);
     }
 
     .text-section__ctas {
@@ -164,17 +168,21 @@ const isComparison = section.layout === 'comparison';
         align-items: center;
         gap: 0.5rem;
         padding: 0.625rem 1.5rem;
-        border-radius: 0.375rem;
+        border-radius: 0;
         font-weight: 600;
         text-decoration: none;
         transition: opacity 0.15s;
+        font-family: var(--font-body);
+        font-size: 0.75rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
     }
 
     .text-section__cta:hover { opacity: 0.85; }
 
     .text-section__cta--primary {
-        background: var(--gradient-brand, linear-gradient(135deg, #0099ff 0%, #ff0087 100%));
-        color: var(--btn-primary-text);
+        background: var(--btn-primary-bg, #2C1810);
+        color: var(--btn-primary-text, #F7F3EC);
     }
 
     .text-section__cta--secondary {
@@ -281,7 +289,7 @@ const isComparison = section.layout === 'comparison';
     }
 
     :global(.text-section--comparison .rich-text li) {
-        border-top: 2px solid var(--color-accent, #00CFFF);
+        border-top: 2px solid var(--color-accent, #D4694A);
         padding: 1.25rem 0 0;
         margin: 0;
         position: relative;

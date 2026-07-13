@@ -1,47 +1,57 @@
 ---
-import type { NavBrand, NavElement, NavLink, NavMenu } from '@/types/nav';
+import type { NavElement, NavLink } from '@/types/nav';
 
 interface Props {
-    brand: NavBrand | null;
     elements: NavElement[];
 }
 
-const { brand, elements } = Astro.props;
+const { elements } = Astro.props;
 
-// Type guards
-function isNavMenu(el: NavElement): el is NavMenu {
-    return 'submenu' in el;
-}
 function isNavLink(el: NavElement): el is NavLink {
     return 'href' in el && !('src' in el);
 }
 
 const navLinks = elements.filter(isNavLink);
+const half = Math.ceil(navLinks.length / 2);
+const leftLinks = navLinks.slice(0, half);
+const rightLinks = navLinks.slice(half);
 ---
 
-<nav class="site-nav" aria-label="Main navigation">
+<nav class="site-nav" aria-label="Navegación principal">
     <div class="site-nav__inner">
-        <a class="site-nav__brand" href={brand?.href ?? '/'}>
-            {brand?.src && <img src={brand.src} alt={brand?.alt ?? 'Digital Hub'} class="site-nav__brand-logo" />}
-            {!brand?.src && <><span class="site-nav__brand-dot" aria-hidden="true"></span>{brand?.label ?? 'Digital Hub'}</>}
-        </a>
-
-        <!-- Desktop nav links -->
-        <ul class="site-nav__links" role="list">
-            {navLinks.map(el => (
+        <!-- Left links (desktop) -->
+        <ul class="site-nav__links site-nav__links--left" role="list">
+            {leftLinks.map(el => (
                 <li>
-                    <a href={el.href} class="site-nav__link">{el.label}</a>
+                    <a href={el.href} class="site-nav__link" aria-current={Astro.url.pathname === el.href ? 'page' : undefined}>{el.label}</a>
                 </li>
             ))}
         </ul>
 
-        <div class="site-nav__actions">
-            <a class="site-nav__cta" href="#contact">Get Started</a>
-            <!-- Hamburger (mobile only) -->
+        <!-- Centered logotype -->
+        <a class="site-nav__brand" href="/" aria-label="Manuela E. Aguirre — inicio">
+            <img
+                src="/logo-manuela.webp"
+                alt="Manuela E. Aguirre"
+                class="site-nav__logo"
+                width="130"
+                height="52"
+            />
+        </a>
+
+        <!-- Right links (desktop) + hamburger (mobile) -->
+        <div class="site-nav__right">
+            <ul class="site-nav__links site-nav__links--right" role="list">
+                {rightLinks.map(el => (
+                    <li>
+                        <a href={el.href} class="site-nav__link" aria-current={Astro.url.pathname === el.href ? 'page' : undefined}>{el.label}</a>
+                    </li>
+                ))}
+            </ul>
             <button
                 class="site-nav__hamburger"
                 id="mobile-menu-toggle"
-                aria-label="Open menu"
+                aria-label="Abrir menú"
                 aria-expanded="false"
                 type="button"
             >
@@ -53,29 +63,29 @@ const navLinks = elements.filter(isNavLink);
     </div>
 </nav>
 
-<!-- Full-screen mobile overlay — outside <nav> so it escapes its stacking context -->
-<div class="site-nav__overlay" id="mobile-menu" aria-hidden="true" role="dialog" aria-label="Navigation menu">
+<!-- Mobile overlay -->
+<div class="site-nav__overlay" id="mobile-menu" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menú de navegación">
     <div class="site-nav__overlay-header">
-        <a class="site-nav__overlay-brand" href={brand?.href ?? '/'}>
-            {brand?.src && <img src={brand.src} alt={brand?.alt ?? 'Digital Hub'} class="site-nav__brand-logo" />}
-            {!brand?.src && <><span class="site-nav__brand-dot" style="background:#ff0087;width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;" aria-hidden="true"></span>{brand?.label ?? 'Digital Hub'}</>}
+        <a class="site-nav__overlay-brand" href="/" aria-label="Inicio">
+            <img src="/logo-manuela.webp" alt="Manuela E. Aguirre" class="site-nav__overlay-logo" />
         </a>
-        <button class="site-nav__overlay-close" id="mobile-menu-close" aria-label="Close menu" type="button">
+        <button class="site-nav__overlay-close" id="mobile-menu-close" aria-label="Cerrar menú" type="button">
             <span></span>
             <span></span>
         </button>
     </div>
-    <nav class="site-nav__overlay-nav" aria-label="Mobile navigation">
+    <nav class="site-nav__overlay-nav" aria-label="Navegación móvil">
         <ul class="site-nav__overlay-links" role="list">
             {navLinks.map(el => (
                 <li>
-                    <a href={el.href} class="site-nav__overlay-link">{el.label}</a>
+                    <a href={el.href} class="site-nav__overlay-link" aria-current={Astro.url.pathname === el.href ? 'page' : undefined}>{el.label}</a>
                 </li>
             ))}
         </ul>
     </nav>
     <div class="site-nav__overlay-footer">
-        <a class="site-nav__overlay-cta" href="#contact">Get Started</a>
+        <a class="site-nav__overlay-social" href="https://instagram.com/manuelaeaguirre" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a class="site-nav__overlay-social" href="https://youtube.com/@manuelaeaguirre" target="_blank" rel="noopener noreferrer">YouTube</a>
     </div>
 </div>
 
@@ -90,9 +100,6 @@ const navLinks = elements.filter(isNavLink);
     updateNavHeight();
     new ResizeObserver(updateNavHeight).observe(document.documentElement);
 
-    // Always dark mode for page-level theme tokens
-    document.documentElement.dataset.themeMode = 'dark';
-
     // ── Mobile fullscreen overlay ─────────────────────────────────────────────
     const hamburger = document.getElementById('mobile-menu-toggle');
     const closeBtn  = document.getElementById('mobile-menu-close');
@@ -100,307 +107,252 @@ const navLinks = elements.filter(isNavLink);
 
     function setMenuOpen(open: boolean) {
         hamburger?.setAttribute('aria-expanded', String(open));
-        hamburger?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        hamburger?.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
         overlay?.setAttribute('aria-hidden', String(!open));
         overlay?.classList.toggle('is-open', open);
         hamburger?.classList.toggle('is-active', open);
-        // Prevent page scroll while menu is open
         document.body.style.overflow = open ? 'hidden' : '';
+
+        if (open) {
+            const firstLink = overlay?.querySelector<HTMLElement>('a, button');
+            firstLink?.focus();
+        } else {
+            hamburger?.focus();
+        }
     }
 
     hamburger?.addEventListener('click', () => setMenuOpen(true));
     closeBtn?.addEventListener('click',  () => setMenuOpen(false));
 
-    // Close on link click
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay?.classList.contains('is-open')) {
+            setMenuOpen(false);
+        }
+    });
+
+    const mql = window.matchMedia('(min-width: 768px)');
+    mql.addEventListener('change', (e) => {
+        if (e.matches) setMenuOpen(false);
+    });
+
     overlay?.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => setMenuOpen(false));
     });
 </script>
 
 <style>
-    /* ── Desktop nav — dark ─────────────────────────────────────────────────── */
-    .site-nav {
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        background-color: rgba(5, 8, 20, 0.97);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        box-shadow: 0 1px 24px rgba(0, 0, 0, 0.4);
-    }
+/* ── Desktop nav ─────────────────────────────────────────────────────────── */
+.site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--color-surface, #FDFAF4);
+    border-bottom: 2px solid #2C1810;
+}
 
-    .site-nav__inner {
-        max-width: var(--container-width, 1200px);
-        margin: 0 auto;
-        padding: 0.875rem var(--section-padding-x, 1.5rem);
-        display: flex;
-        align-items: center;
-        gap: 2rem;
-    }
+.site-nav__inner {
+    max-width: var(--container-width, 1200px);
+    margin: 0 auto;
+    padding: 0.75rem var(--section-padding-x, 1.5rem);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 1rem;
+}
 
-    /* Brand — cyan gradient text */
-    .site-nav__brand {
-        font-weight: 800;
-        font-size: 1.0625rem;
-        text-decoration: none;
-        flex-shrink: 0;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        letter-spacing: -0.01em;
-    }
+/* Logotype */
+.site-nav__brand {
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+}
+.site-nav__logo {
+    height: 52px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+}
 
-    .site-nav__brand-logo {
-        display: block;
-        height: 52px;
-        width: auto;
-        max-width: 200px;
-        object-fit: contain;
-    }
+/* Link groups */
+.site-nav__links {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.site-nav__links--right { justify-content: flex-end; }
 
-    .site-nav__brand-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: #ff0087;
-        flex-shrink: 0;
-        box-shadow: 0 0 8px rgba(255, 0, 135, 0.5);
-        /* dot can't use text-fill, so reset */
-        -webkit-text-fill-color: initial;
-    }
+.site-nav__link {
+    color: var(--color-text-muted, #6B5040);
+    text-decoration: none;
+    font-family: var(--font-body, 'Lato', sans-serif);
+    font-size: 0.8125rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.15s;
+}
+.site-nav__link:hover,
+.site-nav__link[aria-current="page"] {
+    color: var(--color-accent, #D4694A);
+}
+.site-nav__link[aria-current="page"] {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
 
-    /* Nav links — light text on dark nav */
-    .site-nav__links {
-        display: flex;
-        align-items: center;
-        gap: 1.75rem;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        flex: 1;
-    }
+/* Right column wrapper */
+.site-nav__right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
 
-    .site-nav__link {
-        color: rgba(123, 201, 245, 0.85);
-        text-decoration: none;
-        font-size: 0.9375rem;
-        font-weight: 500;
-        transition: color 0.15s;
-        letter-spacing: 0.005em;
-    }
+/* Hamburger */
+.site-nav__hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    width: 2rem;
+    height: 2rem;
+}
+.site-nav__hamburger-bar {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--color-ink, #2C1810);
+    transition: transform 0.2s, opacity 0.2s;
+    transform-origin: center;
+}
+.site-nav__hamburger.is-active .site-nav__hamburger-bar:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+}
+.site-nav__hamburger.is-active .site-nav__hamburger-bar:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+.site-nav__hamburger.is-active .site-nav__hamburger-bar:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+}
 
-    .site-nav__link:hover {
-        color: #ff0087;
-    }
+/* ── Mobile overlay ──────────────────────────────────────────────────────── */
+.site-nav__overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background-color: var(--color-bg, #F7F3EC);
+    background-image: url('/fondo-pagina.webp');
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--section-padding-x, 1.5rem);
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.25s ease;
+}
+.site-nav__overlay.is-open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
 
-    /* Actions row */
-    .site-nav__actions {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        flex-shrink: 0;
-    }
+.site-nav__overlay-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.875rem 0;
+    border-bottom: 1px solid var(--color-border, #D4C9B0);
+    flex-shrink: 0;
+}
+.site-nav__overlay-logo { height: 44px; width: auto; }
 
-    /* CTA — gradient pill button */
-    .site-nav__cta {
-        background: var(--gradient-brand, linear-gradient(135deg, #0099ff 0%, #ff0087 100%));
-        color: #FFFFFF;
-        border-radius: var(--radius-pill, 50px);
-        padding: 0.5rem 1.25rem;
-        font-weight: 600;
-        font-size: 0.875rem;
-        text-decoration: none;
-        transition: box-shadow 0.15s, opacity 0.15s;
-        box-shadow: 0 2px 14px rgba(255, 0, 135, 0.2);
-        letter-spacing: 0.01em;
-    }
+/* Close button */
+.site-nav__overlay-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    position: relative;
+    padding: 0;
+}
+.site-nav__overlay-close span {
+    display: block;
+    position: absolute;
+    width: 22px;
+    height: 1.5px;
+    background: var(--color-ink, #2C1810);
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+}
+.site-nav__overlay-close span:first-child { rotate: 45deg; }
+.site-nav__overlay-close span:last-child  { rotate: -45deg; }
 
-    .site-nav__cta:hover {
-        box-shadow: 0 4px 24px rgba(255, 0, 135, 0.4);
-        opacity: 0.9;
-    }
+/* Overlay nav links */
+.site-nav__overlay-nav {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+.site-nav__overlay-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.site-nav__overlay-link {
+    display: block;
+    padding: 1.1rem 0;
+    color: var(--color-text, #1A0F08);
+    text-decoration: none;
+    font-family: var(--font-heading, 'Playfair Display', serif);
+    font-style: italic;
+    font-size: clamp(1.4rem, 6.5vw, 2rem);
+    border-bottom: 1px solid var(--color-border, #D4C9B0);
+    transition: color 0.15s;
+    line-height: 1.2;
+}
+.site-nav__overlay-link:hover { color: var(--color-accent, #D4694A); }
 
-    /* Hamburger — dark bars on white nav */
-    .site-nav__hamburger {
-        display: none;
-        flex-direction: column;
-        justify-content: center;
-        gap: 5px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 4px;
-        width: 2rem;
-        height: 2rem;
-    }
+/* Social links in footer of overlay */
+.site-nav__overlay-footer {
+    padding: 1.5rem 0;
+    display: flex;
+    gap: 1.5rem;
+    flex-shrink: 0;
+}
+.site-nav__overlay-social {
+    font-family: var(--font-body, 'Lato', sans-serif);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-text-muted, #6B5040);
+    text-decoration: none;
+    transition: color 0.15s;
+}
+.site-nav__overlay-social:hover { color: var(--color-accent, #D4694A); }
 
-    .site-nav__hamburger-bar {
-        display: block;
-        width: 22px;
-        height: 2px;
-        background: #07070E;
-        border-radius: 2px;
-        transition: transform 0.2s, opacity 0.2s;
-        transform-origin: center;
-    }
-
-    /* X state */
-    .site-nav__hamburger.is-active .site-nav__hamburger-bar:nth-child(1) {
-        transform: translateY(7px) rotate(45deg);
-    }
-    .site-nav__hamburger.is-active .site-nav__hamburger-bar:nth-child(2) {
-        opacity: 0;
-        transform: scaleX(0);
-    }
-    .site-nav__hamburger.is-active .site-nav__hamburger-bar:nth-child(3) {
-        transform: translateY(-7px) rotate(-45deg);
-    }
-
-    /* ── Fullscreen overlay (mobile) ────────────────────────────────────────── */
-    .site-nav__overlay {
-        position: fixed;
-        inset: 0;
-        z-index: 200;
-        background-color: #07070E;
-        display: flex;
-        flex-direction: column;
-        padding: 0 var(--section-padding-x, 1.5rem);
-
-        /* Hidden state — slide up out of view */
-        transform: translateY(-100%);
-        opacity: 0;
-        pointer-events: none;
-        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                    opacity 0.25s ease;
-    }
-
-    .site-nav__overlay.is-open {
-        transform: translateY(0);
-        opacity: 1;
-        pointer-events: auto;
-    }
-
-    .site-nav__overlay-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0.875rem 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-        flex-shrink: 0;
-    }
-
-    .site-nav__overlay-brand {
-        color: #F4F4EE;
-        font-weight: 800;
-        font-size: 1.125rem;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-    }
-
-    /* Close button — two diagonal lines forming an X */
-    .site-nav__overlay-close {
-        background: none;
-        border: none;
-        cursor: pointer;
-        width: 2rem;
-        height: 2rem;
-        position: relative;
-        padding: 0;
-    }
-
-    .site-nav__overlay-close span {
-        display: block;
-        position: absolute;
-        width: 22px;
-        height: 2px;
-        background: #F4F4EE;
-        border-radius: 2px;
-        top: 50%;
-        left: 50%;
-        translate: -50% -50%;
-    }
-
-    .site-nav__overlay-close span:first-child { rotate: 45deg; }
-    .site-nav__overlay-close span:last-child  { rotate: -45deg; }
-
-    .site-nav__overlay-nav {
-        flex: 1;
-        display: flex;
-        align-items: center;
-    }
-
-    .site-nav__overlay-links {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 0;
-    }
-
-    .site-nav__overlay-link {
-        display: block;
-        padding: 1.25rem 0;
-        color: #F4F4EE;
-        text-decoration: none;
-        font-size: clamp(1.5rem, 7vw, 2.25rem);
-        font-weight: 700;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-        transition: color 0.15s;
-        line-height: 1.2;
-    }
-
-    .site-nav__overlay-link:hover {
-        color: #ff0087;
-    }
-
-    .site-nav__overlay-footer {
-        padding: 2rem 0;
-        flex-shrink: 0;
-    }
-
-    .site-nav__overlay-cta {
-        display: block;
-        text-align: center;
-        background: var(--gradient-brand, linear-gradient(135deg, #0099ff 0%, #ff0087 100%));
-        color: #fff;
-        border-radius: var(--radius-pill, 50px);
-        padding: 1rem 2rem;
-        font-weight: 700;
-        font-size: 1rem;
-        text-decoration: none;
-        transition: opacity 0.15s;
-        box-shadow: 0 4px 20px rgba(255, 0, 135, 0.3);
-    }
-
-    .site-nav__overlay-cta:hover { opacity: 0.88; }
-
-    @media (max-width: 767px) {
-        .site-nav__links {
-            display: none;
-        }
-
-        .site-nav__cta {
-            display: none;
-        }
-
-        .site-nav__hamburger {
-            display: flex;
-        }
-
-        .site-nav__actions {
-            margin-left: auto;
-        }
-    }
-
-    /* Overlay is mobile-only — hide on desktop */
-    @media (min-width: 768px) {
-        .site-nav__overlay {
-            display: none;
-        }
-    }
+/* ── Responsive breakpoints ──────────────────────────────────────────────── */
+@media (max-width: 767px) {
+    .site-nav__links  { display: none; }
+    .site-nav__hamburger { display: flex; }
+    .site-nav__inner  { grid-template-columns: auto 1fr auto; }
+    .site-nav__logo   { height: 40px; }
+}
+@media (min-width: 768px) {
+    .site-nav__overlay { display: none; }
+}
 </style>
